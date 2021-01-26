@@ -108,8 +108,9 @@ module.exports = {
     //});
     ////console.log(fuser);
     //await firebaseAuth.setCustomUserClaims(fuser.uid, {role: req.body.User.role = 'user'});
-    req.body.User.Uid = fuser.uid;
+    //req.body.User.Uid = fuser.uid;
     req.body.User.Password = await bcrypt.hash(req.body.User.Password, 10);
+    req.body.User.role = 'user';
     const user = await User.create(req.body.User).fetch();
     if (user) {
       req.session.user = user;
