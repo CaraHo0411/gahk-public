@@ -1,0 +1,39 @@
+<aside class="coach">
+    <section>
+      <h6 class="side-heading3"><span class="reflect" data-text="教練通訊">教練通訊</span></h6>
+      <ul class="list-unstyled">
+        <li><a class="side-button1 <%= req.path == '/coach' ? 'active':'' %>" href="/coach">註冊教練名單</a></li>
+        <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_MAG.pdf">男子競技體操註冊教練</a></li>
+        <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_WAG.pdf">女子競技體操註冊教練</a></li>
+        <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_RG.pdf">藝術體操註冊教練</a></li>
+        <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_TRA.pdf">彈網註冊教練</a></li>
+        <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_AER.pdf">健美體操註冊教練</a></li>
+        <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_ACRO.pdf">技巧體操註冊教練</a></li>
+        <li><a class="side-button1 <%= req.path == '/status' ? 'active':'' %>" href="/status">審批列表</a></li>
+        <!-- <% if (req.session.role == 'admin') {%>
+        <li><a class="side-button1 <%= req.path == '/status' ? 'active':'' %>" href="/status">審批列表</a></li>
+        <% } %> -->
+        <li class="dropdown">
+ 
+          <a href="/index" class="side-button1 dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 教練資訊 <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+
+            <li><a href="/indexMAG">男子競技體操</a></li>
+          <li><a href="/indexWAG">女子競技體操</a></li>
+          <li><a href="/indexRG">藝術體操</a></li>
+          <li><a href="/indexACRO">技巧體操</a></li>
+          <li><a href="/indexTRA">彈網</a></li>
+          <li><a href="/indexAER">健美體操</a></li>
+        <!-- <li><a class="side-button1 active" href="/index">教練資訊</a></li>
+        <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">男子競技體操</a></li>
+        <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">女子競技體操</a></li>
+        <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">藝術體操</a></li>
+        <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">彈網</a></li>
+        <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">健美體操</a></li>
+        <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">技巧體操</a></li> -->
+       
+      </ul>
+    </section>
+  </aside>
+
+  

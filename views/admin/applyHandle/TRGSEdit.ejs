@@ -1,0 +1,902 @@
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+<style>
+    .card {
+        border-radius: 0;
+    }
+
+    #labelHead {
+        color: #83a70c;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+    }
+
+    /* checkbox css */
+    .inputGroup {
+        background-color: #fff;
+        width: 220pt;
+        display: block;
+        margin: 10px 0;
+        position: relative;
+    }
+
+    .statusLabel {
+        padding: 12px 30px;
+        width: 100%;
+        display: block;
+        text-align: left;
+        color: #3C454C;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        transition: color 200ms ease-in;
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .statusLabel:after {
+        width: 32px;
+        height: 32px;
+        content: '';
+        border: 2px solid #D1D7DC;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+        background-repeat: no-repeat;
+        background-position: 2px 3px;
+        border-radius: 50%;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 200ms ease-in;
+    }
+
+    .statusLabel:before {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        content: '';
+        background-color: #83a70c;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .statusInput {
+        width: 32px;
+        height: 32px;
+        order: 1;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        visibility: hidden;
+    }
+
+    .statusInput:checked~label {
+        color: #fff;
+    }
+
+    .statusInput:checked~label:before {
+        transform: translate(-50%, -50%) scale3d(56, 56, 1);
+        opacity: 1;
+    }
+
+    .statusInput:checked~label:after {
+        background-color: darkgreen;
+        border-color: aquamarine;
+    }
+
+    /* delete button */
+    /* Set a style for all buttons */
+    .modalBtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .modalBtn:hover {
+        opacity: 1;
+    }
+
+    /* Float cancel and delete buttons and add an equal width */
+    .cancelbtn,
+    .deletebtn {
+        float: left;
+        width: 50%;
+    }
+
+    /* Add a color to the cancel button */
+    .cancelbtn {
+        background-color: #ccc;
+        color: black;
+    }
+
+    /* Add a color to the delete button */
+    .deletebtn {
+        background-color: #f44336;
+    }
+
+    /* Add padding and center-align text to the container */
+    .container {
+        padding: 16px;
+        text-align: center;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 3;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(8, 8, 8, 0.5);
+        padding-top: 50px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Style the horizontal ruler */
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    /* Clear floats */
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    /* Change styles for cancel button and delete button on extra small screens */
+    @media screen and (max-width: 300px) {
+
+        .cancelbtn,
+        .deletebtn {
+            width: 100%;
+        }
+    }
+</style>
+
+<form action="/admin/applyHandle/TRGSEdit/<%= TRGS.id %>" method="POST" id="TRGS">
+    <div class="row mx-sm-2">
+        <div class="form-group col-12" style="text-align: right;">
+            <br>
+            <% if(TRGS.formStatus == "rejected") {%>
+            <a type="button" class="btn btn-danger" style="color: white;">已拒絕 Rejected</a>
+            <%} else {%>
+            <a type="button" class="btn btn-danger" style="color: white;"
+                onclick="document.getElementById('<%= TRGS.id%>').style.display='block'">拒絕 Reject</a>
+
+            <%}%> 
+        </div>
+
+        <% var n = new Date(TRGS.createdAt);
+                var month = n.getMonth() + 1;
+                var applyDate = n.getDate() + "/" + month + "/" + n.getFullYear(); %>
+            <div class="col-12" align="right">
+                <h6>申請編號 Application No.: <%= TRGS.idCode %></h6>
+                <p>提交日期 Apply Date: <%= applyDate %></p>
+            </div>
+
+            <div class="form-group col-12" style="color: #888888;">
+                <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif; font-size:16pt;"><b>全港藝術體操分齡比賽</b></h1>
+                <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif; font-size:14pt;">
+                    <u>團體項目報名表(學校組)</u>
+                </h2>
+                <br>
+            </div>
+
+             <!-- 比賽年份 Year of Competition -->
+             <div class="col-12">
+                <h5 id="labelHead">比賽年份 Year of Competition</h5>
+                <%var todayYear = new Date().getFullYear();
+                var end = todayYear + 2;%>
+                <select name="TRGS[compYear]" required>
+                    <% for (var year = todayYear; year <= end; year++){%>
+                    <option value="<%=year%>" <%if(year == TRGS.compYear) {%> selected<%}%> ><%=year%></option>
+                        <%}%>
+                </select>
+            </div>
+
+            <!-- 團體資料 Group Details -->
+            <div class="col-12">
+                <h5 id="labelHead">團體資料 Group Details</h5>
+            </div>
+
+            <div class="form-group col-12">
+                <label>學校名稱(中文) School Name(Chinese):</label>
+                <input type="text" name="TRGS[teamName]" value="<%= TRGS.teamName%>" style="width:450pt"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5\ \(\)]/g,'')" required>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label>聯絡電話 Contact Number:</label>
+                <input type="text" name="TRGS[Phone]" maxlength="8" value="<%= TRGS.Phone%>"
+                    onkeyup="value=value.replace(/[^\d\0-\9]/g,'')" required>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label>聯絡電郵 Email Address:</label>
+                <input type="email" name="TRGS[Email]" value="<%= TRGS.Email%>" style="width:195pt" required>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label>教練姓名 Coach Name:</label>
+                <input input="text" name="TRGS[CoachName]" value="<%= TRGS.CoachName%>" required>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label>教練聯絡電話 Coach Contact Number:</label>
+                <input type="text" name="TRGS[CoachPhone]" value="<%= TRGS.CoachPhone%>" maxlength="8"
+                    onkeyup="value=value.replace(/[^\d\0-\9]/g,'')" required>
+            </div>
+
+            <div class="form-group col-12">
+                <label>組別 Category:</label>
+                <% if (TRGS.category == "預備A,B組") {%>
+                <input type="radio" name="TRGS[category]" value="預備A,B組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="預備A,B組" required />
+                <%}%>
+            <label class="form-check-label" for="category">預備A,B組</label>
+
+            <% if (TRGS.category == "預備C,D組") {%>
+                <input type="radio" name="TRGS[category]" value="預備C,D組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="預備C,D組" required />
+                <%}%>
+            <label class="form-check-label" for="category">預備C,D組</label>
+
+            <% if (TRGS.category == "預備E組") {%>
+                <input type="radio" name="TRGS[category]" value="預備E組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="預備E組" required />
+                <%}%>
+            <label class="form-check-label" for="category">預備E組</label>
+
+            <% if (TRGS.category == "初級A組") {%>
+                <input type="radio" name="TRGS[category]" value="初級A組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="初級A組" required />
+                <%}%>
+            <label class="form-check-label" for="category">初級A組</label>
+
+            <% if (TRGS.category == "初級B組") {%>
+                <input type="radio" name="TRGS[category]" value="初級B組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="初級B組" required />
+                <%}%>
+            <label class="form-check-label" for="category">初級B組</label>
+
+            <% if (TRGS.category == "高級A組") {%>
+                <input type="radio" name="TRGS[category]" value="高級A組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="高級A組" required />
+                <%}%>
+            <label class="form-check-label" for="category">高級A組</label>
+
+            <% if (TRGS.category == "高級B組") {%>
+                <input type="radio" name="TRGS[category]" value="高級B組" checked required />
+                <%} else {%>
+                <input type="radio" name="TRGS[category]" value="高級B組" required />
+                <%}%>
+            <label class="form-check-label" for="category">高級B組</label>
+            </div>
+
+            <!-- 參加者(1) Applicant(1) -->
+            <div class="card col-12 col-sm-6" style="background: transparent;">
+                <br>
+                <h6 id="labelHead">參加者(1)個人資料 Applicant(1)'s Personal Details</h6>
+                <br>
+    
+                <div class="form-group">
+                    <label>是否有中文姓名 Any Chinese name: </label>
+                    <% if (TRGS.havecname1 == "是 Yes") {%>
+                    <input type="radio" name="TRGS[havecname1]" value="是 Yes" id="Yes1" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                    <label class="form-check-label" for="havecname1">是 Yes</label>
+                    &nbsp;
+                    <% if (TRGS.havecname1 == "否 No") {%>
+                    <input type="radio" name="TRGS[havecname1]" value="否 No" id="No1" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname1]" value="否 No" id="No1" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                    <label class="form-check-label" for="havecname1">否 No</label>
+                </div>
+    
+                <div class="form-group">
+                    <label>中文姓名 Name in Chinese:</label>
+                    <% if (TRGS.havecname1 == "否 No"){%>
+                        <input type="text" name="TRGS[Mate1ChiName]" value="<%= TRGS.Mate1ChiName %>" id="Mate1ChiName"
+                            placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" disabled required>
+                        <%} else {%>
+                            <input type="text" name="TRGS[Mate1ChiName]" value="<%= TRGS.Mate1ChiName %>" id="Mate1ChiName"
+                            placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required>
+                        <%}%>
+                </div>
+    
+                <div class="form-group">
+                     <label>英文姓名 Name in English:</label>
+                     <input type="text" name="TRGS[Mate1EngName]" value="<%= TRGS.Mate1EngName %>" placeholder="
+                    e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+                </div>
+                <div class="form-group">
+                    <label>身分證號碼 ID Card Number:</label>
+                    <input type="text" name="TRGS[Mate1IDNo]" value="<%= TRGS.Mate1IDNo %>" placeholder=" A123456(7)"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                    <input type="date" id="birth1" name="TRGS[Mate1Date]" value="<%= TRGS.Mate1Date%>" required>
+                </div>
+            </div>
+
+            <!-- 參加者(2) Applicant(2) -->
+            <div class="card col-12 col-sm-6" style="background: transparent;">
+                <br>
+                <h6 id="labelHead">參加者(2)個人資料 Applicant(2)'s Personal Details</h6>
+                <br>
+    
+                <div class="form-group">
+                    <label>是否有中文姓名 Any Chinese name: </label>
+                    <% if (TRGS.havecname2 == "是 Yes") {%>
+                    <input type="radio" name="TRGS[havecname2]" value="是 Yes" id="Yes2" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                        <label class="form-check-label" for="havecname2">是 Yes</label>
+                        &nbsp;
+                        <% if (TRGS.havecname2 == "否 No") {%>
+                    <input type="radio" name="TRGS[havecname2]" value="否 No" id="No2" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname2]" value="否 No" id="No2" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                        <label class="form-check-label" for="havecname2">否 No</label>
+                    </div>
+        
+                    <div class="form-group">
+                        <label>中文姓名 Name in Chinese:</label>
+                        <% if (TRGS.havecname2 == "否 No"){%>
+                            <input type="text" name="TRGS[Mate2ChiName]" value="<%= TRGS.Mate2ChiName %>" id="Mate2ChiName"
+                                placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" disabled required>
+                            <%} else {%>
+                                <input type="text" name="TRGS[Mate2ChiName]" value="<%= TRGS.Mate2ChiName %>" id="Mate2ChiName"
+                                placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required>
+                            <%}%>
+                </div>
+        
+                <div class="form-group">
+                    <label>英文姓名 Name in English:</label>
+                    <input type="text" name="TRGS[Mate2EngName]" value="<%= TRGS.Mate2EngName %>"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+                </div>
+                <div class="form-group">
+                    <label>身分證號碼 ID Card Number:</label>
+                    <input type="text" name="TRGS[Mate2IDNo]" value="<%= TRGS.Mate2IDNo %>" placeholder=" A123456(7)"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                    <input type="date" id="birth2" name="TRGS[Mate2Date]" value="<%= TRGS.Mate2Date%>" required>
+                </div>
+            </div>
+
+            <!-- 參加者(3) Applicant(3) -->
+            <div class="card col-12 col-sm-6" style="background: transparent;">
+                <br>
+                <h6 id="labelHead">參加者(3)個人資料 Applicant(3)'s Personal Details</h6>
+                <br>
+    
+                <div class="form-group">
+                    <label>是否有中文姓名 Any Chinese name: </label>
+                    <% if (TRGS.havecname3 == "是 Yes") {%>
+                    <input type="radio" name="TRGS[havecname3]" value="是 Yes" id="Yes3" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname3]" value="是 Yes" id="Yes3" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                        <label class="form-check-label" for="havecname3">是 Yes</label>
+                        &nbsp;
+                        <% if (TRGS.havecname3 == "否 No") {%>
+                    <input type="radio" name="TRGS[havecname3]" value="否 No" id="No3" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname3]" value="否 No" id="No3" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                        <label class="form-check-label" for="havecname3">否 No</label>
+                    </div>
+        
+                    <div class="form-group">
+                        <label>中文姓名 Name in Chinese:</label>
+                        <% if (TRGS.havecname3 == "否 No"){%>
+                            <input type="text" name="TRGS[Mate3ChiName]" value="<%= TRGS.Mate3ChiName %>" id="Mate3ChiName"
+                                placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" disabled required>
+                            <%} else {%>
+                                <input type="text" name="TRGS[Mate3ChiName]" value="<%= TRGS.Mate3ChiName %>" id="Mate3ChiName"
+                                placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required>
+                            <%}%>
+                    </div>
+        
+                    <div class="form-group">
+                        <label>英文姓名 Name in English:</label>
+                        <input type="text" name="TRGS[Mate3EngName]" value="<%= TRGS.Mate3EngName %>"
+                    placeholder="
+                    e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+                </div>
+                <div class="form-group">
+                    <label>身分證號碼 ID Card Number:</label>
+                    <input type="text" name="TRGS[Mate3IDNo]" value="<%= TRGS.Mate3IDNo %>" placeholder=" A123456(7)"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                    <input type="date" id="birth3" name="TRGS[Mate3Date]" value="<%= TRGS.Mate3Date%>" required>
+                </div>
+            </div>
+
+            <!-- 參加者(4) Applicant(4) -->
+            <div class="card col-12 col-sm-6" style="background: transparent;">
+                <br>
+                <h6 id="labelHead">參加者(4)個人資料 Applicant(4)'s Personal Details</h6>
+                <br>
+    
+                <div class="form-group">
+                    <label>是否有中文姓名 Any Chinese name: </label>
+                    <% if (TRGS.havecname4 == "是 Yes") {%>
+                    <input type="radio" name="TRGS[havecname4]" value="是 Yes" id="Yes4" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname4]" value="是 Yes" id="Yes4" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                        <label class="form-check-label" for="havecname4">是 Yes</label>
+                        &nbsp;
+                    <% if (TRGS.havecname4 == "否 No") {%>
+                    <input type="radio" name="TRGS[havecname4]" value="否 No" id="No4" checked onclick="havechinesename()"
+                        required />
+                    <%} else {%>
+                    <input type="radio" name="TRGS[havecname4]" value="否 No" id="No4" onclick="havechinesename()"
+                        required />
+                    <%}%>
+                        <label class="form-check-label" for="havecname4">否 No</label>
+                </div>
+        
+                    <div class="form-group">
+                        <label>中文姓名 Name in Chinese:</label>
+                    <% if (TRGS.havecname4 == "否 No"){%>
+                    <input type="text" name="TRGS[Mate4ChiName]" value="<%= TRGS.Mate4ChiName %>" id="Mate4ChiName"
+                        placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" disabled required>
+                    <%} else {%>
+                        <input type="text" name="TRGS[Mate4ChiName]" value="<%= TRGS.Mate4ChiName %>" id="Mate4ChiName"
+                        placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required>
+                    <%}%>
+                    </div>
+        
+                <div class="form-group">
+                    <label>英文姓名 Name in English:</label>
+                    <input type="text" name="TRGS[Mate4EngName]" value="<%= TRGS.Mate4EngName %>"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+                </div>
+                <div class="form-group">
+                    <label>身分證號碼 ID Card Number:</label>
+                    <input type="text" name="TRGS[Mate4IDNo]" value="<%= TRGS.Mate4IDNo %>" placeholder=" A123456(7)"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                    <input type="date" id="birth4" name="TRGS[Mate4Date]" value="<%= TRGS.Mate4Date%>" required>
+                </div>
+            </div>
+
+            <!-- 費用 Fee -->
+            <div class="form-group col-12">
+                <br>
+                <h5 id="labelHead">費用 Fee</h5>
+    
+                <div class="form-group">
+                    <label>團體項目 Group Event: $250 X </label>
+                    <input id="teamNo" type="number" name="TRGS[TeamNumber]" value="<%= TRGS.TeamNumber%>" min=1
+                        style="width: 50pt;" onblur="calculate()" required>
+                    <span>隊 team(s) = $</span>
+                    <input id="teamPrice" type="number" name="TRGS[TeamPrice]" value="<%= TRGS.TeamPrice%>" readonly
+                        required>
+                    <br>
+                </div>
+                <div class="form-group">
+                    <label>總額 Total price = $</label>
+                    <input id="total" type="number" name="TRGS[TeamTotalPrice]" value="<%= TRGS.TeamTotalPrice%>" readonly
+                        required>
+                </div>
+            </div>
+
+            <!-- 聲明 Declaration -->
+            <div class="form-group col-12">
+                <h5 id="labelHead">聲明 Declaration</h5>
+                <div class="form-group">
+                    <% if(TRGS.Declaration) { 
+                        var type = TRGS.Declaration.split(';');%>
+                    <div>
+                        <% if(type[0] == 'data:application/pdf') { %>
+                        <a download="<%= TRGS.idCode%>_Declaration_聲明書.pdf" href="<%=TRGS.Declaration%>"
+                            target="_blank">下載聲明書 Download declartion</a>
+                        <br>
+                        <% } else if(type[0] == 'data:image/jpeg'|| type[0] == 'data:image/png') { %>
+                        <a download="<%= TRGS.idCode%>_Declaration_聲明書.jpg" href="<%=TRGS.Declaration%>"
+                            target="_blank">下載聲明書 Download declartion</a>
+                        <br>
+                        <img src="<%=TRGS.Declaration%>" style="height:150px; width:auto" />
+                        <% } %>
+                        <br>
+                    </div>
+                    <% } %>
+    
+                    <div>
+                        <label>重新上載聲明書 Reupload the declaration</label>
+                        <br>
+                        <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files)" />
+                        <div id="preview"></div>
+                    </div>
+    
+                </div>
+    
+                <div class="row">
+                    <div class="form-group col-12 col-sm-6">
+                        <label>學校負責人姓名 Leader's Name:</label>
+                        <input type="text" name="TRGS[leaderName]" value="<%=TRGS.leaderName%>" required>
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        <label>學校負責人職位 Leader's Position:</label>
+                        <input type="text" name="TRGS[leaderPosition]" value="<%=TRGS.leaderPosition%>" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 付款狀況 Payment Status -->
+            <div class="form-group col-12">
+                <h5 id="labelHead">付款狀況 Payment Status</h5>
+                <% if(TRGS.payStatus == "paid") {%>
+                <div class="inputGroup">
+                    <input class="statusInput" id="payStatus" type="checkbox" checked disabled />
+                    <label for="payStatus" class="statusLabel" id="payLabel">已付款 Paid</label>
+                </div>
+                <%} else {%>
+                <div class="inputGroup">
+                    <input class="statusInput" id="payStatus" name="TRGS[payStatus]" value="paid" type="checkbox"
+                        onclick="changeToPaid()" />
+                    <label for="payStatus" class="statusLabel" id="payLabel">未付款 Unpaid</label>
+                </div>
+                <%}%>
+            </div>
+
+            <!-- 申請狀況 Apply Status -->
+            <div class="form-group col-12">
+                <h5 id="labelHead">申請狀況 Apply Status</h5>
+        
+                 <%if(TRGS.formStatus == "accepted"){%>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="TohandBtn" name="TRGS[formStatus]" value="ToBeCon" type="radio"
+                            disabled />
+                        <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+                    </div>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="con" type="checkbox" checked disabled />
+                        <label for="con" class="statusLabel" id="dataDefLabel">已確認 Accepted</label>
+                    </div>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="dataDef" type="checkbox" disabled />
+                        <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+                    </div>
+                    <% } else if(TRGS.formStatus == "dataDef"){%>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="TohandBtn" name="TRGS[formStatus]" value="ToBeCon" type="radio"
+                            onclick="changeToCon()" />
+                        <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+                    </div>
+        
+                    <div class="inputGroup">
+                        <input class="statusInput" id="ToConBtn" name="TRGS[formStatus]" value="accepted" type="radio"
+                            onclick="changeToCon()" />
+                        <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirmed</label>
+                    </div>
+        
+                    <div class="inputGroup">
+                        <input class="statusInput" id="dataDef" name="TRGS[formStatus]" value="dataDef" type="radio" checked
+                            onclick="changeToCon()" />
+                        <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+                    </div>
+                    <%} else {%>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="TohandBtn" name="TRGS[formStatus]" value="ToBeCon" type="radio"
+                            onclick="changeToCon()" checked />
+                        <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+                    </div>
+        
+                    <div class="inputGroup">
+                        <input class="statusInput" id="ToConBtn" name="TRGS[formStatus]" value="accepted" type="radio"
+                            onclick="changeToCon()" />
+                        <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirm</label>
+                    </div>
+        
+                    <div class="inputGroup">
+                        <input class="statusInput" id="dataDef" name="TRGS[formStatus]" value="dataDef" onclick="changeToCon()"
+                            type="radio" />
+                        <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+                    </div>
+        
+                    <%}%>
+            </div>
+
+            <!-- 隊伍/團體狀況 Team Status -->
+            <div class="form-group col-12">
+                <h5 id="labelHead">隊伍/團體狀況 Team Status</h5>
+                <% if(TRGS.teamStatus == "waitTeam") {%>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="suTeam" type="checkbox" name="TRGS[teamStatus]" value="suTeam"
+                            onclick="changeToSu()" checked />
+                        <label for="suTeam" class="statusLabel" id="suLabel">後補 Waiting Team</label>
+                    </div>
+                    <%} else {%>
+                    <div class="inputGroup">
+                        <input class="statusInput" id="waitTeam" name="TRGS[teamStatus]" value="waitTeam" type="checkbox"
+                            onclick="changeToWait()" />
+                        <label for="waitTeam" class="statusLabel" id="waitLabel">設為後補 Set as Waiting Team</label>
+                    </div>
+                    <%}%>
+            </div>
+
+            <!-- button -->
+            <div class="form-group col-12" style="text-align: right;">
+                <%if(TRGS.formStatus == "rejected"){%>
+                    <a class="btn btn-success" style="color: white;" onclick="history.back()">完成 Submit</a>
+                    <%} else {%>
+                    <button class="btn btn-success" onclick="submitForm('<%= TRGS.idCode%>')">完成 Submit</button>
+                    <%}%>
+            </div>
+
+            <!-- Update Date -->
+            <% var m = new Date(TRGS.updatedAt);
+            var month = m.getMonth() + 1;
+            var updateDate = m.getDate() + "/" + month + "/" + m.getFullYear() + " " + m.getHours() + ":" + m.getMinutes() + ":" + m.getSeconds(); %>
+            <p class="col-12" style="font-size: smaller;">上次更新 Last upadated: <%= updateDate%></p>
+        
+    </div>
+</form>
+
+<!-- reject box -->
+<div id="<%= TRGS.id%>" class="modal">
+    <div class="modal-content">
+        <div class="container">
+            <h1>拒絕申請 Reject Application<br><%= TRGS.idCode%></h1>
+            <p>確定要拒絕這份申請表?<br>Are you sure you want to reject this application?</p>
+
+            <div class="clearfix">
+                <button type="button" class="cancelbtn modalBtn"
+                    onclick="document.getElementById('<%= TRGS.id%>').style.display='none'">取消 Cancel</button>
+                <button type="button" class="deletebtn modalBtn" onclick="rejectForm('<%= TRGS.id%>')">拒絕
+                    Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Disable form if rejected
+    window.onload = function () { disableform('TRGS', '<%= TRGS.formStatus%>') };
+    function disableform(formId, formStatus) {
+        if (formStatus == "rejected") {
+            var f = document.forms[formId].getElementsByTagName('input');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+            var f = document.forms[0].getElementsByTagName('textarea');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+                var f = document.forms[0].getElementsByTagName('select');
+                for (var i = 0; i < f.length; i++)
+                    f[i].disabled = true
+        }
+    }
+
+
+    var modal = document.getElementById('<%= TRGS.id%>');
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function changeToPaid() {
+        var payLabel = document.getElementById("payLabel");
+        var payStatus = document.getElementById("payStatus");
+
+        if (payStatus.checked == true) {
+            payLabel.innerHTML = "已付款 Paid";
+        } else {
+            payLabel.innerHTML = "未付款 Unpaid";
+        }
+    }
+
+    function changeToCon() {
+        var confirmLabel = document.getElementById("confirmLabel");
+        var ToConBtn = document.getElementById("ToConBtn");
+
+        if (ToConBtn.checked == true) {
+            confirmLabel.innerHTML = "已確認 Accepted";
+        } else {
+            confirmLabel.innerHTML = "確認 Confirm";
+        }
+    }
+
+    function changeToWait() {
+        var waitLabel = document.getElementById("waitLabel");
+        var waitTeam = document.getElementById("waitTeam");
+
+        if (waitTeam.checked == true) {
+            waitLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            waitLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+    function changeToSu() {
+        var suLabel = document.getElementById("suLabel");
+        var suTeam = document.getElementById("suTeam");
+
+        if (suTeam.checked == true) {
+            suLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            suLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+    async function rejectForm(id) {
+        var response = await fetch("/admin/applyHandle/reject/TRGS/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+    //button function
+    function submitForm(id) {
+        alert("更新成功 Successfully Updated" + "\n" + id);
+    }
+
+
+
+    //form function
+    function calculate() {
+        document.getElementById('teamPrice').value = 250 * document.getElementById('teamNo').value;
+        var price = document.getElementById('teamPrice').value;
+        document.getElementById('total').value = price;
+    }
+
+
+    function handleFile(files) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview');
+        var reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'TRGS[Declaration]';
+                input.value = e.target.result;
+                img.style.width = "auto";
+                img.style.height = "150px";
+                preview.appendChild(input);
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'TRGS[Declaration]';
+                input.value = e.target.result;
+                preview.appendChild(input);
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var yes3_check = document.getElementById("Yes3");
+        var no3_check = document.getElementById("No3");
+        var yes4_check = document.getElementById("Yes4");
+        var no4_check = document.getElementById("No4");
+        var chineseNameDis1 = document.getElementById("Mate1ChiName")
+        var chineseNameDis2 = document.getElementById("Mate2ChiName")
+        var chineseNameDis3 = document.getElementById("Mate3ChiName")
+        var chineseNameDis4 = document.getElementById("Mate4ChiName")
+
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+        }
+
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+        }
+
+        if (yes3_check.checked == true) {
+            chineseNameDis3.checked = false;
+            chineseNameDis3.disabled = false;
+
+        } else if (no3_check.checked == true) {
+            chineseNameDis3.checked = true; //disable chinese name
+            chineseNameDis3.disabled = true;
+        }
+
+        if (yes4_check.checked == true) {
+            chineseNameDis4.checked = false;
+            chineseNameDis4.disabled = false;
+
+        } else if (no4_check.checked == true) {
+            chineseNameDis4.checked = true; //disable chinese name
+            chineseNameDis4.disabled = true;
+
+        }
+    }
+</script>

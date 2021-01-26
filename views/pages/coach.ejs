@@ -1,0 +1,105 @@
+<aside class="coach">
+  <section>
+    <h6 class="side-heading3"><span class="reflect" data-text="教練通訊">教練通訊</span></h6>
+    <ul class="list-unstyled">
+      <li><a class="side-button1 <%= req.path == '/coach' ? 'active':'' %>" href="/coach">註冊教練名單</a></li>
+      <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_MAG.pdf">男子競技體操註冊教練</a></li>
+      <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_WAG.pdf">女子競技體操註冊教練</a></li>
+      <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_RG.pdf">藝術體操註冊教練</a></li>
+      <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_TRA.pdf">彈網註冊教練</a></li>
+      <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_AER.pdf">健美體操註冊教練</a></li>
+      <li><a class="side-button1" target="_blank" href="/doc/Registered Coach_2019.2.22_ACRO.pdf">技巧體操註冊教練</a></li>
+      <li><a class="side-button1 <%= req.path == '/status' ? 'active':'' %>" href="/status">審批列表</a></li>
+      <!-- <% if (req.session.role == 'admin') {%>
+        <li><a class="side-button1 <%= req.path == '/status' ? 'active':'' %>" href="/status">審批列表</a></li>
+        <% } %> -->
+      <li class="dropdown">
+
+        <a href="/index" class="side-button1 dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 教練資訊 <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+
+          <li><a href="/indexMAG">男子競技體操</a></li>
+          <li><a href="/indexWAG">女子競技體操</a></li>
+          <li><a href="/indexRG">藝術體操</a></li>
+          <li><a href="/indexACRO">技巧體操</a></li>
+          <li><a href="/indexTRA">彈網</a></li>
+          <li><a href="/indexAER">健美體操</a></li>
+          
+      <!-- <li><a class="side-button1 active" href="/index">教練資訊</a></li>
+      <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">男子競技體操</a></li>
+      <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">女子競技體操</a></li>
+      <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">藝術體操</a></li>
+      <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">彈網</a></li>
+      <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">健美體操</a></li>
+      <li><a class="side-button1 <%= req.path == '/profile/index' ? 'active':'' %>" href="/profile/index">技巧體操</a></li> -->
+      
+
+    </ul>
+  </section>
+</aside>
+<div class="content cocah flex-lg-grow-1">
+  <h5 class="main-heading1">註冊教練<span class="highlight">名單</span></h5>
+
+  <div class="container-fluid">
+
+    <table class="table table-striped table-bordered table-sm w-100">
+      <tbody>
+        <tr>
+          <td width="33%" height="23"><div align="center"><strong>教練培訓</strong></div></td>
+          <td width="33%"><div align="center"><strong>教練註冊</strong></div></td>
+          <td width="33%"><div align="center"><strong>其他</strong></div></td>
+          </tr>
+        <tr>
+          <td><div align="center"><a href="/coach/coachform" target="">教練申請</a></div></td>
+          <td><div align="center"><a href="../doc/CoachRegistrationInstruction(2019.5).pdf" target="_blank" class="f01_L18_001">教練註冊須知 (5.2019)</a></div></td>
+          <td><div align="center"><a href="doc/CoachingPlanTemplate.doc" class="f01_L18_001">教案範例</a></div>		                              </td></tr>
+        <tr>
+          <td height="23">&nbsp;</td>
+          <td><div align="center"><a href="../doc/Coach registration form (2018.11).pdf" target="_blank" class="f01_L18_001">教練註冊申請表格</a></div></td>
+          <td><div align="center"><a href="doc/CoachingPlanTemplate.doc" class="f01_L18_001"></a></div></td>
+          </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><div align="center"><a href="../doc/Coach registration document_New (2018.11).pdf" target="_blank" class="f01_L18_001">(新領)教練註冊所需文件 </a></div></td>
+          <td><div align="center"></div></td>
+          </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><div align="center"><a href="../doc/Coach registration document_Renew (2018.11).pdf" target="_blank" class="f01_L18_001">(續領)教練註冊所需文件</a></div></td>
+          <td><div align="center"></div></td>
+          </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><div align="center"><a href="pdf/coachreg2014rule.pdf" target="_blank" class="f01_L18_001"></a><a href="../doc/Coach_Rule_2018.1.pdf" target="_blank" class="f01_L18_001">體操教練守則</a></div></td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="card mb-3">
+      <h6 class="main-heading2 mb-0">教練課程</h6>
+        <table class="table table-striped w-100 mb-0">
+          <tbody>
+            <tr>
+              <td width="30%"><div align="center" class="style2"> <strong>上載日期</strong></div></td>
+              <td width="52%"><div align="center" class="style2"> <strong>內容</strong></div></td>
+              <td width="30%"><div align="center" class="style2"> <strong>截止日期</strong></div></td>
+            </tr>
+          </tbody>
+       </table>
+    </section>
+
+    <section class="card">
+      <h6 class="main-heading2 mb-0">教練招募</h6>
+        <table class="table table-striped w-100 mb-0">
+          <tbody>
+            <tr>
+              <td width="30%"><div align="center" class="style2"> <strong>上載日期</strong></div></td>
+              <td width="52%"><div align="center" class="style2"> <strong>內容</strong></div></td>
+              <td width="30%"><div align="center" class="style2"> <strong>截止日期</strong></div></td>
+            </tr>
+          </tbody>
+       </table>
+    </section>
+  </div>
+</div>

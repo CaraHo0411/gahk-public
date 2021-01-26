@@ -1,0 +1,250 @@
+<div class="default-page" style="background-color:#87CEFA">
+
+        <br>
+        <div class="form-group" style="font-size:18px;text-align:center">
+                <b> 2019-2020年度運動員註冊及會員申請表 <br>
+                        Online Athlete Registration and Membership Form 2019-2020 (更新)</b>
+
+        </div>
+
+        <form action="/athelete/update_athelete/<%=athelete.id%>" method="POST">
+               
+                <div class="form-group">
+                
+                        <label style="font-size:14px"><b>支票號碼</b></label>
+
+                        <input type="text" name="Athelete[CheckNo]" 
+                                onkeyup="value=value.replace(/[^0-9]/g,'')" value="<%=athelete.CheckNo%>">
+
+                </div>
+
+                <div class="form-group">
+                        <label style="font-size:14px"><b>確認運動員?</b></label>
+                        <% if (athelete.comfirm_athelete=="是"){ %>
+                                <p style="font-size:16pt"><a href="/athelete/canel_athelete/<%=athelete.id%>">取消 Cancel</a></p>
+                                <% }else{ %>
+                           <p style="font-size:16pt"><a href="/athelete/confirm_athelete/<%=athelete.id%>">確認 Submit</a></p> 
+                           <% } %>
+
+
+                        
+                  
+                      </div>
+                <br>
+              
+                <div class="form-group">
+                        <label style="font-size:14px"><b>項目：</b></label><br>
+                        <% if (athelete.Choice1=="競技"){ %>
+                        <input name="Athelete[Choice1]" type="checkbox" value="競技" checked>
+                        <% }else {%>
+                        <input name="Athelete[Choice1]" type="checkbox" value="競技">
+                        <%}%>
+        《Artistic Gymnastics 競技體操》
+
+        <% if (athelete.Choice2=="健美"){ %>
+                        <input name="Athelete[Choice2]" type="checkbox" value="健美" checked>
+                        <% }else {%>
+                        <input name="Athelete[Choice2]" type="checkbox" value="健美">
+                        <%}%>
+       《Aerobic Gymnastics 健美體操》<br>
+
+       <% if (athelete.Choice3=="藝術"){ %>
+                        <input name="Athelete[Choice3]" type="checkbox" value="藝術" checked>
+                        <% }else {%>
+                        <input name="Athelete[Choice3]" type="checkbox" value="藝術">
+                        <%}%>
+        《Rhythmic Gymnastics 藝術體操》
+
+
+        <% if (athelete.Choice4=="彈網"){ %>
+                        <input name="Athelete[Choice4]" type="checkbox" value="彈網" checked>
+                        <% }else {%>
+                        <input name="Athelete[Choice4]" type="checkbox" value="彈網">
+                        <%}%>
+
+         《Trampoline Gymnastics 彈網》<br>
+
+         <% if (athelete.Choice5=="技巧"){ %>
+                        <input name="Athelete[Choice5]" type="checkbox" value="技巧" checked>
+                        <% }else {%>
+                        <input name="Athelete[Choice5]" type="checkbox" value="技巧">
+                        <%}%>
+      《Acrobatic Gymnastics 技巧體操》
+
+
+    </div>
+    <div class="form-group">
+        <label style="font-size:15px"><b>(甲部) 個人資料 Personal Particulars</b></label><br>
+        <label style="font-size:13px">中文姓名 Chinese Name </label>
+        <input type="text" name="Athelete[ChiName]" value="<%=athelete.ChiName%>"
+                        onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" />
+                        <label style="font-size:13px">英文姓名 Surname, First name</label>
+                        <input type="text" name="Athelete[EngName]" value="<%=athelete.EngName%>"
+                                onkeyup="value=value.replace(/[^\a-\z\A-\Z]/g,'')" />
+
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">性別 Gender </label>
+
+                        <% if (athelete.Gender=="女"){ %>
+                        <input type="radio" name="Athelete[Gender]" value="女" checked>
+                        <label style="font-size:14px">女</label>
+                        <input type="radio" name="Athelete[Gender]" value="男">
+                        <label style="font-size:14px">男</label>
+                        <% }else if (athelete.Gender=="男"){%>
+                        <input type="radio" name="Athelete[Gender]" value="女">
+                        <label style="font-size:14px">女</label>
+                        <input type="radio" name="Athelete[Gender]" value="男" checked>
+                        <label style="font-size:14px">男</label>
+                        <%} else {%>
+                        <input type="radio" name="Athelete[Gender]" value="女" required>
+                        <label style="font-size:14px">女</label>
+                        <input type="radio" name="Athelete[Gender]" value="男" required>
+                        <label style="font-size:14px">男</label>
+                        <%}%> 
+
+        <label style="font-size:13px">出生日期 Date of Birth (DD/MM/YYYY)</label>
+
+        <input type="date" name="Athelete[Date]" value="<%=athelete.Date%>"/>
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">電郵 (以此電郵作主要通訊之用)<br>
+                                Email (must be provided for further correspondence)
+                        </label>
+                        <input type="email" name="Athelete[Email]" value="<%=athelete.Email%>"
+                                pattern="[a-zA-Z0-9.!#$%&amp;’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+"
+                                style="width:210px" />
+                        <label style="font-size:13px">聯絡電話 Contact No. </label>
+
+                        <input type="text" name="Athelete[Contact]" value="<%=athelete.Contact%>" maxlength="8"
+                                pattern="\d{8}" style="width:120px" />
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">地址（中）Address (Chinese)
+                        </label>
+                        <input type="text" name="Athelete[AddressChi]" value="<%=athelete.AddressChi%>"
+                               style="width:500px" />
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">地址（英）Address (English)
+                        </label>
+                        <input type="text" name="Athelete[AddressEng]" value="<%=athelete.AddressEng%>"
+                                style="width:500px" />
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">學校名稱 (中) Name of School (Chinese)
+                        </label>
+                        <input type="text" name="Athelete[SchoolChi]" value="<%=athelete.SchoolChi%>"
+                               style="width:500px" />
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">學校名稱 (英文) Name of School (English)
+                        </label>
+                        <input type="text" name="Athelete[SchoolEng]" value="<%=athelete.SchoolEng%>"
+                              style="width:500px" />
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">就讀級別 Class
+                        </label>
+                        <input type="text" name="Athelete[Class]" value="<%=athelete.Class%>" style="width:500px" />
+
+                </div>
+                <div class="form-group">
+                        <label style="font-size:15px"><b>(乙部) 運動員家長或監護人資料 Information of Parents / Guardians</b></label>
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">中文姓名 Chinese Name </label>
+                        <input type="text" name="Athelete[ChiNamePar]"
+                                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                                value="<%=athelete.ChiNamePar%>" />
+                        <label style="font-size:13px">英文姓名 Surname, First name</label>
+                        <input type="text" name="Athelete[EngNamePar]"
+                                onkeyup="value=value.replace(/[^\a-\z\A-\Z]/g,'')" value="<%=athelete.EngNamePar%>" />
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">電郵 Email :</label>
+                        <input type="email" name="Athelete[EmailPar]" value="<%=athelete.EmailPar%>"
+                                pattern="[a-zA-Z0-9.!#$%&amp;’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+"
+                                style="width:500px" />
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">聯絡電話 Contact No.: </label>
+                        <input type="text" name="Athelete[ContactPar]" value="<%= athelete.ContactPar%>" maxlength="8"
+                                pattern="\d{8}" style="width:500px" />
+                </div>
+                <div class="form-group">
+                        <label style="font-size:13px">如遇緊急情況聯絡人姓名
+                                Emergency contact person:
+                        </label>
+                        <input type="text" name="Athelete[EmergencyContactName]"
+                                value="<%=athelete.EmergencyContactName%>" />
+                        <label style="font-size:13px">電話
+                                Contact No.:
+                        </label>
+                        <input type="text" name="Athelete[EmergencyContact]" value="<%=athelete.EmergencyContact%>"
+                                maxlength="8" pattern="\d{8}" style="width:130px" />
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                        <label><b>上載個人照片 Upload a personal photo</b></label>
+
+
+
+
+                        <input type="file" id="upload" accept="image/*" onchange="handleFile(this.files)" />
+                        <div id="preview">
+                                <% if (athelete.avatar) { %>
+                                <input type="hidden" name="Athelete[avatar]" value="<%=athelete.avatar%>" />
+                                <% } %>
+                                <img src="<%=athelete.avatar%>" />
+
+                        </div>
+
+
+
+
+
+                </div>
+
+
+                <br>
+                <button type="submit" class="btn btn-primary">提交 Submit</button>
+                <br>
+                <br>
+
+        </form>
+</div>
+<script>
+        function handleFile(files) {
+                const file = files[0];
+                if (!file.type.startsWith('image/')) return;
+                if (file.size > 4194304) {
+                        alert("請重新上載4MB相片");
+                        return;
+                }
+                var preview = document.getElementById('preview');
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                        preview.innerHTML = "";
+                        var img = document.createElement('img');
+                        img.src = e.target.result;
+                        preview.appendChild(img);
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.value = e.target.result;
+                        input.name = 'Athelete[avatar]';
+                        img.style.width = "150px";
+                        img.style.height = "150px";
+                        preview.appendChild(input);
+                }
+                reader.readAsDataURL(file);
+        }
+        </script>

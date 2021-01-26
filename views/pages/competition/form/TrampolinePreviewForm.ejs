@@ -1,0 +1,123 @@
+<form action="/pages/competition/form/TrampolinePreviewForm" method="POST">
+    <% req.session.data = req.session.data || {} %>
+    <div class="card border-0 col-12" style="width: 740pt; background: transparent;">
+        <div class="card-body col-12">
+            <h1 style="font-size: 18pt; text-align: center;"><b>Preview 預覽</b></h1>
+            <br>
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt; color: #888888;">
+                <b>香港彈網分齡賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt; color: #888888;">
+                <u>雙人同步 報名表格</u></h2>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="card-body col-12">
+            <label style="color: #83a70c; font-weight: bold; font-size: 15px;">比賽年份 Year of Competition: </label>
+            <b><%= req.session.data.compYear%></b>    
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">隊伍資料 Group
+                    Details</label>
+                <span class="col-sm-6">性別 Gender: <b><%= req.session.data.gender%></b></span>
+                <span class="col-sm-6">參賽組別 Category: <b><%= req.session.data.category%></b></span>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">參加者個人資料 Applicants'
+                    Personal Details</label>
+                <div class="form-group col-12">
+                    <div class="row">
+                        <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 14px;">參加者(1)
+                            Applicant(1)</label>
+                        <span class="col-12">是否有中文姓名 Any Chinese name: <b><%= req.session.data.havecname1%></b></span>
+                        <span class="col-sm-6">中文姓名 Name in Chinese:
+                            <% if(req.session.data.havecname1 == "是 Yes") {%>
+                            <b><%= req.session.data.chiName1%></b>
+                            <%} else if(req.session.data.havecname1 == "否 No"){%>
+                            <b>N/A</b>
+                            <%}%>
+                        </span>
+                        <span class="col-sm-6">英文姓名 Name in English: <b><%= req.session.data.engName1%></b></span>
+                        <span class="col-sm-6">出生年份 Year of Birth: <b><%= req.session.data.birth1%></b></span>
+                        <span class="col-sm-6">聯絡電話 Contact number: <b><%= req.session.data.phone1%></b></span>
+                        <span class="col-12">電郵 Email address: <b><%= req.session.data.email1%></b></span>
+                        <span class="col-12">通訊地址 Postal address: <b><%= req.session.data.address1%></b></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
+                    <div class="row">
+                        <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 14px;">參加者(2)
+                            Applicant(2)</label>
+                        <span class="col-12">是否有中文姓名 Any Chinese name: <b><%= req.session.data.havecname2%></b></span>
+                        <span class="col-sm-6">中文姓名 Name in Chinese:
+                            <% if(req.session.data.havecname2 == "是 Yes") {%>
+                            <b><%= req.session.data.chiName2%></b>
+                            <%} else if(req.session.data.havecname2 == "否 No"){%>
+                            <b>N/A</b>
+                            <%}%>
+                        </span>
+                        <span class="col-sm-6">英文姓名 Name in English: <b><%= req.session.data.engName2%></b></span>
+                        <span class="col-sm-6">出生年份 Year of Birth: <b><%= req.session.data.birth2%></b></span>
+                        <span class="col-sm-6">聯絡電話 Contact number: <b><%= req.session.data.phone2%></b></span>
+                        <span class="col-12">電郵 Email address: <b><%= req.session.data.email2%></b></span>
+                        <span class="col-12">通訊地址 Postal address: <b><%= req.session.data.address2%></b></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">所屬團體
+                    Organization to which your body belongs</label>
+                <span class="col-12">團體名稱 Organization name: <b><%= req.session.data.teamName%></b></span>
+                <span class="col-sm-6">教練姓名 Coach name: <b><%= req.session.data.coachName%></b></span>
+                <span class="col-sm-6">聯絡電話 Contact number: <b><%= req.session.data.coachPhone%></b></span>
+                <span class="col-12">註冊教練編號 Registered coach no.:
+                    <% if(req.session.data.coachNum == ""){%>
+                    <b>N/A</b>
+                    <%} else {%>
+                    <b><%=req.session.data.coachNum%></b>
+                    <%}%>
+                </span>
+                <span class="col-12">通訊地址 Postal Address: <b><%= req.session.data.coachAddress%></b></span>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">參加者家長資料 Applicant's Parent
+                    Details</label>
+                <span class="col-sm-6">參加者(1)家長姓名 Applicant(1)'s Parent Name: <b><%= req.session.data.parentName1%></b></span>
+                <span class="col-sm-6">參加者(2)家長姓名 Applicant(2)'s Parent Name: <b><%= req.session.data.parentName2%></b></span>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="row">
+            <div class="form-group col-sm-10">
+                <button type="submit" class="btn btn-info"
+                    style="background-color: #83a70c; border-color: #83a70c;width: 150px; float:right"
+                    onclick="message()">Submit 提交</button>
+            </div>
+
+            <div class="form-group col-sm-2">
+                <button type="button" class="btn btn-danger" style="width: 150px; float:right"
+                    onclick="history.back()">Cancel 取消</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function message() {
+        alert("提交成功!! Successfully Submitted!");
+    }
+</script>

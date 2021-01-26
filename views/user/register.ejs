@@ -1,0 +1,73 @@
+<style>
+#form-register button[type="submit"].confirm:before{content:'確定'}
+#form-register input[readonly] {border:1px solid #fff;border-bottom:1px solid #000;padding-left:.75rem;padding-right:.75rem}
+</style>
+<%- partial('./partial/login-register-sidemenu.ejs')%>
+<div class="content user-register w-100">
+  <h5 class="main-heading1">註冊<span class="highlight">帳號</span></h5>
+  <form id="form-register" class="ajax-with-preview" action="/user/register" method="POST" data-valid="valid()">
+    <section>
+      <h6 class="side-heading2">填寫個人資料</h6>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">用戶名稱</label>
+            <input class="form-control" type="text" name="User[Username]" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">電郵</label>
+            <input class="form-control" type="email" name="User[Email]" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">密碼</label>
+            <input id="pw" class="form-control" type="password" name="User[Password]" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">確認密碼</label>
+            <input id="confirmpw" class="form-control" type="password" name="User[ConfirmPassword]" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">姓名（中文）</label>
+            <input class="form-control" type="text" name="User[ChiName]" placeholder="請以中文填寫" pattern="[\u4E00-\u9FA5]+" oninput="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">姓名（英文）</label>
+            <input class="form-control" type="text" name="User[EngName]" placeholder="請以英文填寫" pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" oninput="value=value.replace(/[^',\.\ \-a-zA-Z]/g,'')" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">電話（手提）</label>
+            <input class="form-control" type="tel" name="User[Mobile]" size="8" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex">
+            <label class="flex-shrink-0 col-form-label">電話（住宅）</label>
+            <input class="form-control" type="tel" name="User[Hnumber]" size="8">
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">出生日期</label>
+            <input class="form-control" type="date" name="User[Date]" placeholder="YYYY-MM-DD" min="<%=new Date().getFullYear()-100%>-<%=new Date().getMonth()<9?'0':''%><%=new Date().getMonth()+1%>-<%=new Date().getDate()<10?'0':''%><%=new Date().getDate()%>" max="<%=new Date().getFullYear()-12%>-<%=new Date().getMonth()<9?'0':''%><%=new Date().getMonth()+1%>-<%=new Date().getDate()<10?'0':''%><%=new Date().getDate()%>" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group">
+            <label><small><span style="color:red">＊</span>為必需填寫</small></label>
+            <button id="submit" class="btn btn-danger" type="submit">提交</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+</div>
+
+<script>
+function valid() {
+  var pw = document.getElementById('pw');
+  var confirmpw = document.getElementById('confirmpw');
+  if (confirmpw.value !== pw.value) {
+    confirmpw.setCustomValidity('密碼不相符');
+    return false;
+  }
+  return true;
+};
+
+(function() {
+
+})();
+</script>

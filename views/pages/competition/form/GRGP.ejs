@@ -1,0 +1,916 @@
+<style type="text/css">
+    .card {
+        border-radius: 0;
+    }
+</style>
+
+<form action="/competition/form/GRGP" method="POST" id=GRGP_form>
+    <div class="row mx-sm-2">
+        <!-- Title -->
+        <div class="col-12" style="color: #888888; ">
+            <br>
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;"><b>全港藝術體操分齡比賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>集體項目報名表(公開組︰學校以外之團體)</u>
+            </h2>
+            <br><br>
+        </div>
+
+        <!-- Rules -->
+        <div class="col-12">
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽規則及章程
+                Rules and Regulation</h5>
+        </div>
+
+        <div class="col-12">
+            <a href="http://www.gahk.org.hk/doc/Rules_HKRGAgeGroupCompetition.pdf" target="_blank"
+                style="text-align: center;"><u>全港藝術體操分齡賽競賽要求 Rules of HKRGAgeGroupCompetition
+                </u></a>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽年份 Year of Competition</h5>
+             <%var todayYear = new Date().getFullYear();%>
+            <select id="compYear" name="GRGP[compYear]" required>
+                <option value="<%=todayYear%>" selected><%=todayYear%></option>
+            </select>
+        </div>
+
+        <!-- Team details -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">隊伍資料 Group
+                Details</h5>
+        </div>
+
+        <div class="col-12">
+            <label>隊伍名稱(中文) Team Name(Chinese):</label>
+            <input id="teamName" type="text" class="form-group" name="GRGP[teamName]" style="width:350pt;"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.teamName != null) { %>
+                value="<%=req.session.GRGPdata.teamName%>" <% } %> required>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>聯絡電話 Contact Number:</label>
+            <input id="phone" type="tel" pattern=[0-9]{8} class="form-group" name="GRGP[phone]"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.phone != null) { %>
+                value="<%=req.session.GRGPdata.phone%>" <% } %> required>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>聯絡電郵 Email Address:</label>
+            <input id="email" type="email" class="form-group" name="GRGP[email]" style="width:195pt;"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.email != null) { %>
+                value="<%=req.session.GRGPdata.email%>" <% } %> required>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>教練姓名 Coach Name:</label>
+            <input id="coachName" type="text" class="form-group" name="GRGP[coachName]"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.coachName != null) { %>
+                value="<%=req.session.GRGPdata.coachName%>" <% } %> required>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>教練聯絡電話 Coach Contact Number:</label>
+            <input id="coachPhone" type="tel" pattern=[0-9]{8} class="form-group" name="GRGP[coachPhone]"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.coachPhone != null) { %>
+                value="<%=req.session.GRGPdata.coachPhone%>" <% } %> required>
+        </div>
+
+        <div class="col-12">
+            <br>
+            <p>組別及比賽項目 Category and Competition Item:</p>
+            <input type="radio" name="GRGP[category]" value="集體 A 組(五人圈操)" id="gpA" onclick="limitBirth()"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.gpA == true) { %> checked <% } %> required>
+            <label class="form-check-label" for="category">集體 A 組(五人圈操)</label>
+            <input type="radio" name="GRGP[category]" value="集體 B 組(五人圈操)" id="gpB" onclick="limitBirth()"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.gpB == true) { %> checked <% } %> required>
+            <label class="form-check-label" for="category">集體 B 組(五人圈操)</label>
+            <input type="radio" name="GRGP[category]" value="集體 C 組(三球兩帶)" id="gpC" onclick="limitBirth()"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.gpC == true) { %> checked <% } %> required>
+            <label class="form-check-label" for="category">集體 C 組(三球兩帶)</label>
+            <br><br>
+        </div>
+
+        <!-- Applicant details -->
+        <!-- 1 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(1)個人資料
+                Applicant(1)'s Personal Details</h6>
+            <h5>[正選 Current athlete]</h5>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="GRGP[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.Yes1 == true) { %> checked <% } %>
+                    required>
+                <label class="form-check-label" for="havecname1">是 Yes</label>
+                <input type="radio" name="GRGP[havecname1]" value="否 No" id="No1" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.No1 == true) { %> checked <% } %>
+                    required>
+                <label class="form-check-label" for="havecname1">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="GRGP[chiName1]" id="chiName1" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if (req.session.data != null && req.session.data.havecname1 == "否 No") { %> disabled
+                    <%} else if(req.session.GRGPdata != null) { if(req.session.GRGPdata.No1 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.GRGPdata.chiName1%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName1" type="text" class="form-group" name="GRGP[engName1]"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.engName1 != null) { %>
+                    value="<%=req.session.GRGPdata.engName1%>" <% } %> required>
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input id="ID1" type="text" class="form-group" name="GRGP[ID1]" placeholder=" A123456(7)"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.ID1 != null) { %>
+                    value="<%=req.session.GRGPdata.ID1%>" <% } %> required>
+            </div>
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="GRGP[birth1]" id="birth1"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.birth1 != null) { %>
+                    value="<%=req.session.GRGPdata.birth1%>" <% } %> required>
+                <br>
+            </div>
+            <div>
+                <label>請附上參加者的身份證副本 <br> Please upload ID copy of the applicant</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,0)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.imgIDCard0 == "") { %>required <% } %> />
+                <br>
+                <div id="preview0"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.imgIDCard0 != "" && req.session.GRGPdata.imgIDCard0 != null) { %>
+                <input id="imgIDCard0" type="hidden" name="GRGP[imgIDCard0]"
+                    value="<%=req.session.GRGPdata.imgIDCard0%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <img src="<%=req.session.GRGPdata.imgIDCard0%>" style="height:150px; width:auto" />
+                <% } else {%>
+                <input id="imgIDCard0" type="hidden" name="GRGP[imgIDCard0]" />
+                <%}%>
+            </div>
+            <br>
+        </div>
+        <!-- 2 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(2)個人資料
+                Applicant(2)'s Personal Details</h6>
+            <h5>[正選 Current athlete]</h5>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="GRGP[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.Yes2 == true) { %> checked <% } %>
+                required>
+                <label class="form-check-label" for="havecname2">是 Yes</label>
+                <input type="radio" name="GRGP[havecname2]" value="否 No" id="No2" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.No2 == true) { %> checked <% } %>
+                    required>
+                <label class="form-check-label" for="havecname2">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="GRGP[chiName2]" id="chiName2" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if (req.session.data != null && req.session.data.havecname2 == "否 No") { %> disabled
+                    <%} else if(req.session.GRGPdata != null) { if(req.session.GRGPdata.No2 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.GRGPdata.chiName2%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName2" type="text" class="form-group" name="GRGP[engName2]"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.engName2 != null) { %>
+                    value="<%=req.session.GRGPdata.engName2%>" <% } %> required>
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input id="ID2" type="text" class="form-group" name="GRGP[ID2]" placeholder=" A123456(7)"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.ID2 != null) { %>
+                    value="<%=req.session.GRGPdata.ID2%>" <% } %> required>
+            </div>
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="GRGP[birth2]" id="birth2"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.birth2 != null) { %>
+                    value="<%=req.session.GRGPdata.birth2%>" <% } %> required>
+                <br>
+            </div>
+            <div>
+                <label>請附上參加者的身份證副本 <br> Please upload ID copy of the applicant</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,1)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.imgIDCard1 == "") { %>required <% } %> />
+                <br>
+                <div id="preview1"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.imgIDCard1 != "" && req.session.GRGPdata.imgIDCard1 != null) { %>
+                <input id="imgIDCard1" type="hidden" name="GRGP[imgIDCard1]"
+                    value="<%=req.session.GRGPdata.imgIDCard1%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <img src="<%=req.session.GRGPdata.imgIDCard1%>" style="height:150px; width:auto" />
+                <% } else {%>
+                <input id="imgIDCard1" type="hidden" name="GRGP[imgIDCard1]" />
+                <%}%>
+            </div>
+            <br>
+        </div>
+        <!-- 3 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(3)個人資料
+                Applicant(3)'s Personal Details</h6>
+            <h5>[正選 Current athlete]</h5>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="GRGP[havecname3]" value="是 Yes" id="Yes3" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.Yes3 == true) { %> checked <% } %>
+                required />
+                <label class="form-check-label" for="havecname3">是 Yes</label>
+                <input type="radio" name="GRGP[havecname3]" value="否 No" id="No3" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.No3 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname3">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="GRGP[chiName3]" id="chiName3" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if (req.session.data != null && req.session.data.havecname3 == "否 No") { %> disabled
+                    <%} else if(req.session.GRGPdata != null) { if(req.session.GRGPdata.No3 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.GRGPdata.chiName3%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName3" type="text" class="form-group" name="GRGP[engName3]"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.engName3 != null) { %>
+                    value="<%=req.session.GRGPdata.engName3%>" <% } %> required />
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input id="ID3" type="text" class="form-group" name="GRGP[ID3]" placeholder=" A123456(7)"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.ID3 != null) { %>
+                    value="<%=req.session.GRGPdata.ID3%>" <% } %> required />
+            </div>
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="GRGP[birth3]" id="birth3"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.birth3 != null) { %>
+                    value="<%=req.session.GRGPdata.birth3%>" <% } %> required />
+                <br>
+            </div>
+            <div>
+                <label>請附上參加者的身份證副本 <br> Please upload ID copy of the applicant</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,2)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.imgIDCard2 == "") { %>required <% } %> />
+                <br>
+                <div id="preview2"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.imgIDCard2 != "" && req.session.GRGPdata.imgIDCard2 != null) { %>
+                <input id="imgIDCard2" type="hidden" name="GRGP[imgIDCard2]"
+                    value="<%=req.session.GRGPdata.imgIDCard2%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <img src="<%=req.session.GRGPdata.imgIDCard2%>" style="height:150px; width:auto" />
+                <% } else {%>
+                <input id="imgIDCard2" type="hidden" name="GRGP[imgIDCard2]" />
+                <%}%>
+            </div>
+            <br>
+        </div>
+        <!-- 4 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(4)個人資料
+                Applicant(4)'s Personal Details</h6>
+            <h5>[正選 Current athlete]</h5>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="GRGP[havecname4]" value="是 Yes" id="Yes4" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.Yes4 == true) { %> checked <% } %>
+                required />
+                <label class="form-check-label" for="havecname4">是 Yes</label>
+                <input type="radio" name="GRGP[havecname4]" value="否 No" id="No4" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.No4 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname4">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="GRGP[chiName4]" id="chiName4" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if (req.session.data != null && req.session.data.havecname4 == "否 No") { %> disabled
+                    <%} else if(req.session.GRGPdata != null) { if(req.session.GRGPdata.No4 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.GRGPdata.chiName4%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName4" type="text" class="form-group" name="GRGP[engName4]"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.engName4 != null) { %>
+                    value="<%=req.session.GRGPdata.engName4%>" <% } %> required />
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input id="ID4" type="text" class="form-group" name="GRGP[ID4]" placeholder=" A123456(7)"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.ID4 != null) { %>
+                    value="<%=req.session.GRGPdata.ID4%>" <% } %> required />
+            </div>
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="GRGP[birth4]" id="birth4"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.birth4 != null) { %>
+                    value="<%=req.session.GRGPdata.birth4%>" <% } %> required />
+                <br>
+            </div>
+            <div>
+                <label>請附上參加者的身份證副本 <br> Please upload ID copy of the applicant</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,3)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.imgIDCard3 == null) { %>required
+                    <% } %> />
+                <br>
+                <div id="preview3"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.imgIDCard3 != "" && req.session.GRGPdata.imgIDCard3 != null) { %>
+                <input id="imgIDCard3" type="hidden" name="GRGP[imgIDCard3]"
+                    value="<%=req.session.GRGPdata.imgIDCard3%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <img src="<%=req.session.GRGPdata.imgIDCard3%>" style="height:150px; width:auto" />
+                <% } else {%>
+                <input id="imgIDCard3" type="hidden" name="GRGP[imgIDCard3]" />
+                <%}%>
+            </div>
+            <br>
+        </div>
+        <!-- 5 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(5)個人資料
+                Applicant(5)'s Personal Details</h6>
+            <h5>[正選 Current athlete]</h5>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="GRGP[havecname5]" value="是 Yes" id="Yes5" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.Yes5 == true) { %> checked <% } %>
+                required />
+                <label class="form-check-label" for="havecname5">是 Yes</label>
+                <input type="radio" name="GRGP[havecname5]" value="否 No" id="No5" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.No5 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname5">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="GRGP[chiName5]" id="chiName5" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if (req.session.data != null && req.session.data.havecname5 == "否 No") { %> disabled
+                    <%} else if(req.session.GRGPdata != null) { if(req.session.GRGPdata.No5 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.GRGPdata.chiName5%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName5" type="text" class="form-group" name="GRGP[engName5]"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.engName5 != null) { %>
+                    value="<%=req.session.GRGPdata.engName5%>" <% } %> required />
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input id="ID5" type="text" class="form-group" name="GRGP[ID5]" placeholder=" A123456(7)"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.ID5 != null) { %>
+                    value="<%=req.session.GRGPdata.ID5%>" <% } %> required />
+            </div>
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="GRGP[birth5]" id="birth5"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.birth5 != null) { %>
+                    value="<%=req.session.GRGPdata.birth5%>" <% } %> required />
+                <br>
+            </div>
+            <div>
+                <label>請附上參加者的身份證副本 <br> Please upload ID copy of the applicant</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,4)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.imgIDCard4 == "") { %>required <% } %> />
+                <br>
+                <div id="preview4"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.imgIDCard4 != "" && req.session.GRGPdata.imgIDCard4 != null) { %>
+                <input id="imgIDCard4" type="hidden" name="GRGP[imgIDCard4]"
+                    value="<%=req.session.GRGPdata.imgIDCard4%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <img src="<%=req.session.GRGPdata.imgIDCard4%>" style="height:150px; width:auto" />
+                <% } else {%>
+                <input id="imgIDCard4" type="hidden" name="GRGP[imgIDCard4]" />
+                <%}%>
+            </div>
+            <br>
+        </div>
+        <!-- 6 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(6)個人資料
+                Applicant(6)'s Personal Details</h6>
+            <h5>[後備 Back up]</h5>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="GRGP[havecname6]" value="是 Yes" id="Yes6" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.Yes6 == true) { %> checked <% } %>
+                required />
+                <label class="form-check-label" for="havecname6">是 Yes</label>
+                <input type="radio" name="GRGP[havecname6]" value="否 No" id="No6" onclick="havechinesename()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.No6 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname6">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="GRGP[chiName6]" id="chiName6" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if (req.session.data != null && req.session.data.havecname6 == "否 No") { %> disabled
+                    <%} else if(req.session.GRGPdata != null) { if(req.session.GRGPdata.No6 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.GRGPdata.chiName6%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName6" type="text" class="form-group" name="GRGP[engName6]"
+                    placeholder=" e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.engName6 != null) { %>
+                    value="<%=req.session.GRGPdata.engName6%>" <% } %> required />
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input id="ID6" type="text" class="form-group" name="GRGP[ID6]" placeholder=" A123456(7)"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.ID6 != null) { %>
+                    value="<%=req.session.GRGPdata.ID6%>" <% } %> required />
+            </div>
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="GRGP[birth6]" id="birth6"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.birth6 != null) { %>
+                    value="<%=req.session.GRGPdata.birth6%>" <% } %> required />
+                <br>
+            </div>
+            <div>
+                <label>請附上參加者的身份證副本 <br> Please upload ID copy of the applicant</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,5)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.imgIDCard5 == "") { %>required <% } %> />
+                <br>
+                <div id="preview5"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.imgIDCard5 != "" && req.session.GRGPdata.imgIDCard5 != null) { %>
+                <input id="imgIDCard5" type="hidden" name="GRGP[imgIDCard5]"
+                    value="<%=req.session.GRGPdata.imgIDCard5%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <img src="<%=req.session.GRGPdata.imgIDCard5%>" style="height:150px; width:auto" />
+                <% } else {%>
+                <input id="imgIDCard5" type="hidden" name="GRGP[imgIDCard5]" />
+                <%}%>
+            </div>
+            <br>
+        </div>
+
+        <!-- Remark -->
+        <div class="form-group col-12">
+            <span>備註 Remarks:</span>
+            <ol>
+                <li>如有需要可自行影印表格<br>Applicants can make copy of the form if needed.</li>
+                <li>每張報名表只可報<u>一個</u>組別<br>An application form can be applied for <u>one</u> category only.</li>
+                <li>申請人不可同時參加個人及團體項目<br>Applicants can join individual or group competitoins only.</li>
+            </ol>
+        </div>
+
+        <!-- Leader details -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">隊伍負責人資料
+                Team Leader Details</h5>
+
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>隊伍負責人姓名 Leader's Name:</label>
+            <input id="leaderName" type="text" class="form-group" name="GRGP[leaderName]"
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.leaderName != null) { %>
+                value="<%=req.session.GRGPdata.leaderName%>" <% } %> required>
+            </div>
+
+            <div class="col-12 col-sm-6">
+                <label>隊伍負責人職位 Leader's Position:</label>
+                <input id="leaderPosition" type="text" class="form-group" name="GRGP[leaderPosition]"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.leaderPosition != null) { %>
+                    value="<%=req.session.GRGPdata.leaderPosition%>" <% } %> required>
+            </div>
+
+            <!-- Fee -->
+            <div class="col-12">
+                <br><br>
+                <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">費用 Fee
+                </h5>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>集體項目 Collective Subject: $150 X </label>
+                <input id="NoOfTeam" type="number" class="mx-sm-2" name="GRGP[NoOfTeam]" min=1 max=100
+                    onblur="calculateFee()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.NoOfTeam != null) { %>
+                    value="<%=req.session.GRGPdata.NoOfTeam%>" <% } %> required />
+                <label>隊 team(s) = $</label>
+                <input id="teamFee" type="number" class="mx-sm-2" name="GRGP[teamFee]"
+                    <% if(req.session.data != null){ %> value="<%=req.session.data.teamFee%>"
+                    <% }else if(req.session.GRGPdata != null && req.session.GRGPdata.teamFee != null) { %>
+                    value="<%=req.session.GRGPdata.teamFee%>" <% } %> readonly />
+            </div>
+
+            <div class="col-12 form-group">
+                <label>保險 Insurance: $30 X </label>
+                <input id="NoOfPeople" type="number" class="mx-sm-2" name="GRGP[NoOfPeople]" min=1 max=100
+                    onblur="calculateInsurance()"
+                    <% if(req.session.GRGPdata != null && req.session.GRGPdata.NoOfPeople != "") { %>
+                    value="<%=req.session.GRGPdata.NoOfPeople%>" <% } %> required />
+                <label>人 people = $</label>
+                <input id="insurance" type="number" class="mx-sm-2" name="GRGP[insurance]"
+                    <% if(req.session.data != null){ %> value="<%=req.session.data.insurance%>"
+                    <% }else if(req.session.GRGPdata != null && req.session.GRGPdata.insurance != "") { %>
+                    value="<%=req.session.GRGPdata.insurance%>" <% } %> readonly />
+                <br><br>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>總額 Total Price = $</label>
+                <input id="total" type="number" class="mx-sm-2" name="GRGP[total]" <% if(req.session.data != null){ %>
+                    value="<%=req.session.data.total%>"
+                    <% }else if(req.session.GRGPdata != null && req.session.GRGPdata.total != null) { %>
+                    value="<%=req.session.GRGPdata.total%>" <% } %> readonly />
+            </div>
+
+            <div class="col-12 form-group">
+                <span style="font-style: italic;">*請以支票付款，並以郵寄方式或親臨辦公室遞交支票<br>Please make payment by cheque and submit
+                    it by
+                    post or in person</span>
+            </div>
+
+            <!-- Declaration -->
+            <div class="col-12">
+                <br><br>
+                <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">聲明
+                    Declaration</h5>
+            </div>
+
+
+            <div class="col-12">
+                <label>請下載及列印 <a href="/formDoc/GRGO_declaration.pdf" download
+                        style="color:#83a70c"><u>聲明書.pdf</u></a>後簽署並上載文件 Please download and print the <a
+                        href="/formDoc/GRGS_declaration.pdf" download
+                        style="color:#83a70c"><u>declaration.pdf</u></a>,then
+                    sign and upload it</label>
+                <input type="file" accept="image/*,application/pdf" onchange="handleFile2(this.files)"
+                    <% if(req.session.GRGPdata == null || req.session.GRGPdata.declaration == "") { %> required
+                    <% } %> />
+                <div id="HF2preview"></div>
+                <% if(req.session.GRGPdata != null && req.session.GRGPdata.declaration != "" && req.session.GRGPdata.declaration != null) { %>
+                <input id="declaration" type="hidden" name="GRGP[declaration]"
+                    value="<%=req.session.GRGPdata.declaration%>" />
+                <br>
+                <label>原本文件 Original File</label>
+                <br>
+                <% var type = req.session.GRGPdata.declaration.split(';');
+                if(type[0] == 'data:application/pdf'){ %>
+                <a download="Declaration聲明" href="<%= req.session.GRGPdata.declaration%>" target="_blank">聲明書
+                    declartion</a>
+                <% } else { %>
+                <img src="<%=req.session.GRGPdata.declaration%>" style="height:150px; width:auto" />
+                <% }}else{ %>
+                <input id="declaration" type="hidden" name="GRGP[declaration]" />
+                <% } %>
+            </div>
+
+
+            <div class="col-12">
+                <br><br><br>
+                <input type="checkbox" required>
+                <label>我已仔細閱讀並清楚明白<a href="/competition/annex1" target="_blank"><u>參加者健康及體能須知</u></a><br> I have read
+                    carefully and
+                    understood the <a href="/competition/annex1" target="_blank"><u>Health and Fitness Guideline</u></a>
+                    for
+                    participants</label>
+            </div>
+
+            <!-- Button -->
+            <div class="col-12">
+                <br><br>
+                <!-- Sumbit -->
+                <button type="submit" class="btn btn-primary"
+                    style="background: #83a70c url(../img/overlay.png) repeat-x; border: none; float: right;">預覽 Preview
+                    >></button>
+                <!-- Save -->
+                <button type="button" class="btn btn-primary" onclick="saveForm()" style="background: red; border: none; float: left;">儲存 Save</button>
+            </div>
+        </div>
+        <br>
+
+</form>
+
+
+<script>
+    async function saveForm() {
+        var form = document.getElementById("GRGP_form");
+        
+        var data = JSON.stringify({
+            compYear: form.compYear.value,
+            teamName: form.teamName.value,
+            phone: form.phone.value,
+            email: form.email.value,
+            gpA: form.gpA.checked,
+            gpB: form.gpB.checked,
+            gpC: form.gpC.checked,
+            Yes1: form.Yes1.checked,
+            No1: form.No1.checked,
+            chiName1: form.chiName1.value,
+            engName1: form.engName1.value,
+            ID1: form.ID1.value,
+            birth1: form.birth1.value,
+            imgIDCard0: form.imgIDCard0.value,
+            Yes2: form.Yes2.checked,
+            No2: form.No2.checked,
+            chiName2: form.chiName2.value,
+            engName2: form.engName2.value,
+            ID2: form.ID2.value,
+            birth2: form.birth2.value,
+            imgIDCard1: form.imgIDCard1.value,
+            Yes3: form.Yes3.checked,
+            No3: form.No3.checked,
+            chiName3: form.chiName3.value,
+            engName3: form.engName3.value,
+            ID3: form.ID3.value,
+            birth3: form.birth3.value,
+            imgIDCard2: form.imgIDCard2.value,
+            Yes4: form.Yes4.checked,
+            No4: form.No4.checked,
+            chiName4: form.chiName4.value,
+            engName4: form.engName4.value,
+            ID4: form.ID4.value,
+            birth4: form.birth4.value,
+            imgIDCard3: form.imgIDCard3.value,
+            Yes5: form.Yes5.checked,
+            No5: form.No5.checked,
+            chiName5: form.chiName5.value,
+            engName5: form.engName5.value,
+            ID5: form.ID5.value,
+            birth5: form.birth5.value,
+            imgIDCard4: form.imgIDCard4.value,
+            Yes6: form.Yes6.checked,
+            No6: form.No6.checked,
+            chiName6: form.chiName6.value,
+            engName6: form.engName6.value,
+            ID6: form.ID6.value,
+            birth6: form.birth6.value,
+            imgIDCard5: form.imgIDCard5.value,
+            coachName: form.coachName.value,
+            coachPhone: form.coachPhone.value,
+            leaderName: form.leaderName.value,
+            leaderPosition: form.leaderPosition.value,
+            NoOfTeam: form.NoOfTeam.value,
+            teamFee: form.teamFee.value,
+            NoOfPeople: form.NoOfPeople.value,
+            insurance: form.insurance.value,
+            total: form.total.value,
+            declaration: form.declaration.value
+        });
+
+        var response = await fetch("/competition/form/GRGP/save", {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.statusText);
+        }
+    }
+
+    function calculateFee() {
+        document.getElementById('teamFee').value = 150 * document.getElementById('NoOfTeam').value;
+        fee = document.getElementById('teamFee').value;
+        insurance = document.getElementById('insurance').value;
+        document.getElementById('total').value = parseInt(insurance) + parseInt(fee);
+    }
+
+    function calculateInsurance() {
+        document.getElementById('insurance').value = 30 * document.getElementById('NoOfPeople').value;
+        fee = document.getElementById('teamFee').value;
+        insurance = document.getElementById('insurance').value;
+        document.getElementById('total').value = parseInt(insurance) + parseInt(fee);
+    }
+
+    function handleFile(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/')) return;
+
+        if (file.size > 4194304) {
+            alert("請重新上載4MB相片");
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var preview = document.getElementById('preview' + p);
+            preview.innerHTML = "";
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            preview.appendChild(img);
+            img.style.width = "auto";
+            img.style.height = "150px";
+
+            document.getElementById("imgIDCard" + p).value = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    function handleFile2(files) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('HF2preview');
+        var reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                img.style.width = "auto";
+                img.style.height = "150px";
+
+                document.getElementById("declaration").value = e.target.result;
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                document.getElementById("declaration").value = e.target.result;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var yes3_check = document.getElementById("Yes3");
+        var no3_check = document.getElementById("No3");
+        var yes4_check = document.getElementById("Yes4");
+        var no4_check = document.getElementById("No4");
+        var yes5_check = document.getElementById("Yes5");
+        var no5_check = document.getElementById("No5");
+        var yes6_check = document.getElementById("Yes6");
+        var no6_check = document.getElementById("No6");
+        var chineseNameDis1 = document.getElementById("chiName1")
+        var chineseNameDis2 = document.getElementById("chiName2")
+        var chineseNameDis3 = document.getElementById("chiName3")
+        var chineseNameDis4 = document.getElementById("chiName4")
+        var chineseNameDis5 = document.getElementById("chiName5")
+        var chineseNameDis6 = document.getElementById("chiName6")
+
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+
+        }
+
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+
+        }
+
+        if (yes3_check.checked == true) {
+            chineseNameDis3.checked = false;
+            chineseNameDis3.disabled = false;
+
+        } else if (no3_check.checked == true) {
+            chineseNameDis3.checked = true; //disable chinese name
+            chineseNameDis3.disabled = true;
+
+        }
+
+        if (yes4_check.checked == true) {
+            chineseNameDis4.checked = false;
+            chineseNameDis4.disabled = false;
+
+        } else if (no4_check.checked == true) {
+            chineseNameDis4.checked = true; //disable chinese name
+            chineseNameDis4.disabled = true;
+
+        }
+
+        if (yes5_check.checked == true) {
+            chineseNameDis5.checked = false;
+            chineseNameDis5.disabled = false;
+
+        } else if (no5_check.checked == true) {
+            chineseNameDis5.checked = true; //disable chinese name
+            chineseNameDis5.disabled = true;
+
+        }
+
+        if (yes6_check.checked == true) {
+            chineseNameDis6.checked = false;
+            chineseNameDis6.disabled = false;
+
+        } else if (no6_check.checked == true) {
+            chineseNameDis6.checked = true; //disable chinese name
+            chineseNameDis6.disabled = true;
+        }
+    }
+
+    function limitBirth() {
+        var todayYear = new Date().getFullYear();
+        var gpA = document.getElementById("gpA");
+        var gpB = document.getElementById("gpB");
+        var gpC = document.getElementById("gpC");
+        var birth1 = document.getElementById("birth1");
+        var birth2 = document.getElementById("birth2");
+        var birth3 = document.getElementById("birth3");
+        var birth4 = document.getElementById("birth4");
+        var birth5 = document.getElementById("birth5");
+        var birth6 = document.getElementById("birth6");
+
+        if (gpA.checked == true) { //2011-2013
+            birthYear(birth1, birth2, birth3, birth4, birth5, birth6, todayYear, 7, 9);
+        } else if (gpB.checked == true) { //2008-2010
+            birthYear(birth1, birth2, birth3, birth4, birth5, birth6, todayYear, 10, 12);
+        } else if (gpC.checked == true) { //2002-2007
+            birthYear(birth1, birth2, birth3, birth4, birth5, birth6, todayYear, 13, 18);
+        }
+
+    }
+
+    function birthYear(birth1, birth2, birth3, birth4, birth5, birth6, todayYear, minAge, maxAge) {
+        var minYear = todayYear - maxAge;
+        var minDate = minYear + "-01-01";
+        var maxYear = todayYear - minAge;
+        var maxDate = maxYear + "-12-31";
+        birth1.min = minDate;
+        birth1.max = maxDate;
+        birth2.min = minDate;
+        birth2.max = maxDate;
+        birth3.min = minDate;
+        birth3.max = maxDate;
+        birth4.min = minDate;
+        birth4.max = maxDate;
+        birth5.min = minDate;
+        birth5.max = maxDate;
+        birth6.min = minDate;
+        birth6.max = maxDate;
+    }
+
+</script>

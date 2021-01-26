@@ -1,0 +1,83 @@
+<form action="/membership/confirm" method="POST">
+    <div class="row">
+        <% req.session.data = req.session.data || {} %>
+        <div class="card col-12 ">
+            <label style="font-size:17pt"><b>預覽 Preview</b></label>
+
+            <div class="row">
+                <div class="col-4">
+                    <span class="font-weight-bold">個人照片:</span><br><br>
+                    <% if (req.session.data.avatar) { %>
+                    <img class="img-fluid" src="<%=req.session.data.avatar%>">
+                    <% }%>
+                </div>
+
+                <br><br>
+                <div class="col-8">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">會藉類別：</span>
+                            <%= req.session.data.Application%>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">中文姓名:</span>
+                            <%= req.session.data.ChiName %>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">英文姓名:</span>
+                            <%= req.session.data.EngName %>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">出生日期:</span>
+                            <%= req.session.data.Date %>
+
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">通訊地址:</span>
+                            <%= req.session.data.CorrespondenceChi %>
+
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">手提:</span>
+                            <%= req.session.data.Mobile %>
+
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">住宅:</span>
+                            <% if (req.session.data.Hnumber=="") { %>
+                            <label style="font-size:16px">N/A</label>
+                            <% }else{%>
+                            <%= req.session.data.Hnumber %>
+                            <% }%>
+
+
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">電郵:</span>
+                            <%= req.session.data.Email %>
+
+                        </li>
+
+
+
+
+
+                    </ul>
+                    <br><br>
+                    <button type="submit" class="btn btn-info" onclick="message()">提交</button>
+                    <button type="button" class="btn btn-danger" onclick="history.back()">cancel</button>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</form>
+<script>
+    function message() {
+        alert("提交成功!!");
+    }
+
+</script>

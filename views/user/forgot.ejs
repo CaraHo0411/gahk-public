@@ -1,0 +1,20 @@
+<%- partial('./partial/login-register-sidemenu.ejs')%>
+<div class="content user-forgot w-100">
+  <h5 class="main-heading1">忘記<span class="highlight">密碼</span></h5>
+  <form class="ajax" action="/user/forgot-password" method="POST">
+    <section>
+      <h6 class="side-heading2">請提供電郵地址</h6>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-6 form-group d-flex">
+            <label class="flex-shrink-0 col-form-label mr-2">用戶電郵</label>
+            <input class="form-control" type="email" name="email" required>
+          </div>
+          <div class="col-12 col-lg-6">
+            <button id="submit" class="btn btn-danger" type="submit">提交</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+</div>

@@ -1,0 +1,15 @@
+<%- partial('./partial/login-register-sidemenu.ejs')%>
+<div class="content user-login w-100">
+  <h5 class="main-heading1">用戶<span class="highlight">登入</span></h5>
+  <form class="form-inline ajax" action="/user/login" method="POST" data-alert200="登入成功，按確定跳到原來頁面。" data-alert401="電郵或密碼不正確，請重新輸入。" data-callback200="location.assign(new URLSearchParams(window.location.search).get('r') || '/user');">
+    <div class="form-group required mx-2">
+        <label class="sr-only" for="inputEmail">用戶電郵</label>
+        <input type="email" class="form-control" id="inputEmail" placeholder="用戶電郵" name="email" required>
+    </div>
+    <div class="form-group required mx-2">
+        <label class="sr-only" for="inputPassword1">用戶密碼</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="用戶密碼" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">登入</button>
+  </form>
+</div>

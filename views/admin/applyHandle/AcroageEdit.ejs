@@ -1,0 +1,1280 @@
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+<style>
+    .card {
+        border-radius: 0;
+    }
+
+    #extraForm {
+        display: none;
+        background: transparent;
+    }
+
+    #extraParent {
+        display: none;
+    }
+
+    #labelHead {
+        color: #83a70c;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+    }
+
+    /* checkbox css */
+    .inputGroup {
+        background-color: #fff;
+        width: 220pt;
+        display: block;
+        margin: 10px 0;
+        position: relative;
+    }
+
+    .statusLabel {
+        padding: 12px 30px;
+        width: 100%;
+        display: block;
+        text-align: left;
+        color: #3C454C;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        transition: color 200ms ease-in;
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .statusLabel:after {
+        width: 32px;
+        height: 32px;
+        content: '';
+        border: 2px solid #D1D7DC;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+        background-repeat: no-repeat;
+        background-position: 2px 3px;
+        border-radius: 50%;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 200ms ease-in;
+    }
+
+    .statusLabel:before {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        content: '';
+        background-color: #83a70c;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .statusInput {
+        width: 32px;
+        height: 32px;
+        order: 1;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        visibility: hidden;
+    }
+
+    .statusInput:checked~label {
+        color: #fff;
+    }
+
+    .statusInput:checked~label:before {
+        transform: translate(-50%, -50%) scale3d(56, 56, 1);
+        opacity: 1;
+    }
+
+    .statusInput:checked~label:after {
+        background-color: darkgreen;
+        border-color: aquamarine;
+    }
+
+    /* delete button */
+    /* Set a style for all buttons */
+    .modalBtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .modalBtn:hover {
+        opacity: 1;
+    }
+
+    /* Float cancel and delete buttons and add an equal width */
+    .cancelbtn,
+    .deletebtn {
+        float: left;
+        width: 50%;
+    }
+
+    /* Add a color to the cancel button */
+    .cancelbtn {
+        background-color: #ccc;
+        color: black;
+    }
+
+    /* Add a color to the delete button */
+    .deletebtn {
+        background-color: #f44336;
+    }
+
+    /* Add padding and center-align text to the container */
+    .container {
+        padding: 16px;
+        text-align: center;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 3;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(8, 8, 8, 0.5);
+        padding-top: 50px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Style the horizontal ruler */
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    /* Clear floats */
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    /* Change styles for cancel button and delete button on extra small screens */
+    @media screen and (max-width: 300px) {
+
+        .cancelbtn,
+        .deletebtn {
+            width: 100%;
+        }
+    }
+</style>
+
+<form action="/admin/applyHandle/AcroageEdit/<%= acroage.id %>" method="POST" id="acroage">
+    <div class="row mx-sm-2">
+        <!-- Reject button -->
+        <div class="form-group col-12" style="text-align: right;">
+            <br>
+            <% if(acroage.formStatus == "rejected") {%>
+            <a type="button" class="btn btn-danger" style="color: white;">已拒絕 Rejected</a>
+            <%} else {%>
+            <a type="button" class="btn btn-danger" style="color: white;"
+                onclick="document.getElementById('<%= acroage.id%>').style.display='block'">拒絕 Reject</a>
+            <%}%> 
+        </div>
+
+        <!-- Form detail -->
+        <div class="col-12" align="right">
+            <% var n = new Date(acroage.createdAt);
+            var month = n.getMonth() + 1;
+            var applyDate = n.getDate() + "/" + month + "/" + n.getFullYear(); %>
+            <h6>申請編號 Application No.: <%= acroage.idCode %></h6>
+            <p>提交日期 Apply Date: <%= applyDate %></p>
+        </div>
+
+        <!-- Title -->
+        <div class="col-12" style="color: #888888;">
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;"><b>香港技巧體操公開賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>報名表格</u></h2>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <h5 id="labelHead">比賽年份 Year of Competition</h5>
+            <%var todayYear = new Date().getFullYear();
+            var end = todayYear + 2;%>
+            <select name="Acroage[compYear]" required>
+                <% for (var year = todayYear; year <= end; year++){%>
+                <option value="<%=year%>" <%if(year == acroage.compYear) {%> selected<%}%> ><%=year%></option>
+                    <%}%>
+            </select>
+        </div>
+
+        <!-- 組別資料 Category Details -->
+        <div class="col-12">
+            <br><br>
+            <h6 id="labelHead">組別資料 Category Details</h6>
+        </div>
+
+        <div class="form-group col-12">
+            <label for="category">組別/年齡 Category/Age: </label>
+
+            <input name="Acroage[category]" type="radio" value="1級(6至14歲) Level 1(6-14 years old)" id="level1"
+                onclick="limitBirth()" required <% if(acroage.category == "1級(6至14歲) Level 1(6-14 years old)") {%>checked<%}%>/>
+                <label for="level1">1級(6至14歲)<br>Level 1(6-14 years old) &nbsp; </label>
+
+                <input name="Acroage[category]" type="radio" value="2級(6至14歲) Level 2(6-14 years old)" id="level2"
+                    onclick="limitBirth()" required <% if(acroage.category == "2級(6至14歲) Level 2(6-14 years old)") {%>checked<%}%>/>
+                <label for="level2">2級(6至14歲)<br>Level 2(6-14 years old)</label>
+               
+                <input name="Acroage[category]" type="radio" value="3級(8歲或以上) Level 3(8 years old or above)" id="level3"
+                    onclick="limitBirth()" required <% if(acroage.category == "3級(8歲或以上) Level 3(8 years old or above)") {%>checked<%}%>/>
+                <label for="level3">3級(8歲或以上)<br>Level 3(8 years old or above) &nbsp; </label>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="Acroage[category]" type="radio" value="4級(9歲或以上) Level 4(9 years old or above)" id="level4"
+                    onclick="limitBirth()" required <% if(acroage.category == "4級(9歲或以上) Level 4(9 years old or above)") {%>checked<%}%>/>
+                <label for="level4">4級(9歲或以上)<br>Level 4(9 years old or above)</label>
+                
+                <input name="Acroage[category]" type="radio" value="5級(10歲或以上) Level 5(10 years old or above)"
+                    id="level5" onclick="limitBirth()" required <% if(acroage.category == "5級(10歲或以上) Level 5(10 years old or above)") {%>checked<%}%>/>
+                <label for="level5">5級(10歲或以上)<br>Level 5(10 years old or above)</label>
+        </div>
+
+        <div class="form-group col-12">
+                <label for="item">項目 Item: </label>
+                <input name="Acroage[item]" type="radio" id="menDou" value="男子雙人 Men's Double" onclick="multiFunction()" required 
+                <% if(acroage.item == "男子雙人 Men's Double") {%>checked<%}%>/>
+                <label for="item">男子雙人<br>Men's Double</label>
+                &nbsp;<input name="Acroage[item]" type="radio" id="womenDou" value="女子雙人 Women's Double" onclick="multiFunction()" required 
+                <% if(acroage.item == "女子雙人 Women's Double") {%>checked<%}%>/>
+                <label for="item">女子雙人<br>Women's Double</label>
+                &nbsp;<input name="Acroage[item]" type="radio" id="mixDou" value="混合雙人 Mixed double" onclick="multiFunction()" required 
+                <% if(acroage.item == "混合雙人 Mixed double") {%>checked<%}%>/>
+                <label for="item">混合雙人<br>Mixed double</label>
+                &nbsp;<input name="Acroage[item]" type="radio" id="womenTri" value="女子三人 Women's trio" onclick="multiFunction()" required 
+                <% if(acroage.item == "女子三人 Women's trio") {%>checked<%}%>/>
+                <label for="item">女子三人<br>Women's trio</label>
+        </div>
+
+        <!-- Applicants details -->
+        <!-- 1 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 id="labelHead">參加者(1)個人資料 Applicant(1)'s Personal Details</h6>
+            <br>
+
+            <div>
+            <label>是否有中文姓名 Any Chinese name? </label>
+            <% if (acroage.havecname1 == "是 Yes") { %> <input type="radio" name="Acroage[havecname1]" value="是 Yes"
+                id="Yes1" onclick="havechinesename()" checked required />
+            <label class="form-check-label" for="havecname1">是 Yes</label>
+
+            &nbsp;<input type="radio" name="Acroage[havecname1]" value="否 No" id="No1" onclick="havechinesename()"
+                required />
+            <label class="form-check-label" for="havecname1">否 No</label>
+            <% }else {%>
+            <input type="radio" name="Acroage[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()"
+                required />
+            <label class="form-check-label" for="havecname1">是 Yes</label>
+
+            &nbsp;<input type="radio" name="Acroage[havecname1]" value="否 No" id="No1" onclick="havechinesename()"
+                checked required />
+            <label class="form-check-label" for="havecname1">否 No</label>
+            <% } %>
+        </div>
+
+        <div>
+            <label for="cpChiName1">中文姓名 Name in Chinese:</label>
+            <% if (acroage.havecname1 == "否 No") {%>
+            <input class="form-group" id="cpChiName1" type="text" name="Acroage[cpChiName1]" placeholder="e.g. 陳大文"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required disabled>
+            <%} else {%>
+            <input class="form-group" id="cpChiName1" type="text" value="<%= acroage.cpChiName1%>"
+                name="Acroage[cpChiName1]" placeholder="e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                required>
+            <%}%>
+        </div>
+
+        <div>
+            <label>英文姓名 Name in English: </label>
+            <input class="form-group" id="cpEngName1" type="text"  value="<%= acroage.cpEngName1%>"
+            name="Acroage[cpEngName1]"
+            placeholder="e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+        </div>
+
+        <!-- 性別 Gender -->
+        <div class="form-group">
+            <label>性別 Gender: </label>
+            <input name="Acroage[gender1]" type="radio" id="male1" value="男 Male" onclick="return onlyRead()" required <% if(acroage.gender1 == "男 Male") {%>checked<%}%> />
+            <label for="male">男 Male</label>
+            <input name="Acroage[gender1]" type="radio" id="female1" value="女 Female" onclick="return onlyRead()" required <% if(acroage.gender1 == "女 Female") {%>checked<%}%> />
+            <label for="female">女 Female</label>
+        </div>
+
+        <div>
+            <label>出生日期 Date of Birth (dd/mm/yyyy): </label>
+            <input class="form-group" type="date" id="birth1" name="Acroage[birthday1]" value="<%= acroage.birthday1%>"
+                required>
+        </div>
+
+        <div>
+            <label>身份證號碼 ID Card Number: </label>
+            <input class="form-group" type="text" name="Acroage[idNo1]" id="id1" value="<%= acroage.idNo1 %>"
+                placeholder=" A123456(7)" required>
+        </div>
+        <div>
+            <label>聯絡電話 Contact No.:</label>
+            <input class="form-group" type="tel" pattern=[0-9]{8} value="<%= acroage.contactNo1%>"
+                name="Acroage[contactNo1]" placeholder="12345678" required>
+        </div>
+        <div>
+            <label>電郵 Email Address: </label>
+            <input class="form-group" type="email" value="<%= acroage.email1%>" name="Acroage[email1]"
+                placeholder="example@gmail.com" style="width: 220pt;" required>
+        </div>
+        <div>
+            <label>聯絡地址 Contact Address: </label>
+            <input type="text" class="form-group" value="<%= acroage.address1%>" name="Acroage[address1]"
+                style="width:350pt" required>
+            <br>
+        </div>
+
+        <% if(acroage.photo0) { %>
+        <div>
+            <a download="<%= acroage.idCode %>_Athlete(1)photo_運動員(1)相片" href="<%= acroage.photo0%>"
+                target="_blank">下載運動員(1)相片 Download Athlete(1) photo</a>
+            <br>
+            <img src="<%=acroage.photo0%>" style="height:150px; width:auto;" />
+        </div>
+        <br>
+        <% } %>
+        <div>
+            <label>重新附上運動員(1)的相片 <br> Reupload ID copy of the Athlete(1)</label>
+            <br>
+            <input type="file" accept="image/*" onchange="handleFile(this.files,0)" />
+            <br>
+            <div id="ph_preview0"></div>
+        </div>
+        <br>
+
+        <% if(acroage.imgIDCard0) { %>
+        <div>
+            <a download="<%= acroage.idCode %>_idCopy1_身份證副本1" href="<%= acroage.imgIDCard0%>"
+                target="_blank">下載運動員(1)的身份證副本 Download ID copy of the Athlete(1)</a>
+            <br>
+            <img src="<%=acroage.imgIDCard0%>" style="height:150px; width:auto;" />
+        </div>
+        <br>
+        <% } %>
+        <div>
+            <label>重新附上運動員(1)的身份證副本 <br> Reupload ID copy of the Athlete(1)</label>
+            <br>
+            <input type="file" accept="image/*" onchange="handleFile2(this.files,0)" />
+            <br>
+            <div id="ID_preview0"></div>
+        </div>
+        <br>
+    </div>
+
+    <!-- Applicants details -->
+    <!-- 2 -->
+    <div class="card col-12 col-sm-6" style="background: transparent;">
+        <br>
+        <h6 id="labelHead">參加者(2)個人資料 Applicant(2)'s Personal Details</h6>
+        <br>
+
+
+        <div>
+            <label>是否有中文姓名 Any Chinese name? </label>
+            <% if (acroage.havecname1 == "是 Yes") { %>
+            <input type="radio" name="Acroage[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()" checked
+                required />
+            <label class="form-check-label" for="havecname2">是 Yes</label>
+
+            &nbsp;<input type="radio" name="Acroage[havecname2]" value="否 No" id="No2" onclick="havechinesename()"
+                required />
+            <label class="form-check-label" for="havecname2">否 No</label>
+            <% }else {%>
+            <input type="radio" name="Acroage[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()"
+                required />
+            <label class="form-check-label" for="havecname2">是 Yes</label>
+
+            &nbsp;<input type="radio" name="Acroage[havecname2]" value="否 No" id="No2" onclick="havechinesename()"
+                checked required />
+            <label class="form-check-label" for="havecname2">否 No</label>
+            <% } %>
+        </div>
+
+        <div>
+            <label for="cpChiName2">中文姓名 Name in Chinese:</label>
+            <% if (acroage.havecname2 == "否 No") {%>
+            <input class="form-group" id="cpChiName2" type="text" name="Acroage[cpChiName2]" placeholder="e.g. 陳大文"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required disabled>
+            <%} else {%>
+            <input class="form-group" id="cpChiName2" type="text" value="<%= acroage.cpChiName2%>"
+                name="Acroage[cpChiName2]" placeholder="e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                required>
+            <%}%>
+        </div>
+
+        <div>
+            <label>英文姓名 Name in English: </label>
+            <input class="form-group" id="cpEngName2" type="text"  value="<%= acroage.cpEngName2%>"
+            name="Acroage[cpEngName2]" placeholder="e.g. Chan Tai Man"
+            onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+        </div>
+
+        <!-- 性別 Gender -->
+        <div class="form-group">
+            <label>性別 Gender: </label>
+            <input name="Acroage[gender2]" type="radio" id="male2" value="男 Male" onclick="return onlyRead()" required <% if(acroage.gender2 == "男 Male") {%>checked<%}%> />
+            <label for="male2">男 Male</label>
+            <input name="Acroage[gender2]" type="radio" id="female2" value="女 Female" onclick="return onlyRead()" required <% if(acroage.gender2 == "女 Female") {%>checked<%}%> />
+            <label for="female2">女 Female</label>
+        </div>
+
+        <div>
+        <label>出生日期 Date of Birth (dd/mm/yyyy): </label>
+        <input class="form-group" type="date" id="birth2" name="Acroage[birthday2]" value="<%= acroage.birthday2%>"
+                required>
+        </div>
+
+        <div>
+            <label>身份證號碼 ID Card Number: </label>
+            <input class="form-group" type="text" name="Acroage[idNo2]" id="id2" value="<%= acroage.idNo2 %>"
+                placeholder=" A123456(7)" required>
+        </div>
+        <div>
+            <label>聯絡電話 Contact No.:</label>
+            <input class="form-group" type="tel" pattern=[0-9]{8} value="<%= acroage.contactNo2%>"
+                name="Acroage[contactNo2]" placeholder="12345678" required>
+        </div>
+        <div>
+            <label>電郵 Email Address: </label>
+            <input class="form-group" type="email" value="<%= acroage.email2%>" name="Acroage[email2]"
+                placeholder="example@gmail.com" style="width: 220pt;" required>
+
+        </div>
+        <div>
+            <label>聯絡地址 Contact Address: </label>
+            <input class="form-group" type="text" value="<%= acroage.address2%>" name="Acroage[address2]"
+                style="width:350pt" required>
+            <br>
+        </div>
+
+        <% if(acroage.photo1) { %>
+        <div>
+            <a download="<%= acroage.idCode %>_Athlete(2)photo_運動員(2)相片" href="<%= acroage.photo1%>"
+                target="_blank">下載運動員(2)相片 Download Athlete(2) photo</a>
+            <br>
+            <img src="<%=acroage.photo1%>" style="height:150px; width:auto;" />
+        </div>
+        <br>
+        <% } %>
+        <div>
+            <label>重新附上運動員(2)的相片 <br> Reupload ID copy of the Athlete(2)</label>
+            <br>
+            <input type="file" accept="image/*" onchange="handleFile(this.files,1)" />
+            <br>
+            <div id="ph_preview1"></div>
+        </div>
+        <br>
+
+        <% if(acroage.imgIDCard1) { %>
+        <div>
+            <a download="<%= acroage.idCode %>_idCopy2_身份證副本2" href="<%= acroage.imgIDCard1%>"
+                target="_blank">下載運動員(2)的身份證副本 Download ID copy of the Athlete(2)</a>
+            <br>
+            <img src="<%=acroage.imgIDCard1%>" style="height:150px; width:auto;" />
+        </div>
+        <br>
+        <% } %>
+        <div>
+            <label>重新附上運動員(2)的身份證副本 <br> Reupload ID copy of the Athlete(2)</label>
+            <br>
+            <input type="file" accept="image/*" onchange="handleFile2(this.files,1)" />
+            <br>
+            <div id="ID_preview1"></div>
+        </div>
+        <br>
+
+    </div>
+
+    <!-- extraCard for womenTri: 參加者(3)個人資料 Applicant(3)'s Personal Details -->
+    <% if(acroage.item == "女子三人 Women's trio") {%>
+    <div class="card col-12" style="background: transparent; display: inline;" id="extraForm">
+        <%} else {%>
+        <div class="card col-12" style="background: transparent;" id="extraForm">
+            <%}%>
+        <br>
+        <h6 id="labelHead" style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+            參加者(3)個人資料 Applicant(3)'s Personal Details</h6>
+            <br>
+            <h6>[適用項目：女子三人 Applicable items：Women's trio]</h6><br>
+        
+        <div class="row">
+        <div div class="form-group col-12">
+            <label>是否有中文姓名 Any Chinese name? </label>
+            <% if (acroage.havecname3 == "是 Yes") { %>
+            <input type="radio" name="Acroage[havecname3]" value="是 Yes" id="Yes3" onclick="havechinesename()"
+                checked />
+            <% }else {%>
+            <input type="radio" name="Acroage[havecname3]" value="是 Yes" id="Yes3" onclick="havechinesename()" />
+            <% } %>
+            <label class="form-check-label" for="havecname3">是 Yes</label>
+
+            <% if (acroage.havecname3 == "否 No") {%>
+            &nbsp;<input type="radio" name="Acroage[havecname3]" value="否 No" id="No3" onclick="havechinesename()"
+                checked />
+            <% }else {%>
+            &nbsp;<input type="radio" name="Acroage[havecname3]" value="否 No" id="No3" onclick="havechinesename()" />
+            <% } %>
+            <label class="form-check-label" for="havecname3">否 No</label>
+        </div>
+        <div class="form-group col-12 col-sm-6">
+            <label for="cpChiName3">中文姓名 Name in Chinese:</label>
+            <% if (acroage.havecname3 == "否 No") {%>
+            <input id="cpChiName3" type="text" name="Acroage[cpChiName3]" placeholder="e.g. 陳大文"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" disabled>
+            <%} else {%>
+            <input id="cpChiName3" type="text" value="<%= acroage.cpChiName3%>" name="Acroage[cpChiName3]"
+                placeholder="e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')">
+            <%}%>
+        </div>
+        <div class="form-group col-12 col-sm-6">
+            <label>英文姓名 Name in English: </label>
+            <input id="cpEngName3" type="text" value="<%= acroage.cpEngName3%>"
+            name="Acroage[cpEngName3]" placeholder="e.g. Chan Tai Man"
+            onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')">
+        </div>
+
+        <!-- 性別 Gender -->
+        <div class="form-group col-12">
+            <label>性別 Gender: </label>
+            <input name="Acroage[gender3]" type="radio" id="male3" value="男 Male" onclick="return false" />
+            <label for="male">男 Male</label>
+            <input name="Acroage[gender3]" type="radio" id="female3" value="女 Female" onclick="return false" <% if(acroage.gender3 == "女 Female") {%>checked<%}%> />
+            <label for="female">女 Female</label>
+        </div>
+
+        <div class="form-group col-12 col-sm-6">
+        <label>出生日期 Date of Birth (dd/mm/yyyy): </label>
+        <input type="date" id="birth3" name="Acroage[birthday3]" value="<%= acroage.birthday3%>">
+        </div>
+        <div class="form-group col-12 col-sm-6">
+            <label>身份證號碼 ID Card Number: </label>
+            <input type="text" name="Acroage[idNo3]" id="id3" value="<%= acroage.idNo3 %>" placeholder=" A123456(7)">
+        </div>
+        <div class="form-group col-12 col-sm-6">
+            <label>聯絡電話 Contact No.:</label>
+            <input type="tel" pattern=[0-9]{8} class="form-group" value="<%= acroage.contactNo3%>"
+                name="Acroage[contactNo3]" placeholder="12345678">
+        </div>
+        <div class="form-group col-12 col-sm-6">
+            <label>電郵 Email Address: </label>
+            <input type="email" class="form-group" value="<%= acroage.email3%>" name="Acroage[email3]"
+                placeholder="example@gmail.com" style="width: 220pt;">
+
+        </div>
+        <div class="form-group col-12">
+            <label>聯絡地址 Contact Address: </label>
+            <input type="text" class="form-group" value="<%= acroage.address3%>" name="Acroage[address3]"
+                style="width:350pt">
+            <br>
+        </div>
+
+        <% if(acroage.photo2) { %>
+        <div class="form-group col-12">
+            <a download="<%= acroage.idCode %>_Athlete(3)photo_運動員(3)相片" href="<%= acroage.photo2%>"
+                target="_blank">下載運動員(3)相片 Download Athlete(3) photo</a>
+            <br>
+            <img src="<%=acroage.photo2%>" style="height:150px; width:auto;" />
+        </div>
+        <br>
+        <% } %>
+        <div class="form-group col-12">
+            <label>重新附上運動員(3)的相片 Reupload ID copy of the Athlete(3)</label>
+            <br>
+            <input type="file" accept="image/*" onchange="handleFile(this.files,2)" />
+            <br>
+            <div id="ph_preview2"></div>
+        </div>
+        <br>
+
+        <% if(acroage.imgIDCard2) { %>
+        <div class="form-group col-12">
+            <a download="<%= acroage.idCode %>_idCopy3_身份證副本3" href="<%= acroage.imgIDCard2%>"
+                target="_blank">下載運動員(3)的身份證副本
+                Download ID copy of
+                the Athlete(3)</a>
+            <br>
+            <img src="<%=acroage.imgIDCard2%>" style="height:150px; width:auto;" />
+        </div>
+        <br>
+        <% } %>
+        <div class="form-group col-12">
+            <label>重新附上運動員(3)的身份證副本 Reupload ID copy of the Athlete(3)</label>
+            <br>
+            <input type="file" accept="image/*" onchange="handleFile2(this.files,2)" />
+            <br>
+            <div id="ID_preview2"></div>
+        </div>
+        <br>
+    </div>
+
+    </div>
+
+    <!-- 教練資料 Coach Details -->
+    <div class="form-group col-12">
+        <br>
+        <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">教練資料 Coach
+            Details</h5>
+        <br>
+
+        <div class="row">
+            <div class="form-group col-12 col-sm-6">
+                <label>教練姓名 Coach Name: </label>
+                <input type="text" class="form-group" value="<%= acroage.coachName%>" name="Acroage[coachName]"
+                    required>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label>教練聯絡電話 Coach Contact Number: </label>
+                <input type="tel" pattern=[0-9]{8} class="form-group" value="<%= acroage.cContactNo%>"
+                    name="Acroage[cContactNo]" required>
+            </div>
+        </div>
+
+        <div>
+            <label>學校/機構名稱(如適用)<br>School/Organization Name(If applicable): </label>
+            <input type="text" class="form-group" value="<%=acroage.organName%>" name="Acroage[organName]"
+                style=" width:400pt;">
+        </div>
+
+        <div>
+            <label>收據枱頭<br>Receipt header: </label>
+            <input type="radio" value="運動員姓名 Athlete name" name="Acroage[receiptHeader]" id="athlete" required <% if(acroage.receiptHeader == "運動員姓名 Athlete name"){%>checked<%}%> >
+            <label class="Receipt">運動員姓名<br>Athlete name</label>
+    
+            &nbsp;<input type="radio" value="學校/機構名稱 School/Institution Name" name="Acroage[receiptHeader]"
+                id="school" required <% if(acroage.receiptHeader == "學校/機構名稱 School/Institution Name"){%>checked<%}%>>
+            <label class="Receipt">學校/機構名稱<br>School/Institution Name:</label>
+    
+            <input type="text" value="<%=acroage.receiptName%>" name="Acroage[receiptName]" style="width:300pt;">
+        </div>
+    </div>
+
+
+    <!-- Declaration -->
+    <div class="col-12">
+        <br><br>
+        <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">聲明
+            Declaration</h5>
+    </div>
+
+    <div class="col-12">
+        <label>參加者(1)家長姓名 Applicant(1)'s Parent Name: </label>
+        <input type="text" class="form-group" value="<%= acroage.parentName1 %>" name="Acroage[parentName1]" required>
+        <br>
+        <% if(acroage.declaration0) { 
+            var type = acroage.declaration0.split(';');%>
+        <div class="col-12 col-sm-6">
+            <% if(type[0] == 'data:application/pdf') { %>
+            <a download="<%= acroage.idCode %>_Declaration1_聲明1" href="<%= acroage.declaration0%>"
+                target="_blank">下載聲明書
+                Download declartion</a>
+            <br>
+            <% } else { %>
+            <a download="<%= acroage.idCode %>_Declaration1_聲明1" href="<%= acroage.declaration0%>"
+                target="_blank">下載聲明書
+                Download declartion</a>
+            <br>
+            <img src="<%=acroage.declaration0%>" style="height:150px; width:auto" />
+            <% } %>
+        </div>
+        <% } %>
+        <label>重新上載聲明書 Reupload the declaration</label>
+        <br>
+        <input type="file" accept="image/*,application/pdf" onchange="handleFile3(this.files,0)" />
+        <div id="D_preview0"></div>
+        <br>
+    </div>
+
+
+    <div class="col-12">
+        <br>
+        <label>參加者(2)家長姓名 Applicant(2)'s Parent Name: </label>
+        <input type="text" class="form-group" value="<%= acroage.parentName2 %>" name="Acroage[parentName2]" required>
+        <br>
+        <% if(acroage.declaration1) { 
+            var type = acroage.declaration1.split(';');%>
+        <div class="col-12 col-sm-6">
+            <% if(type[0] == 'data:application/pdf') { %>
+            <a download="<%= acroage.idCode %>_Declaration1_聲明2" href="<%= acroage.declaration1%>"
+                target="_blank">下載聲明書
+                Download declartion</a>
+            <br>
+            <% } else { %>
+            <a download="<%= acroage.idCode %>_Declaration1_聲明2" href="<%= acroage.declaration1%>"
+                target="_blank">下載聲明書
+                Download declartion</a>
+            <br>
+            <img src="<%=acroage.declaration1%>" style="height:150px; width:auto" />
+            <% } %>
+        </div>
+        <% } %>
+        <label>重新上載聲明書 Reupload the declaration</label>
+        <br>
+        <input type="file" accept="image/*,application/pdf" onchange="handleFile3(this.files,1)" />
+        <div id="D_preview1"></div>
+        <br>
+    </div>
+
+    <% if(acroage.item == "女子三人 Women's trio") {%>
+    <div class="col-12" style="display: inline;" id="extraParent">
+        <%} else {%>
+        <div class="col-12" id="extraParent">
+            <%}%>
+            <br>
+            <label>參加者(3)家長姓名 Applicant(3)'s Parent Name: </label>
+            <input type="text" id="parentName3" class="form-group" value="<%= acroage.parentName3 %>"
+            name="Acroage[parentName3]">
+            <br>
+            <% if(acroage.declaration2) { 
+                var type = acroage.declaration2.split(';');%>
+            <div class="col-12 col-sm-6">
+                <% if(type[0] == 'data:application/pdf') { %>
+                <a download="<%= acroage.idCode %>_Declaration1_聲明3" href="<%= acroage.declaration2%>"
+                    target="_blank">下載聲明書
+                    Download declartion</a>
+                <br>
+                <% } else { %>
+                <a download="<%= acroage.idCode %>_Declaration1_聲明3" href="<%= acroage.declaration2%>"
+                    target="_blank">下載聲明書
+                    Download declartion</a>
+                <br>
+                <img src="<%=acroage.declaration2%>" style="height:150px; width:auto" />
+                <% } %>
+            </div>
+            <% } %>
+            <label>重新上載聲明書 Reupload the declaration</label>
+            <br>
+            <input type="file" accept="image/*,application/pdf" onchange="handleFile3(this.files,2)" />
+            <div id="D_preview2"></div>
+            <br>
+        </div>
+        <br>
+
+        <!-- Status -->
+        <!-- Payment -->
+        <div class="form-group col-12">
+            <br><br>
+            <h5 id="labelHead">付款狀況 Payment Status</h5>
+            <% if(acroage.payStatus == "unpaid") {%>
+            <div class="inputGroup">
+                <input class="statusInput" id="payStatus" name="Acroage[payStatus]" value="paid" type="checkbox"
+                    onclick="changeToPaid()" />
+                <label for="payStatus" class="statusLabel" id="payLabel">未付款 Unpaid</label>
+            </div>
+            <%} else {%>
+            <div class="inputGroup">
+                <input class="statusInput" id="payStatus" type="checkbox" checked disabled />
+                <label for="payStatus" class="statusLabel" id="payLabel">已付款 Paid</label>
+            </div>
+            <%}%>
+        </div>
+        <!-- Apply-->
+        <div class="form-group col-12">
+        <h5 id="labelHead">申請狀況 Application Status</h5>
+
+        <% if(acroage.formStatus == "ToBeCon" || acroage.formStatus == "rejected") {%>
+            <div class="inputGroup">
+                <input class="statusInput" id="TohandBtn" name="Acroage[formStatus]" value="ToBeCon" type="radio"
+                    onclick="changeToCon()" checked />
+                <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+            </div>
+
+            <div class="inputGroup">
+                <input class="statusInput" id="ToConBtn" name="Acroage[formStatus]" value="accepted" type="radio"
+                    onclick="changeToCon()" />
+                <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirm</label>
+            </div>
+
+            <div class="inputGroup">
+                <input class="statusInput" id="dataDef" name="Acroage[formStatus]" value="dataDef"
+                    onclick="changeToCon()" type="radio" />
+                <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+            </div>
+
+            <% } else if(acroage.formStatus == "accepted"){%>
+            <div class="inputGroup">
+                <input class="statusInput" id="TohandBtn" name="Acroage[formStatus]" value="ToBeCon" type="radio"
+                    disabled />
+                <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+            </div>
+            <div class="inputGroup">
+                <input class="statusInput" id="con" type="checkbox" checked disabled />
+                <label for="con" class="statusLabel" id="dataDefLabel">已確認 Accepted</label>
+            </div>
+            <div class="inputGroup">
+                <input class="statusInput" id="dataDef" type="checkbox" disabled />
+                <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+            </div>
+            <% } else if(acroage.formStatus == "dataDef"){%>
+            <div class="inputGroup">
+                <input class="statusInput" id="TohandBtn" name="Acroage[formStatus]" value="ToBeCon" type="radio"
+                    onclick="changeToCon()" />
+                <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+            </div>
+
+            <div class="inputGroup">
+                <input class="statusInput" id="ToConBtn" name="Acroage[formStatus]" value="accepted" type="radio"
+                    onclick="changeToCon()" />
+                <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirmed</label>
+            </div>
+
+            <div class="inputGroup">
+                <input class="statusInput" id="dataDef" name="Acroage[formStatus]" value="dataDef" type="radio" checked
+                    onclick="changeToCon()" />
+                <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+            </div>
+            <%}%>
+        </div>
+
+         <!-- Team -->
+         <div class="form-group col-12">
+            <h5 id="labelHead">隊伍/團體狀況 Team Status</h5>
+            <% if(acroage.teamStatus == "suTeam") {%>
+            <div class="inputGroup">
+                <input class="statusInput" id="waitTeam" name="Acroage[teamStatus]" value="waitTeam" type="checkbox"
+                    onclick="changeToWait()" />
+                <label for="waitTeam" class="statusLabel" id="waitLabel">設為後補 Set as Waiting Team</label>
+            </div>
+            <%} else {%>
+            <div class="inputGroup">
+                <input class="statusInput" id="suTeam" type="checkbox" name="Acroage[teamStatus]" value="suTeam"
+                    onclick="changeToSu()" checked />
+                <label for="suTeam" class="statusLabel" id="suLabel">後補 Waiting Team</label>
+            </div>
+            <%}%>
+        </div>
+    
+    
+            <div class="form-group col-12" style="text-align: right;">
+            <%if(acroage.formStatus == "rejected"){%>
+            <a class="btn btn-success" style="color: white;" onclick="history.back()">完成 Submit</a>
+            <%} else {%>
+            <button class="btn btn-success" onclick="submitForm('<%= acroage.idCode%>')">完成 Submit</button>
+            <%}%>
+            </div>
+    
+            <!-- Update details -->
+            <% var m = new Date(acroage.updatedAt);
+               var month = m.getMonth() + 1;
+               var updateDate = m.getDate() + "/" + month + "/" + m.getFullYear() + " " + m.getHours() + ":" + m.getMinutes() + ":" + m.getSeconds(); %>
+            <p class="col-12" style="font-size: smaller;">上次更新 Last upadated: <%= updateDate%></p>
+        </div>
+</form>
+
+<div id="<%= acroage.id%>" class="modal">
+    <div class="modal-content">
+        <div class="container">
+            <h1>拒絕申請 Reject Application<br><%= acroage.idCode%></h1>
+            <p>確定要拒絕這份申請表?<br>Are you sure you want to reject this application?</p>
+
+            <div class="clearfix">
+                <button type="button" class="cancelbtn modalBtn"
+                    onclick="document.getElementById('<%= acroage.id%>').style.display='none'">取消 Cancel</button>
+                <button type="button" class="deletebtn modalBtn" onclick="rejectForm('<%= acroage.id%>')">拒絕
+                    Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () { disableform('acroage', '<%= acroage.formStatus%>') };
+    function disableform(formId, formStatus) {
+        if (formStatus == "rejected") {
+            var f = document.forms[formId].getElementsByTagName('input');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+            var f = document.forms[0].getElementsByTagName('textarea');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+            var f = document.forms[0].getElementsByTagName('select');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+        }
+    }
+
+    // Get the modal
+    var modal = document.getElementById('<%= acroage.id%>');
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function changeToPaid() {
+        var payLabel = document.getElementById("payLabel");
+        var payStatus = document.getElementById("payStatus");
+
+        if (payStatus.checked == true) {
+            payLabel.innerHTML = "已付款 Paid";
+        } else {
+            payLabel.innerHTML = "未付款 Unpaid";
+        }
+    }
+
+    function changeToCon() {
+        var confirmLabel = document.getElementById("confirmLabel");
+        var ToConBtn = document.getElementById("ToConBtn");
+
+        if (ToConBtn.checked == true) {
+            confirmLabel.innerHTML = "已確認 Accepted";
+        } else {
+            confirmLabel.innerHTML = "確認 Confirm";
+        }
+    }
+
+    function changeToWait() {
+        var waitLabel = document.getElementById("waitLabel");
+        var waitTeam = document.getElementById("waitTeam");
+
+        if (waitTeam.checked == true) {
+            waitLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            waitLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+    function changeToSu() {
+        var suLabel = document.getElementById("suLabel");
+        var suTeam = document.getElementById("suTeam");
+
+        if (suTeam.checked == true) {
+            suLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            suLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+
+    //button function
+    function submitForm(id) {
+        alert("更新成功 Successfully Updated" + "\n" + id);
+    }
+
+    async function rejectForm(id) {
+        var response = await fetch("/admin/applyHandle/reject/acroage/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+
+    //handle the multi upload of photos (only img) (id="ph_preview+p")
+    function handleFile(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 4194304) {
+            alert("請重新上載4MB相片");
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var preview = document.getElementById('ph_preview' + p);
+            preview.innerHTML = "";
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            preview.appendChild(img);
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'Acroage[photo' + p + ']';
+            input.value = e.target.result;
+            img.style.height = "150px";
+            img.style.width = "auto";
+            document.getElementById('acroage').appendChild(input);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle multi ID card upload (only img) (id="ID_prevew+p")
+    function handleFile2(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 4194304) {
+            alert("請重新上載4MB相片");
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var preview = document.getElementById('ID_preview' + p);
+            preview.innerHTML = "";
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            preview.appendChild(img);
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'Acroage[imgIDCard' + p + ']';
+            input.value = e.target.result;
+            img.style.height = "150px";
+            img.style.width = "auto";
+            document.getElementById('acroage').appendChild(input);
+        }
+        reader.readAsDataURL(file);
+    }
+    //handle multi declaration uploas (img/pdf) (id="D_preview+p")
+    function handleFile3(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('D_preview' + p);
+        var reader = new FileReader();
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'Acroage[declaration' + p + ']';
+                input.value = e.target.result;
+                img.style.height = "150px";
+                img.style.width = "auto";
+                preview.appendChild(input);
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'Acroage[declaration' + p + ']';
+                input.value = e.target.result;
+                preview.appendChild(input);
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var chineseNameDis1 = document.getElementById("chiName1")
+        var chineseNameDis2 = document.getElementById("chiName2")
+
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+
+        }
+
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+
+        }
+    }
+
+    //onclick function when item is chosen
+    function multiFunction() {
+        onlyRead();
+        genderSelect();
+        extraFrom();
+    }
+
+    //Not allow to modify the gender if no mixDou
+    function onlyRead() {
+        var womenTri_check = document.getElementById("womenTri");
+        var womenDou_check = document.getElementById("womenDou");
+        var menDou_check = document.getElementById("menDou");
+        if (womenTri_check.checked == true || womenDou_check.checked == true || menDou_check.checked == true) {
+            return false;
+        }
+    }
+
+    //handle gender selection
+    function genderSelect() {
+        var womenTri_check = document.getElementById("womenTri");
+        var mixDou_check = document.getElementById("mixDou");
+        var womenDou_check = document.getElementById("womenDou");
+        var menDou_check = document.getElementById("menDou");
+        var male1 = document.getElementById("male1");
+        var female1 = document.getElementById("female1");
+        var male2 = document.getElementById("male2");
+        var female2 = document.getElementById("female2");
+        if (womenTri_check.checked == true || womenDou_check.checked == true) {
+            female1.checked = true;
+            female2.checked = true;
+        } else if (menDou_check.checked == true) {
+            male1.checked = true;
+            male2.checked = true;
+        } else if (mixDou_check.checked == true) {
+            female1.checked = false;
+            female2.checked = false;
+            male1.checked = false;
+            male2.checked = false;
+        }
+    }
+
+    //handle extraCard of option womenTri
+    function extraFrom() {
+        var womenTri = document.getElementById("womenTri");
+        var mixDou = document.getElementById("mixDou");
+        var womenDou = document.getElementById("womenDou");
+        var menDou = document.getElementById("menDou");
+        var extraForm = document.getElementById("extraForm");
+        var extraParent = document.getElementById("extraParent");
+        var Yes3 = document.getElementById("Yes3");
+        var No3 = document.getElementById("No3");
+        var cpChiName3 = document.getElementById("cpChiName3");
+        var cpEngName3 = document.getElementById("cpEngName3");
+        var male3 = document.getElementById("male3");
+        var female3 = document.getElementById("female3");
+        var birth3 = document.getElementById("birth3");
+        var id3 = document.getElementById("id3");
+        var contactNo3 = document.getElementById("contactNo3");
+        var email3 = document.getElementById("email3");
+        var address3 = document.getElementById("address3");
+        var photo3 = document.getElementById("photo3");
+        var IDimg3 = document.getElementById("IDimg3");
+        var parentName3 = document.getElementById("parentName3");
+        var D3 = document.getElementById("D3");
+
+        if (womenTri.checked == true) { //display Applicant(3) details' card
+            extraForm.style.display = "inline";
+            extraParent.style.display = "inline";
+            Yes3.required = true; //set input to required
+            No3.required = true;
+            cpChiName3.required = true;
+            cpEngName3.required = true;
+            male3.required = true;
+            female3.required = true;
+            birth3.required = true;
+            id3.required = true;
+            contactNo3.required = true;
+            email3.required = true;
+            address3.required = true;
+            photo3.required = true;
+            IDimg3.required = true;
+            parentName3.required = true;
+            D3.required = true;
+
+        } else if (mixDou.checked == true || womenDou.checked == true || menDou.checked == true) { //hide Applicant(3) details' card
+            extraForm.style.display = "none";
+            extraParent.style.display = "none";
+            Yes3.required = false;
+            No3.required = false;
+            cpChiName3.required = false;
+            cpEngName3.required = false;
+            male3.required = false;
+            female3.required = false;
+            birth3.required = false;
+            id3.required = false;
+            contactNo3.required = false;
+            email3.required = false;
+            address3.required = false;
+            photo3.required = false;
+            IDimg3.required = false;
+            parentName3.required = false;
+            D3.required = false;
+        }
+    }
+
+    //handle limit age
+    function limitBirth() {
+        var todayYear = new Date().getFullYear();
+        var level1 = document.getElementById("level1");
+        var level2 = document.getElementById("level2");
+        var level3 = document.getElementById("level3");
+        var level4 = document.getElementById("level4");
+        var level5 = document.getElementById("level5");
+        var birth1 = document.getElementById("birth1");
+        var birth2 = document.getElementById("birth2");
+        var birth3 = document.getElementById("birth3");
+        if (level1.checked == true) {
+            var minYear = todayYear - 14; //age 14
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 6; //age 6
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+        } else if (level2.checked == true) {
+            var minYear = todayYear - 14; //age 14
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 6; //age 6
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+        } else if (level3.checked == true) {
+            var maxYear = todayYear - 8; //age 8 or above
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+        } else if (level4.checked == true) {
+            var maxYear = todayYear - 9; //age 9 or above
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+        } else if (level5.checked == true) {
+            var maxYear = todayYear - 10; //age 10 or above
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+        }
+    }
+
+
+</script>

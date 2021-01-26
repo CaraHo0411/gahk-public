@@ -1,0 +1,1028 @@
+<style type="text/css">
+    .card {
+        border-radius: 0;
+    }
+
+    #extraForm {
+        display: none;
+        background: transparent;
+    }
+
+    #extraParent {
+        display: none;
+    }
+
+    #labelHead {
+        color: #83a70c;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+    }
+</style>
+
+<form action="/competition/form/acroage" method="POST" id="acroage">
+    <br>
+    <div class="row mx-sm-2">
+        <div class="col-12" style="color: #888888;">
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;"><b>香港技巧體操公開賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>報名表格</u></h2>
+        </div>
+
+        <div class="col-12">
+            <br><br>
+            <h5 id="labelHead">比賽規則及章程 Rules and Regulation</h5>
+        </div>
+
+        <div class="col-12">
+            <a href="/formDoc/AcroOpen2020_Prospectus.pdf" target="_blank"
+                style="text-align: center;"><u>香港技巧體操公開賽章程 Prospectus of AcrobaticOpenCompetition</u></a>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽年份 Year of Competition</h5>
+             <%var todayYear = new Date().getFullYear();%>
+            <select id="compYear" name="Acroage[compYear]" required>
+                <option value="<%=todayYear%>" selected><%=todayYear%></option>
+            </select>
+        </div>
+
+        <!-- 組別資料 Category Details -->
+        <div class="col-12">
+            <br><br>
+            <h6 id="labelHead">組別資料 Category Details</h6>
+        </div>
+
+        <div class="form-group col-12">
+            <label>組別/年齡 Category/Age:</label>
+            <input type="radio" name="Acroage[category]" value="1級(6至14歲) Level 1(6-14 years old)" id="level1"
+                onclick="limitBirth()" required
+                <% if(req.session.Acrodata != null && req.session.Acrodata.level1Checked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">1 級(6 至 14 歲)<br>Level 1(6-14 years old)</label>
+
+            <input type="radio" name="Acroage[category]" value="2級(6至14歲) Level 2(6-14 years old)" id="level2"
+                onclick="limitBirth()" required <% if(req.session.Acrodata != null && req.session.Acrodata.level2Checked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">2 級(6 至 14 歲)<br>Level 2(6-14 years old)</label>
+
+            <input type="radio" name="Acroage[category]" value="3級(8歲或以上) Level 3(8 years old or above)" id="level3"
+                onclick="limitBirth()" required <% if(req.session.Acrodata != null && req.session.Acrodata.level3Checked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">3 級(8 歲或以上)<br>Level 3(8 years old or above)</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="Acroage[category]" value="4級(9歲或以上) Level 4(9 years old or above)" id="level4"
+                onclick="limitBirth()" required <% if(req.session.Acrodata != null && req.session.Acrodata.level4Checked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">4 級(9歲或以上)<br>Level 4(9 years old or above)</label>
+
+            <input type="radio" name="Acroage[category]" value="5級(10歲或以上) Level 5(10 years old or above)" id="level5"
+                onclick="limitBirth()" required <% if(req.session.Acrodata != null && req.session.Acrodata.level5Checked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">5 級(10 歲或以上)<br>Level 5(10 years old or above)</label>
+        </div>
+
+        <div class="form-group col-12">
+            <label>項目 Item:</label>
+            <input type="radio" name="Acroage[item]" value="男子雙人 Men's Double" id="menDou" onclick="multiFunction()"
+                required <% if(req.session.Acrodata != null && req.session.Acrodata.menDouChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="item">男子雙人<br>Men's Double</label>
+
+            &nbsp;<input type="radio" name="Acroage[item]" value="女子雙人 Women's Double" id="womenDou"
+                onclick="multiFunction()" required <% if(req.session.Acrodata != null && req.session.Acrodata.womenDouChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="item">女子雙人<br>Women's Double</label>
+
+            &nbsp;<input type="radio" name="Acroage[item]" value="混合雙人 Mixed double" id="mixDou"
+                onclick="multiFunction()" required <% if(req.session.Acrodata != null && req.session.Acrodata.mixDouChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="item">混合雙人<br>Mixed double</label>
+
+            &nbsp;<input type="radio" name="Acroage[item]" value="女子三人 Women's trio" id="womenTri"
+                onclick="multiFunction()" required <% if(req.session.Acrodata != null && req.session.Acrodata.womenTriChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="item">女子三人<br>Women's trio</label>
+        </div>
+
+
+        <!-- 參加者(1)個人資料 Applicant(1)'s Personal Details -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 id="labelHead">參加者(1)個人資料 Applicant(1)'s Personal Details</h6>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name:</label>
+                <input type="radio" name="Acroage[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()"
+                    required <% if(req.session.Acrodata != null && req.session.Acrodata.cnameYes1Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname1">是 Yes</label>
+
+                &nbsp;<input type="radio" name="Acroage[havecname1]" value="否 No" id="No1" onclick="havechinesename()"
+                    required <% if(req.session.Acrodata != null && req.session.Acrodata.cnameNo1Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname1">否 No</label>
+            </div>
+
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="Acroage[cpChiName1]" id="cpChiName1" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required 
+                    <% if (req.session.data != null && req.session.data.havecname1 == "否 No") { %> disabled
+                        <%} else if(req.session.Acrodata != null) { if(req.session.data == null &&req.session.Acrodata.cnameNo1Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.Acrodata.cpChiName1%>" <% }} %>>
+            </div>
+
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input type="text" class="form-group" name="Acroage[cpEngName1]" id="cpEngName1" placeholder=" e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.cpEngName1%>"
+                <%}%>>
+            </div>
+            
+            <!-- 性別 Gender -->
+            <div class="form-group">
+                <label>性別 Gender: </label>
+                <input type="radio" name="Acroage[gender1]" id="male1" value="男 Male" onclick="return onlyRead()" 
+                <% if (req.session.data != null && req.session.data.item == "男子雙人 Men's Double"
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.menDouChecked == true 
+                || req.session.data != null && req.session.data.item == "混合雙人 Mixed double" &&  req.session.data.gender1 == "男 Male" 
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.mixDouChecked == true && req.session.Acrodata.male1Checked == true) {%>
+                checked<%}%>>
+                <label class="gender">男 Male</label>
+
+                &nbsp;<input type="radio" name="Acroage[gender1]" id="female1" value="女 Female" onclick="return onlyRead()" 
+                <% if (req.session.data != null && req.session.data.item == "女子雙人 Women's Double" 
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.womenDouChecked == true 
+                || req.session.data != null && req.session.data.item == "女子三人 Women's trio" 
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.womenTriChecked == true 
+                || req.session.data != null && req.session.data.item == "混合雙人 Mixed double" &&  req.session.data.gender1 == "女 Female"
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.mixDouChecked == true && req.session.Acrodata.female1Checked == true) {%> checked<%}%>>
+                <label class="gender">女 Female</label>
+            </div>
+
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="Acroage[birthday1]" id="birth1" required
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.birth1%>" <%}%>>
+                <br>
+            </div>
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input type="text" class="form-group" id="id1" name="Acroage[idNo1]" placeholder=" A123456(7)" required
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.id1%>" <%}%>>
+            </div>
+
+            <div>
+                <label>聯絡電話 Contact No.:</label>
+                <input type="tel" pattern=[0-9]{8} class="form-group" name="Acroage[contactNo1]" id="contactNo1" placeholder="12345678"
+                    required <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.contactNo1%>"
+                <%}%>>
+            </div>
+
+            <div>
+                <label>電郵 Email Address:</label>
+                <input type="email" class="form-group" name="Acroage[email1]" id="email1" placeholder="example@gmail.com"
+                    style="width: 200pt;" required <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.email1%>" <%}%>>
+            </div>
+
+            <div>
+                <label>聯絡地址 Contact Address:</label>
+                <input type="text" class="form-group" name="Acroage[address1]" id="address1" style="width: 350pt;" required
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.address1%>"
+                <%}%>>
+            </div>
+
+            <div>
+                <label>運動員(1)相片 Athlete(1) photo: </label>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,0)"  <% if(req.session.Acrodata == null || req.session.Acrodata.photo0 == "") { %>required <% } %> />
+            <div id="ph_preview0"></div>
+            <% if(req.session.Acrodata != null && req.session.Acrodata.photo0 != "" && req.session.Acrodata.photo0 != null) { %> <input id="photo0"
+                type="hidden" name="Acroage[photo0]" value="<%=req.session.Acrodata.photo0%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <img src="<%=req.session.Acrodata.photo0%>" style="height:150px; width:auto" />
+            <% } else {%>
+            <input id="photo0" type="hidden" name="Acroage[photo0]" />
+            <%}%>
+                <br>
+            </div>
+
+            <div>
+                <label>請附上運動員的身份證副本 <br> Please upload ID copy of the athlete</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile2(this.files,0)"  <% if(req.session.Acrodata == null || req.session.Acrodata.imgIDCard0 == "") { %>required
+            <% } %> />
+            <br>
+            <div id="ID_preview0"></div>
+            <% if(req.session.Acrodata != null && req.session.Acrodata.imgIDCard0 != "" && req.session.Acrodata.imgIDCard0 != null) { %>
+            <input id="imgIDCard0" type="hidden" name="Acroage[imgIDCard0]"
+                value="<%=req.session.Acrodata.imgIDCard0%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <img src="<%=req.session.Acrodata.imgIDCard0%>" style="height:150px; width:auto" />
+            <% } else {%>
+            <input id="imgIDCard0" type="hidden" name="Acroage[imgIDCard0]" />
+            <%}%>
+                <br>
+            </div>
+        </div>
+
+        <!-- 參加者(2)個人資料 Applicant(2)'s Personal Details -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 id="labelHead">參加者(2)個人資料 Applicant(2)'s Personal Details</h6>
+            <br>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name:</label>
+                <input type="radio" name="Acroage[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()"
+                    required <% if(req.session.Acrodata != null && req.session.Acrodata.cnameYes2Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname2">是 Yes</label>
+
+                &nbsp;<input type="radio" name="Acroage[havecname2]" value="否 No" id="No2" onclick="havechinesename()"
+                    required <% if(req.session.Acrodata != null && req.session.Acrodata.cnameNo2Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname2">否 No</label>
+            </div>
+
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="Acroage[cpChiName2]" id="cpChiName2" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required 
+                    <% if (req.session.data != null && req.session.data.havecname2 == "否 No") { %> disabled
+                        <%} else if(req.session.Acrodata != null) { if(req.session.data == null &&req.session.Acrodata.cnameNo2Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.Acrodata.cpChiName2%>" <% }} %>>
+            </div>
+
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input type="text" class="form-group" name="Acroage[cpEngName2]" id="cpEngName2" placeholder=" e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.cpEngName2%>"<%}%>>
+            </div>
+
+            <div class="form-group">
+                <label>性別 Gender: </label>
+                <input type="radio" name="Acroage[gender2]" id="male2" value="男 Male" onclick="return onlyRead()" 
+                <% if (req.session.data != null && req.session.data.item == "男子雙人 Men's Double"
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.menDouChecked == true 
+                || req.session.data != null && req.session.data.item == "混合雙人 Mixed double" &&  req.session.data.gender2 == "男 Male" 
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.mixDouChecked == true && req.session.Acrodata.male2Checked == true) {%>
+            checked<%}%>>
+                <label class="gender">男 Male</label>
+
+                &nbsp;<input type="radio" name="Acroage[gender2]" id="female2" value="女 Female" onclick="return onlyRead()" 
+                <% if (req.session.data != null && req.session.data.item == "女子雙人 Women's Double" 
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.womenDouChecked == true 
+                || req.session.data != null && req.session.data.item == "女子三人 Women's trio" 
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.womenTriChecked == true 
+                || req.session.data != null && req.session.data.item == "混合雙人 Mixed double" &&  req.session.data.gender2 == "女 Female"
+                || req.session.data == null && req.session.Acrodata != null && req.session.Acrodata.mixDouChecked == true && req.session.Acrodata.female2Checked == true) {%>
+            checked<%}%>>
+                <label class="gender">女 Female</label>
+            </div>
+
+            <div>
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" class="form-group" name="Acroage[birthday2]" id="birth2" required
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.birth2%>"<%}%>>
+                <br>
+            </div>
+
+            <div>
+                <label>身份證號碼 ID Card Number:</label>
+                <input type="text" class="form-group" name="Acroage[idNo2]" id="id2" placeholder=" A123456(7)" required
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.id1%>"<%}%>>
+            </div>
+
+            <div>
+                <label>聯絡電話 Contact No.:</label>
+                <input type="tel" pattern=[0-9]{8} class="form-group" name="Acroage[contactNo2]" id="contactNo2" placeholder="12345678"
+                    required <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.contactNo2%>"<%}%>>
+            </div>
+
+            <div>
+                <label>電郵 Email Address:</label>
+                <input type="email" class="form-group" name="Acroage[email2]" id="email2" placeholder="example@gmail.com"
+                    style="width: 200pt;" required <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.email2%>"<%}%>>
+            </div>
+            <div>
+                <label>聯絡地址 Contact Address:</label>
+                <input type="text" class="form-group" name="Acroage[address2]" id="address2" style="width: 350pt;" required
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.address2%>"<%}%>>
+            </div>
+            <div>
+                <label>運動員(2)相片 Athlete(2) photo: </label>
+                <input type="file" accept="image/*" onchange="handleFile(this.files,1)"  <% if(req.session.Acrodata == null || req.session.Acrodata.photo1 == "") { %>required
+            <% } %> />
+            <div id="ph_preview1"></div>
+            <% if(req.session.Acrodata != null && req.session.Acrodata.photo1 != "" && req.session.Acrodata.photo1 != null) { %>
+            <input id="photo1" type="hidden" name="Acroage[photo1]" value="<%=req.session.Acrodata.photo1%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <img src="<%=req.session.Acrodata.photo1%>" style="height:150px; width:auto" />
+            <% } else {%>
+            <input id="photo1" type="hidden" name="Acroage[photo1]" />
+            <%}%>
+                <br>
+            </div>
+            <div>
+                <label>請附上運動員的身份證副本 <br> Please upload ID copy of the athlete</label>
+                <br>
+                <input type="file" accept="image/*" onchange="handleFile2(this.files,1)"  <% if(req.session.Acrodata == null || req.session.Acrodata.imgIDCard1 == "") { %>required
+            <% } %> />
+            <br>
+            <div id="ID_preview1"></div>
+            <% if(req.session.Acrodata != null && req.session.Acrodata.imgIDCard1 != "" && req.session.Acrodata.imgIDCard1 != null) { %>
+            <input id="imgIDCard1" type="hidden" name="Acroage[imgIDCard1]"
+                value="<%=req.session.Acrodata.imgIDCard1%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <img src="<%=req.session.Acrodata.imgIDCard1%>" style="height:150px; width:auto" />
+            <% } else {%>
+            <input id="imgIDCard1" type="hidden" name="Acroage[imgIDCard1]" />
+            <%}%>
+                <br>
+            </div>
+        </div>
+
+        
+        <!-- extraCard for womenTri: 參加者(3)個人資料 Applicant(3)'s Personal Details -->
+        <% if(req.session.data != null && req.session.data.item == "女子三人 Women's trio" || req.session.Acrodata != null && req.session.Acrodata.womenTriChecked == true) {%>
+            <div class="card col-12" style="background: transparent; display: inline;" id="extraForm">
+                <%} else {%>
+                <div class="card col-12" style="background: transparent;" id="extraForm">
+                    <%}%>
+            <br>
+            <h6 id="labelHead">參加者(3)個人資料 Applicant(3)'s Personal Details</h6>
+            <br>
+            <h6>[適用項目：女子三人 Applicable items：Women's trio]</h6><br>
+
+            <div class="row">
+                <div class="form-group col-12">
+                    <label>是否有中文姓名 Any Chinese name:</label>
+                    <input type="radio" name="Acroage[havecname3]" value="是 Yes" id="Yes3" onclick="havechinesename()" 
+                    <% if(req.session.Acrodata != null && req.session.Acrodata.cnameYes3Checked == true) {%>checked<%}%>/>
+                    <label class="form-check-label" for="havecname3">是 Yes</label>
+
+                    &nbsp;<input type="radio" name="Acroage[havecname3]" value="否 No" id="No3" onclick="havechinesename()" 
+                    <% if(req.session.Acrodata != null && req.session.Acrodata.cnameNo3Checked == true) {%>checked<%}%>/>
+                    <label class="form-check-label" for="havecname3">否 No</label>
+                </div>
+
+                <div class="form-group col-12 col-sm-6">
+                    <label>中文姓名 Name in Chinese:</label>
+                    <input type="text" class="form-group" name="Acroage[cpChiName3]" id="cpChiName3" placeholder=" e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" 
+                    <% if (req.session.data != null && req.session.data.havecname3 == "否 No") { %> disabled
+                        <%} else if(req.session.Acrodata != null) { if(req.session.data == null &&req.session.Acrodata.cnameNo3Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.Acrodata.cpChiName3%>" <% }} %>>
+                </div>
+
+                <div class="form-group col-12 col-sm-6">
+                    <label>英文姓名 Name in English: </label>
+                    <input type="text" name="Acroage[cpEngName3]" placeholder=" e.g. Chan Tai Man" id="cpEngName3"
+                        onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                        <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.cpEngName3%>"<%}%>>
+                </div>
+
+                <div class="form-group col-12">
+                    <label>性別 Gender: </label>
+                    <input type="radio" name="Acroage[gender3]" id="male3" value="男 Male" onclick="return false">
+                    <label class="gender">男 Male</label>
+
+                    &nbsp;<input type="radio" name="Acroage[gender3]" id="female3" value="女 Female" checked onclick="return false">
+                    <label class="gender">女 Female</label>
+                </div>
+
+                <div class="form-group col-12 col-sm-6">
+                    <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                    <input type="date" name="Acroage[birthday3]" id="birth3" 
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.birth3%>"<%}%>>
+                    <br>
+                </div>
+
+                <div class="form-group col-12 col-sm-6">
+                    <label>身份證號碼 ID Card Number:</label>
+                    <input type="text" id="id3" name="Acroage[idNo3]"  placeholder=" A123456(7)"
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.id3%>"<%}%>>
+                </div>
+
+                <div class="form-group col-12 col-sm-6">
+                    <label>聯絡電話 Contact No.:</label>
+                    <input type="tel" pattern=[0-9]{8} name="Acroage[contactNo3]" placeholder="12345678" id="contactNo3"
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.contactNo3%>"<%}%>>
+                </div>
+
+                <div class="form-group col-12 col-sm-6">
+                    <label>電郵 Email Address:</label>
+                    <input type="email" name="Acroage[email3]" placeholder="example@gmail.com" id="email3" style="width: 200pt;"
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.email3%>"<%}%>>
+                </div>
+                <div class="form-group col-12">
+                    <label>聯絡地址 Contact Address:</label>
+                    <input type="text" name="Acroage[address3]" style="width: 350pt;" id="address3"
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.address3%>"<%}%>>
+                </div>
+
+                <div class="form-group col-12">
+                    <label>運動員(3)相片 Athlete(3) photo: </label>
+                    <input type="file" accept="image/*" onchange="handleFile(this.files,2)" id="photo3" />
+                    <br>
+                    <div id="ph_preview2"></div>
+                    <% if(req.session.Acrodata != null && req.session.Acrodata.photo2 != "" && req.session.Acrodata.photo2 != null) { %>
+                    <input id="photo2" type="hidden" name="Acroage[photo2]" value="<%=req.session.Acrodata.photo2%>" />
+                    <br>
+                    <label>原本文件 Original File</label>
+                    <br>
+                    <img src="<%=req.session.Acrodata.photo2%>" style="height:150px; width:auto" />
+                    <% } else {%>
+                    <input id="photo2" type="hidden" name="Acroage[photo2]" />
+                    <%}%>
+                </div>
+                <div class="form-group col-12">
+                    <label>請附上運動員的身份證副本 Please upload ID copy of the athlete: </label>
+                    <input type="file" accept="image/*" onchange="handleFile2(this.files,2)" id="IDimg3" />
+                    <br>
+                    <div id="ID_preview2"></div>
+                    <% if(req.session.Acrodata != null && req.session.Acrodata.imgIDCard2 != "" && req.session.Acrodata.imgIDCard2 != null) { %>
+                    <input id="imgIDCard2" type="hidden" name="Acroage[imgIDCard2]"
+                        value="<%=req.session.Acrodata.imgIDCard2%>" />
+                    <br>
+                    <label>原本文件 Original File</label>
+                    <br>
+                    <img src="<%=req.session.Acrodata.imgIDCard2%>" style="height:150px; width:auto" />
+                    <% } else {%>
+                    <input id="imgIDCard2" type="hidden" name="Acroage[imgIDCard2]" />
+                    <%}%>
+                </div>
+            </div>
+        </div>
+
+        <!-- 教練資料 Coach Details -->
+        <div class="form-group col-12">
+            <br>
+            <h6 id="labelHead">教練資料 Coach Details</h6>
+            <br>
+
+            <div class="row">
+                <div class="form-group col-12 col-sm-6">
+                    <label>教練姓名 Coach Name: </label>
+                    <input type="text" name="Acroage[coachName]" id="coachName" required
+                        <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.coachName%>" <%}%>>
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <label>教練聯絡電話 Coach Contact Number: </label>
+                    <input type="tel" pattern=[0-9]{8} name="Acroage[cContactNo]" id="cContactNo" required
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.cContactNo%>" <%}%>>
+                </div>
+            </div>
+
+            <div>
+                <label>學校/機構名稱(如適用)<br>School/Organization Name(If applicable): </label>
+                <input type="text" class="form-group" name="Acroage[organName]" id="organName" style="width: 400pt;"
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.organName%>" <%}%>>
+            </div>
+            <div>
+                <label>收據枱頭<br>Receipt header: </label>
+                <input type="radio" value="運動員姓名 Athlete name" name="Acroage[receiptHeader]" id="athlete" required 
+                <% if (req.session.Acrodata != null && req.session.Acrodata.athleteChecked == true) {%>checked<%}%>/>
+                <label class="Receipt">運動員姓名<br>Athlete name</label>
+
+                &nbsp;<input type="radio" class="form-group" value="學校/機構名稱 School/Institution Name"
+                    name="Acroage[receiptHeader]" id="school" required 
+                    <% if (req.session.Acrodata != null && req.session.Acrodata.schoolChecked == true) {%>checked<%}%>/>
+                <label class="Receipt">學校/機構名稱<br>School/Institution Name:</label>
+
+                <input type="text" class="form-group" style="width: 300pt;" name="Acroage[receiptName]" id="receiptName"
+                <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.receiptName%>" <%}%>/>
+            </div>
+        </div>
+
+        <!-- 備註 Remarks -->
+        <div class="col-12">
+            <br><br>
+            <h5 id="labelHead">備註 Remarks</h5>
+
+            <ol>
+                <li>請填妥<a href="/formDoc/AcroOpen2020_comp.card.pdf" style="color: #83a70c;"
+                        download>比賽卡</a>連同劃線支票以郵寄方式或親臨辦公室遞交<br>Please fill in the <a
+                        href="/formDoc/AcroOpen2020_comp.card.pdf" style="color: #83a70c;" download>competition
+                        card</a>
+                    and submit it along with cheque by post or in person</li>
+
+                <li>申請人需填寫「運動員、家長或監護人聲明」，如參加者<u>未滿18歲，則由家長填寫</u>。所有參加者需附上年齡證明副本(包括身份證、出世紙、護照)與報名時一併遞交。<br>
+                    Applicants are required to fill in the Declaration of Athlete, Parents or Guardians. <u> The
+                        declaration must
+                        be signed by the parents if the applicant is aged below 18.</u> All applicants should
+                    submit the
+                    copy of valid photo-bearing identity documents (including ID card, birth certificate or
+                    passport) to
+                    prove the age.</li>
+
+                <li>如有需要，請自行影印表格。<br>Applicants can make copy of the form if needed.</li>
+
+                <li>申請人如未能提供所需的所有資料，或沒有上載個人照片，申請書將不獲受理。<br>
+                    The application will not be considered if applicants fail to provide all information as
+                    requested
+                    or do not upload personal photos.</li>
+
+                <li>1-3 級賽事的每名運動員只可參加一個組別的<u>一個</u>項目。<br>
+                    The athletes in the category of level 1 to leverl 3 can only apply for <u>one</u> event in a
+                    category.
+                </li>
+
+                <li>4-5 級賽事的每名運動員只可參加在同一個級別內的<u>最多兩個</u>不同項目，並<u>需分別繳付兩個項目之報名費</u>。<br>
+                    The athletes in the category of level 4 to leverl 5 can only apply for <u>at most two</u>
+                    different
+                    events in the same category and are required to pay for the application fee of the two
+                    events respectively.</li>
+
+                <li>如 4-5 級的運動員欲參加兩個項目，需填寫<u>兩份</u>報名表。<br>
+                    If athletes would like to apply for two events in the category of level 4 to leverl 5,
+                    he/she are required to complete two
+                    application forms.</li>
+
+                <li>所有申請人資料只作是次比賽活動及日後活動宣傳之用，絕對保密。<br>
+                    The personal details provided by the applicants will only be used for the purpose of
+                    promotion
+                    relating to this competition and later activities of our organisation.</li>
+            </ol>
+        </div>
+
+        <!-- 聲明 Declaration -->
+        <div class="form-group col-12">
+            <br>
+            <h5 id="labelHead">聲明 Declaration</h5>
+            <span><b>*如申請人未滿十八歲，請由家長或監護人填寫</b></span>
+            <br>
+            <label>請<u>每名申請人</u>下載及列印<a href="/formDoc/acroage_declaration.pdf" download><u
+                        style="color:rgb(159, 209, 60);">聲明書.pdf</u></a>後簽署並上載文件 <u>For all Applicants, </u>
+                please
+                download and print the <a href="/formDoc/acroage_declaration.pdf" download><u
+                        style="color:rgb(159, 209, 60);">declaration.pdf</u></a>, then sign and upload
+                it</label>
+
+            <div class="row">
+                <div class="col-12">
+                    <br>
+                    <label>參加者(1)家長姓名 Applicant(1)'s Parent Name: </label>
+                    <input type="text" class="form-group" name="Acroage[parentName1]" id="parentName1" required
+                    <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.parentName1%>" <%}%>>
+                    <input type="file" accept="image/*,application/pdf" onchange="handleFile3(this.files,0)"
+                    <% if(req.session.Acrodata == null || req.session.Acrodata.declaration0 == "") { %> required
+                    <% } %> />
+                    <div id="D_preview0"></div>
+                    <% if(req.session.Acrodata != null && req.session.Acrodata.declaration0 != "" && req.session.Acrodata.declaration0 != null) { %>
+                    <input id="declaration0" type="hidden" name="Acroage[declaration0]"
+                        value="<%=req.session.Acrodata.declaration0%>" />
+                    <br>
+                    <label>原本文件 Original File</label>
+                    <br>
+                    <% var type = req.session.Acrodata.declaration0.split(';');
+                        if(type[0] == 'data:application/pdf'){ %>
+                    <a download="Declaration1聲明1" href="<%= req.session.Acrodata.declaration0%>" target="_blank">聲明書1
+                        declartion1</a>
+                    <% } else { %>
+                    <img src="<%=req.session.Acrodata.declaration0%>" style="height:150px; width:auto" />
+                    <% }}else{ %>
+                    <input id="declaration0" type="hidden" name="Acroage[declaration0]" />
+                    <% } %>
+                </div>
+
+                <div class="col-12">
+                    <br>
+                    <label>參加者(2)家長姓名 Applicant(2)'s Parent Name: </label>
+                    <input type="text" class="form-group" name="Acroage[parentName2]" id="parentName2" required
+                        <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.parentName2%>" <%}%>>
+                    <input type="file" accept="image/*,application/pdf" onchange="handleFile3(this.files,1)"
+                    <% if(req.session.Acrodata == null || req.session.Acrodata.declaration1 == "") { %> required
+                        <% } %> />
+                    <div id="D_preview1"></div>
+                    <% if(req.session.Acrodata != null && req.session.Acrodata.declaration1 != "" && req.session.Acrodata.declaration1 != null) { %> <input
+                        id="declaration1" type="hidden" name="Acroage[declaration1]"
+                        value="<%=req.session.Acrodata.declaration1%>" />
+                    <br>
+                    <label>原本文件 Original File</label>
+                    <br>
+                    <% var type = req.session.Acrodata.declaration1.split(';');
+                        if(type[0] == 'data:application/pdf'){ %>
+                    <a download="Declaration2聲明2" href="<%= req.session.Acrodata.declaration1%>" target="_blank">聲明書2
+                        declartion2</a>
+                    <% } else { %>
+                    <img src="<%=req.session.Acrodata.declaration1%>" style="height:150px; width:auto" />
+                    <% }}else{ %>
+                    <input id="declaration1" type="hidden" name="Acroage[declaration1]" />
+                    <% } %>
+                </div>
+
+
+                <% if(req.session.data != null && req.session.data.item == "女子三人 Women's trio" || req.session.Acrodata != null && req.session.Acrodata.womenTriChecked == true) {%>
+                <div class="col-12" style="display: inline;" id="extraParent">
+                    <%} else {%>
+                    <div class="col-12" id="extraParent">
+                        <%}%>
+                   <br>
+                   <label>參加者(3)家長姓名 Applicant(3)'s Parent Name: </label>
+                   <input type="text" class="form-group" name="Acroage[parentName3]" id="parentName3"
+                   <% if (req.session.Acrodata != null) {%>value="<%= req.session.Acrodata.parentName3%>"<%}%>>
+                   <input type="file" accept="image/*,application/pdf" onchange="handleFile3(this.files,2)" id="D3"/>
+                   <div id="D_preview2"></div>
+                   <% if(req.session.Acrodata != null && req.session.Acrodata.declaration2 != "" && req.session.Acrodata.declaration2 != null) { %>
+                        <input id="declaration2" type="hidden" name="Acroage[declaration2]"
+                            value="<%=req.session.Acrodata.declaration2%>" />
+                        <br>
+                        <label>原本文件 Original File</label>
+                        <br>
+                        <% var type = req.session.Acrodata.declaration2.split(';');
+                    if(type[0] == 'data:application/pdf'){ %>
+                        <a download="Declaration3聲明3" href="<%= req.session.Acrodata.declaration2%>" target="_blank">聲明書3
+                            declartion3</a>
+                        <% } else { %>
+                        <img src="<%=req.session.Acrodata.declaration2%>" style="height:150px; width:auto" />
+                        <% }}else{ %>
+                        <input id="declaration2" type="hidden" name="Acroage[declaration2]" />
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview -->
+            <div class="col-12">
+                <br>
+                <input type="checkbox" required>
+                <label>我已仔細閱讀並清楚明白<a href="/competition/annex1" target="_blank"><u>參加者健康及體能須知</u></a><br> I
+                    have
+                    read
+                    carefully and
+                    understood the <a href="/competition/annex1" target="_blank"><u>Health and Fitness
+                            Guideline</u></a>
+                    for participants</label>
+            </div>
+
+            <div class="col-12">
+                <br><br>
+                <p>* 閣下所提供的資料只會用於本會之活動宣傳事宜，如欲更改或查詢閣下所申報的個人資料，請與本會職員聯絡。
+                    <br>
+                    The personal data provided in this form will be used for promtional purpose only. For
+                    correction of or access to personal data after submission of the application form,
+                    please
+                    contact with our staff directly. </p>
+            </div>
+
+            <!-- button -->
+            <div class="col-12">
+                <br>
+                <button type="submit" class="btn btn-primary"
+                    style="background-color: #83a70c; border-color: #83a70c; float:right">預覽 Preview >></button>
+                <!-- Save -->
+                <button type="button" class="btn btn-primary" onclick="saveForm()" style="background: red; border: none; float: left;">儲存 Save</button>
+                <br><br>
+            </div>
+        </div>
+</form>
+
+<script>
+    //save function
+    async function saveForm() {
+        var form = document.getElementById("acroage");
+        var data = JSON.stringify({
+            compYear: form.compYear.value,
+            level1Checked: form.level1.checked,
+            level2Checked: form.level2.checked,
+            level3Checked: form.level3.checked,
+            level4Checked: form.level4.checked,
+            level5Checked: form.level5.checked,
+            menDouChecked: form.menDou.checked,
+            womenDouChecked: form.womenDou.checked,
+            mixDouChecked: form.mixDou.checked,
+            womenTriChecked: form.womenTri.checked,
+            cnameYes1Checked: form.Yes1.checked,
+            cnameNo1Checked: form.No1.checked,
+            cpChiName1: form.cpChiName1.value,
+            cpEngName1: form.cpEngName1.value,
+            male1Checked: form.male1.checked,
+            female1Checked: form.female1.checked,
+            birth1: form.birth1.value,
+            id1: form.id1.value,
+            contactNo1: form.contactNo1.value,
+            email1: form.email1.value,
+            address1: form.address1.value,
+            cnameYes2Checked: form.Yes2.checked,
+            cnameNo2Checked: form.No2.checked,
+            cpChiName2: form.cpChiName2.value,
+            cpEngName2: form.cpEngName2.value,
+            male2Checked: form.male2.checked,
+            female2Checked: form.female2.checked,
+            birth2: form.birth2.value,
+            id2: form.id2.value,
+            contactNo2: form.contactNo2.value,
+            email2: form.email2.value,
+            address2: form.address2.value,
+            cnameYes3Checked: form.Yes3.checked,
+            cnameNo3Checked: form.No3.checked,
+            cpChiName3: form.cpChiName3.value,
+            cpEngName3: form.cpEngName3.value,
+            birth3: form.birth3.value,
+            id3: form.id3.value,
+            contactNo3: form.contactNo3.value,
+            email3: form.email3.value,
+            address3: form.address3.value,
+            coachName: form.coachName.value,
+            cContactNo: form.cContactNo.value,
+            organName: form.organName.value,
+            athleteChecked: form.athlete.checked,
+            schoolChecked: form.school.checked,
+            receiptName: form.receiptName.value,
+            parentName1: form.parentName1.value,
+            parentName2: form.parentName2.value,
+            parentName3: form.parentName3.value,
+            declaration0: form.declaration0.value,
+            declaration1: form.declaration1.value,
+            declaration2: form.declaration2.value,
+            imgIDCard0: form.imgIDCard0.value,
+            imgIDCard1: form.imgIDCard1.value,
+            imgIDCard2: form.imgIDCard2.value,
+            photo0: form.photo0.value,
+            photo1: form.photo1.value,
+            photo2: form.photo2.value,
+        });
+        alert(data)
+
+        var response = await fetch("/competition/form/acroage/save", {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.statusText);
+        }
+    }
+
+
+    //onclick function when item is chosen
+    function multiFunction() {
+        onlyRead();
+        genderSelect();
+        extraFrom();
+    }
+
+    //Not allow to modify the gender if no mixDou
+    function onlyRead() {
+        var womenTri_check = document.getElementById("womenTri");
+        var womenDou_check = document.getElementById("womenDou");
+        var menDou_check = document.getElementById("menDou");
+        if (womenTri_check.checked == true || womenDou_check.checked == true || menDou_check.checked == true) {
+            return false;
+        }
+    }
+
+    //handle gender selection
+    function genderSelect() {
+        var womenTri_check = document.getElementById("womenTri");
+        var mixDou_check = document.getElementById("mixDou");
+        var womenDou_check = document.getElementById("womenDou");
+        var menDou_check = document.getElementById("menDou");
+        var male1 = document.getElementById("male1");
+        var female1 = document.getElementById("female1");
+        var male2 = document.getElementById("male2");
+        var female2 = document.getElementById("female2");
+        if (womenTri_check.checked == true || womenDou_check.checked == true) {
+            female1.checked = true;
+            female2.checked = true;
+        } else if (menDou_check.checked == true) {
+            male1.checked = true;
+            male2.checked = true;
+        } else if (mixDou_check.checked == true) {
+            female1.checked = false;
+            female2.checked = false;
+            male1.checked = false;
+            male2.checked = false;
+        }
+    }
+
+    //handle extraCard of option womenTri
+    function extraFrom() {
+        var womenTri = document.getElementById("womenTri");
+        var mixDou = document.getElementById("mixDou");
+        var womenDou = document.getElementById("womenDou");
+        var menDou = document.getElementById("menDou");
+        var extraForm = document.getElementById("extraForm");
+        var extraParent = document.getElementById("extraParent");
+        var Yes3 = document.getElementById("Yes3");
+        var No3 = document.getElementById("No3");
+        var cpChiName3 = document.getElementById("cpChiName3");
+        var cpEngName3 = document.getElementById("cpEngName3");
+        var male3 = document.getElementById("male3");
+        var female3 = document.getElementById("female3");
+        var birth3 = document.getElementById("birth3");
+        var id3 = document.getElementById("id3");
+        var contactNo3 = document.getElementById("contactNo3");
+        var email3 = document.getElementById("email3");
+        var address3 = document.getElementById("address3");
+        var photo3 = document.getElementById("photo3");
+        var IDimg3 = document.getElementById("IDimg3");
+        var parentName3 = document.getElementById("parentName3");
+        var D3 = document.getElementById("D3");
+
+        if (womenTri.checked == true) { //display Applicant(3) details' card
+            extraForm.style.display = "inline";
+            extraParent.style.display = "inline";
+            Yes3.required = true; //set input to required
+            No3.required = true;
+            cpChiName3.required = true;
+            cpEngName3.required = true;
+            male3.required = true;
+            female3.required = true;
+            birth3.required = true;
+            id3.required = true;
+            contactNo3.required = true;
+            email3.required = true;
+            address3.required = true;
+            photo3.required = true;
+            IDimg3.required = true;
+            parentName3.required = true;
+            D3.required = true;
+
+        } else if (mixDou.checked == true || womenDou.checked == true || menDou.checked == true) { //hide Applicant(3) details' card
+            extraForm.style.display = "none";
+            extraParent.style.display = "none";
+            Yes3.required = false;
+            No3.required = false;
+            cpChiName3.required = false;
+            cpEngName3.required = false;
+            male3.required = false;
+            female3.required = false;
+            birth3.required = false;
+            id3.required = false;
+            contactNo3.required = false;
+            email3.required = false;
+            address3.required = false;
+            photo3.required = false;
+            IDimg3.required = false;
+            parentName3.required = false;
+            D3.required = false;
+        }
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var yes3_check = document.getElementById("Yes3");
+        var no3_check = document.getElementById("No3");
+        var chineseNameDis1 = document.getElementById("cpChiName1")
+        var chineseNameDis2 = document.getElementById("cpChiName2")
+        var chineseNameDis3 = document.getElementById("cpChiName3")
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+        }
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+        }
+        if (yes3_check.checked == true) {
+            chineseNameDis3.checked = false;
+            chineseNameDis3.disabled = false;
+        } else if (no3_check.checked == true) {
+            chineseNameDis3.checked = true; //disable chinese name
+            chineseNameDis3.disabled = true;
+        }
+    }
+
+    //handle the multi upload of photos (only img) (id="ph_preview+p")
+    function handleFile(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 4194304) {
+            alert("請重新上載4MB相片");
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var preview = document.getElementById('ph_preview' + p);
+            preview.innerHTML = "";
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            preview.appendChild(img);
+            img.style.height = "150px";
+            img.style.width = "auto";
+
+            document.getElementById('photo' + p).value = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle multi ID card upload (only img) (id="ID_prevew+p")
+    function handleFile2(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 4194304) {
+            alert("請重新上載4MB相片");
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var preview = document.getElementById('ID_preview' + p);
+            preview.innerHTML = "";
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            preview.appendChild(img);
+            img.style.height = "150px";
+            img.style.width = "auto";
+            document.getElementById('imgIDCard' + p).value = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+    //handle multi declaration uploas (img/pdf) (id="D_preview+p")
+    function handleFile3(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('D_preview' + p);
+        var reader = new FileReader();
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                img.style.height = "150px";
+                img.style.width = "auto";
+                document.getElementById('declaration' + p).value = e.target.result;
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                document.getElementById('declaration' + p).value = e.target.result;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle limit age
+    function limitBirth() {
+        var todayYear = new Date().getFullYear();
+        var level1 = document.getElementById("level1");
+        var level2 = document.getElementById("level2");
+        var level3 = document.getElementById("level3");
+        var level4 = document.getElementById("level4");
+        var level5 = document.getElementById("level5");
+        var birth1 = document.getElementById("birth1");
+        var birth2 = document.getElementById("birth2");
+        var birth3 = document.getElementById("birth3");
+        if (level1.checked == true) {
+            var minYear = todayYear - 14; //age 14
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 6; //age 6
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+        } else if (level2.checked == true) {
+            var minYear = todayYear - 14; //age 14
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 6; //age 6
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+        } else if (level3.checked == true) {
+            var maxYear = todayYear - 8; //age 8 or above
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+        } else if (level4.checked == true) {
+            var maxYear = todayYear - 9; //age 9 or above
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+        } else if (level5.checked == true) {
+            var maxYear = todayYear - 10; //age 10 or above
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+        }
+    }
+
+
+</script>

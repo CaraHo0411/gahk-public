@@ -1,0 +1,82 @@
+<form action="/pages/competition/form/GFA_Preview" method="POST">
+    <% req.session.data = req.session.data || {} %>
+    <div class="card border-0 col-12" style="width: 740pt; background: transparent;">
+        <div class="card-body col-12">
+            <h1 style="font-size: 18pt; text-align: center;"><b>Preview 預覽</b></h1>
+            <br>
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt; color: #888888;">
+                <b>香港普及體操節</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt; color: #888888;">
+                <u>報名表格</u></h2>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="card-body col-12">
+            <label style="color: #83a70c; font-weight: bold; font-size: 15px;">比賽年份 Year of Competition: </label>
+            <b><%= req.session.data.compYear%></b>    
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">團體資料 Group
+                    Details</label>
+                <span class="col-12">團體名稱 Group Name: <b><%= req.session.data.teamName%></b></span>
+                <span class="col-12">收據抬頭 Receipt Header: <b><%= req.session.data.receiptHeader%></b></span>
+                <span class="col-12">聯絡地址 Address: <b><%= req.session.data.address%></b></span>
+                <sapn class="col-12">參賽組別 Category: <b><%= req.session.data.category%></b></sapn>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">聯絡人資料 Contact Person Details</label>
+                <span class="col-12">是否有中文姓名 Any Chinese name: <b><%= req.session.data.havecname%></b></span>
+                <span class="col-sm-6">中文姓名 Name in Chinese:
+                    <% if(req.session.data.havecname == "是 Yes") {%>
+                    <b><%= req.session.data.cpChiName%></b>
+                    <%} else if(req.session.data.havecname == "否 No"){%>
+                    <b>N/A</b>
+                    <%}%>
+                </span>
+                <span class="col-sm-6">英文姓名 Name in English: <b><%= req.session.data.cpEngName%></b></span>
+            <span class="col-sm-3">聯絡電話 Contact Number: </span>
+            <span class="col-sm-4"><b><%= req.session.data.cpDayPhone%></b> (日間 Office Hour)</span>
+            <span class="col-sm-5"><b><%= req.session.data.cpMobilePhone%></b> (手提 Mobile) </span>
+            <span class="col-12">電郵地址 Email Address: <b><%= req.session.data.email%></b></span>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">參賽資料 Competition Details</label>
+                <span class="col-sm-6">參加人數 Number of Applicants: <b><%= req.session.data.applicantNum%></b></span>
+                <span class="col-sm-6">工作人員人數 Number of Crews: <b><%= req.session.data.crewNum%></b></span>
+                <span class="col-sm-6">支票編號 Check Number: <b><%= req.session.data.checkNum%></b></span>
+                <sapn class="col-sm-6">銀行名稱 Name of Bank: <b><%= req.session.data.bankName%></b></sapn>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="row">
+            <div class="form-group col-sm-10">
+                <button type="submit" class="btn btn-info"
+                    style="background-color: #83a70c; border-color: #83a70c;width: 150px; float:right"
+                    onclick="message()">Submit
+                    提交</button>
+            </div>
+
+            <div class="form-group col-sm-2">
+                <button type="button" class="btn btn-danger" style="width: 150px; float:right"
+                    onclick="history.back()">Cancel
+                    取消</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function message() {
+        alert("提交成功!! Successfully Submitted!");
+    }
+</script>

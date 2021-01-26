@@ -1,0 +1,219 @@
+<form action="/pages/competition/form/acroage_preview" method="POST">
+    <% req.session.data = req.session.data || {} %>
+    <div class="card border-0 col-12" style="width: 740pt; background: transparent;">
+        <div class="card-body col-12">
+            <h1 style="font-size: 18pt; text-align: center;"><b>Preview 預覽</b></h1>
+            <br>
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt; color: #888888;">
+                <b>香港技巧體操公開賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt; color: #888888;">
+                <u>報名表格</u></h2>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="card-body col-12">
+            <label style="color: #83a70c; font-weight: bold; font-size: 15px;">比賽年份 Year of Competition: </label>
+            <b><%= req.session.data.compYear%></b>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">組別資料 Category
+                    Details</label>
+                <span class="col-sm-7">組別 Category: <b><%= req.session.data.category%></b></span>
+                <span class="col-sm-5">項目 Item: <b><%= req.session.data.item%></b></span>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">參加者個人資料 Applicants'
+                    Personal
+                    Details</label>
+                <div class="form-group col-12">
+                    <div class="row">
+                        <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 14px;">參加者(1)
+                            Applicant(1)</label>
+
+                        <span class="col-sm-12">是否有中文姓名 Any Chinese name:
+                            <b><%= req.session.data.havecname1%></b></span>
+                        <span class="col-sm-6">中文姓名 Name in Chinese:
+                            <% if(req.session.data.havecname1 == "是 Yes") {%>
+                            <b><%= req.session.data.cpChiName1%></b>
+                            <%} else if(req.session.data.havecname1 == "否 No"){%>
+                            <b>N/A</b>
+                            <%}%>
+                                </span>
+                                <span class="col-sm-6">英文姓名 Name in English: <b><%= req.session.data.cpEngName1%></b></span>
+                        <span class="col-sm-6">性別 Gender: <b><%= req.session.data.gender1%></b></span>
+                        <span class="col-sm-6">出生日期 Date of Birth (yyyy-mm-dd):
+                            <b><%= req.session.data.birthday1%></b></span>
+                        <span class="col-sm-6">身分證號碼 ID Card Number: <b><%= req.session.data.idNo1%></b></span>
+                        <span class="col-sm-6">聯絡電話 Contact No.: <b><%= req.session.data.contactNo1%></b></span>
+                        <span class="col-sm-6">電郵地址 Email Address: <b><%= req.session.data.email1%></b></span>
+                        <span class="col-sm-6">聯絡地址 Contact Address:
+                            <b><%= req.session.data.address1%></b></span>
+
+                        <div class="col-sm-6">
+                            <span>運動員(1)相片<br>Athlete(1) photo: </span><br>
+                            <img src="<%= req.session.data.photo0%>" style="max-width:20vw" height="150" width=auto />
+                        </div>
+                        <div class="col-sm-6">
+                            <span>運動員(1)身份證副本<br>Athlete(1) ID copy: </span><br>
+                            <img src="<%= req.session.data.imgIDCard0%>" style="max-width:20vw" height="150"
+                                width=auto />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
+                    <br>
+                    <div class="row">
+                        <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 14px;">參加者(2)
+                            Applicant(2)</label>
+
+                        <span class="col-sm-12">是否有中文姓名 Any Chinese name:
+                            <b><%= req.session.data.havecname2%></b></span>
+                        <span class="col-sm-6">中文姓名 Name in Chinese:
+                            <% if(req.session.data.havecname2 == "是 Yes") {%>
+                            <b><%= req.session.data.cpChiName2%></b>
+                            <%} else if(req.session.data.havecname2 == "否 No"){%>
+                            <b>N/A</b>
+                            <%}%>
+                                </span>
+                                <span class="col-sm-6">英文姓名 Name in English: <b><%= req.session.data.cpEngName2%></b></span>
+                        <span class="col-sm-6">性別 Gender: <b><%= req.session.data.gender2%></b></span>
+                        <span class="col-sm-6">出生日期 Date of Birth (yyyy-mm-dd):
+                            <b><%= req.session.data.birthday2%></b></span>
+                        <span class="col-sm-6">身分證號碼 ID Card Number: <b><%= req.session.data.idNo2%></b></span>
+                        <span class="col-sm-6">聯絡電話 Contact No.: <b><%= req.session.data.contactNo2%></b></span>
+                        <span class="col-sm-6">電郵地址 Email Address: <b><%= req.session.data.email2%></b></span>
+                        <span class="col-sm-6">聯絡地址 Contact Address:
+                            <b><%= req.session.data.address2%></b></span>
+
+                        <div class="col-sm-6">
+                            <span>運動員(2)相片<br>Athlete(2) photo: </span><br>
+                            <img src="<%= req.session.data.photo1%>" style="max-width:20vw" height="150" width=auto />
+                        </div>
+                        <div class="col-sm-6">
+                            <span>運動員(2)身份證副本<br>Athlete(2) ID copy: </span><br>
+                            <img src="<%= req.session.data.imgIDCard1%>" style="max-width:20vw" height="150"
+                                width=auto />
+                        </div>
+                    </div>
+                </div>
+
+                <% if(req.session.data.item == "女子三人 Women's trio") {%>
+                <div class="form-group col-12">
+                    <br>
+                    <div class="row">
+                        <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 14px;">參加者(3)
+                            Applicant(3)</label>
+
+
+                        <span class="col-sm-12">是否有中文姓名 Any Chinese name:
+                            <b><%= req.session.data.havecname3%></b></span>
+                        <span class="col-sm-6">中文姓名 Name in Chinese:
+                            <% if(req.session.data.havecname3 == "是 Yes") {%>
+                            <b><%= req.session.data.cpChiName3%></b>
+                            <%} else if(req.session.data.havecname3 == "否 No"){%>
+                            <b>N/A</b>
+                            <%}%>
+                                    </span>
+                                    <span class="col-sm-6">英文姓名 Name in English: <b><%= req.session.data.cpEngName3%></b></span>
+                        <span class="col-sm-6">性別 Gender: <b><%= req.session.data.gender3%></b></span>
+                        <span class="col-sm-6">出生日期 Date of Birth (yyyy-mm-dd):
+                            <b><%= req.session.data.birthday3%></b></span>
+                        <span class="col-sm-6">身分證號碼 ID Card Number: <b><%= req.session.data.idNo3%></b></span>
+                        <span class="col-sm-6">聯絡電話 Contact No.: <b><%= req.session.data.contactNo3%></b></span>
+                        <span class="col-sm-6">電郵地址 Email Address: <b><%= req.session.data.email3%></b></span>
+                        <span class="col-sm-6">聯絡地址 Contact Address:
+                            <b><%= req.session.data.address3%></b></span>
+                        <div class="col-sm-6">
+                            <span>運動員(3)相片 Athlete(3) photo: </span><br>
+                            <img src="<%= req.session.data.photo2%>" style="max-width:20vw" height="150" width="150" />
+                        </div>
+                        <div class="col-sm-6">
+                            <span>運動員(3)身份證副本 Athlete(3) ID copy: </span><br>
+                            <img src="<%= req.session.data.imgIDCard2%>" style="max-width:20vw" height="150"
+                                width=auto />
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">教練資料 Coach Details</label>
+                <span class="col-sm-6">教練姓名 Coach Name: <b><%= req.session.data.coachName%></b></span>
+                <span class="col-sm-6">教練聯絡電話 Coach Contact Number: <b><%= req.session.data.cContactNo%></b></span>
+                <span class="col-12">學校/機構名稱(如適用) School/Organization Name(If applicable):
+                    <% if(req.session.data.organName == "") {%>
+                    <b>N/A</b>
+                    <%} else {%>
+                    <b><%= req.session.data.organName%></b>
+                    <%}%>
+                </span>
+                <span class="col-12">收據枱頭 Receipt header: 
+                    <% if(req.session.data.receiptHeader == "學校/機構名稱 School/Institution Name") {%>
+                    <b><%= req.session.data.receiptHeader%></b> <b><%= req.session.data.receiptName%></b>
+                    <%} else {%>
+                    <b><%= req.session.data.receiptHeader%></b>
+                    <%}%>
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body col-12">
+            <div class="row">
+                <label class="col-12" style="color: #83a70c; font-weight: bold; font-size: 15px;">參加者家長資料 Applicant's Parent
+                    Details</label>
+                <span class="col-12">參加者(1)家長姓名 Applicant(1)'s Parent Name: <b><%= req.session.data.parentName1%></b></span>
+                <span class="col-12">參加者(2)家長姓名 Applicant(2)'s Parent Name:
+                    <b><%= req.session.data.parentName2%></b></span>
+                <% if(req.session.data.item == "女子三人 Women's trio") {%>
+                <span class="col-12">參加者(3)家長姓名 Applicant(3)'s Parent Name:
+                    <b><%= req.session.data.parentName3%></b></span>
+                <%}%>
+            </div>
+        </div>
+        <br><br>
+
+        <% if(req.session.data.item != "女子三人 Women's trio") {
+            req.session.data.havecname3 = "";
+            req.session.data.cpChiName3 = "";
+            req.session.data.cpEngName3 = "";
+            req.session.data.gender3 = "";
+            req.session.data.birthday3 = "";
+            req.session.data.idNo3 = "";
+            req.session.data.contactNo3 = "";
+            req.session.data.email3 = "";
+            req.session.data.address3 = "";
+            req.session.data.parentName3 = "";
+            req.session.data.photo2 = "";
+            req.session.data.imgIDCard2 = "";
+            req.session.data.declaration = "";
+        }%>
+
+                <div class="row">
+                    <div class="form-group col-sm-10">
+                        <button type="submit" class="btn btn-info"
+                            style="background-color: #83a70c; border-color: #83a70c;width: 150px; float:right"
+                            onclick="message()">Submit
+                            提交</button>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <button type="button" class="btn btn-danger" style="width: 150px; float:right"
+                            onclick="history.back()">Cancel
+                            取消</button>
+                    </div>
+                </div>
+            </div>
+</form>
+<script>
+    function message() {
+        alert("提交成功!! Successfully Submitted!");
+    }
+</script>

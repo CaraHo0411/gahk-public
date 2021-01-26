@@ -1,0 +1,21 @@
+<%- partial('./partial/sidemenu.ejs') %>
+<section class="content aboutus flex-lg-grow-1">
+  <h5 class="main-heading1">教練<span class="highlight">資訊</span></h5>
+<div class="container-fluid">
+<div class="row text-center">
+  
+  <% coach.forEach(function(model) { %>
+      <% if (model.Disciplines4=="ACRO" && model.ConfirmPoint=="3"){ %>
+        <div class="col-6">
+          <div class="card" style="width:250px">
+            <img class="card-img-top" src="<%=model.Personal_photo%>" alt="Card image" style="width:100%">
+            <div class="card-body">
+              <h5 class="card-title"><a href="/coach/coachform_detail/<%=model.id%>"> <%= model.ChiName %>教練</a></h5>
+            </div>
+          </div>
+        </div>
+  <%}%>
+      <% }); %>
+  </div>
+</div>
+</section>

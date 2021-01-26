@@ -1,0 +1,75 @@
+
+<div style="text-align:right">
+    <%  if (req.session.role != undefined) {%>
+    
+        你好 ,
+    
+        <%=req.session.username %>
+    
+        <a href="/user/logout">[登出]</a>
+    
+        <%}%>
+    </div>
+
+    <label style="font-size:16pt"><b>所有運動員</b></label>
+    
+
+    <br>
+    <button type="button" class="btn btn-info" style="width:130px;height:70px" onclick="javascript:location.href ='user/registerAdmin'">註冊用戶記錄</button>
+    <button type="button" class="btn btn-primary" style="width:130px;height:70px" onclick="javascript:location.href ='membership/admin'">普通會員記錄</button>
+    <button type="button" class="btn btn-secondary" style="width:130px;height:70px" onclick="javascript:location.href ='athelete/athelete_record'">運動員記錄</button>
+    <button type="button" class="btn btn-success" style="width:130px;height:70px" onclick="javascript:location.href ='coach/coach_record'">教練記錄</button>
+    
+    <br><br>
+
+
+<table class="table">
+        <tr>
+                <th style="font-size:14px">運動員編號</th>
+                <th style="font-size:14px">會員頭像</th>
+                <th style="font-size:14px">中文名</th>
+                <th style="font-size:14px">英文名</th>
+                <th style="font-size:14px">性別</th>
+                <th style="font-size:14px">已交支票?</th>
+                <th style="font-size:14px">成為運動員?</th>
+              
+        
+        
+            </tr>
+    <% athelete.forEach(function(model) { %>
+        <tr>
+
+                <td>
+                        INDG<%=model.AtheleteNo %>
+                </td>
+            <td>
+              
+                 <% if(model.avatar) { %>
+                    <img src="<%=model.avatar%>" style="width:100px;height:100px"/>
+                 <% } %>
+                </td>
+            <td>
+                <a href="/athelete/update_athelete/<%=model.id%>">   <%= model.ChiName %> </a></td>
+            <td>
+                <%= model.EngName %></td>
+            <td>
+                <%= model.Gender%></td>
+                <td>
+                    <%= model.check%>
+            </td>
+                <td>
+                    <%= model.comfirm_athelete%></td>
+            
+            
+
+
+
+        </tr>
+        <% }); %>
+    
+</table>
+<br><br>
+<div style="text-align:right">
+<button type="button" class="btn btn-info" style="width:130px;height:70px" onclick="javascript:location.href ='/athelete/athelete_record/export.csv'">Export csv</button> 
+</div>
+<br>

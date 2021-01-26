@@ -1,0 +1,23 @@
+
+<%- partial('./partial/sidemenu.ejs') %>
+  <section class="content aboutus flex-lg-grow-1">
+    <h5 class="main-heading1">教練<span class="highlight">資訊</span></h5>
+  <div class="container-fluid">
+  <div class="row text-center">
+    
+<table class="table">
+    <% coach.forEach(function(model) { %>
+       <!-- Team item -->
+  <div class="col-xl-6 col-sm-6 mb-5">
+        <div class="card" style="width: 350px; height: 300px; margin: auto;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><a href="/coach/coachform_detail/<%=model.id%>"> <%= model.ChiName %>教練</a></h5>
+              <!-- <a href="/coach/update_coach/<%=model.id%>" class="btn btn-danger" role="button">Update</a> -->
+            </div>
+          </div>
+    </div><!-- End -->
+        <% }); %>
+    </div>
+</div>
+</section>

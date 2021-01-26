@@ -1,0 +1,104 @@
+<form action="/membership/clubMemberFormPreview" method="POST">
+    <% req.session.data = req.session.data || {} %>
+    <div class="card border-0 col-12" style="width: 740pt; background: transparent;">
+        <div class="card-body col-12">
+            <h1 style="font-size: 18pt; text-align: center;"><b>Preview 預覽</b></h1>
+            <br>
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt; color: #888888;">
+                <b><u>Application for Club Membership 團體註冊申請</u></b></h1>
+        </div>
+
+        <!-- 申請年份 Year of Application -->
+        <div class="card-body col-12">
+            <label style="color: #83a70c; font-weight: bold; font-size: 15px;">申請年份 Year of Application: </label>
+            <b><%= req.session.data.clubYear%></b>    
+        </div>
+
+
+        <ol type="A">
+            <div class="card-body col-12">
+                <div class="row">
+                    <li class="col-12" style="color: #83a70c; font-weight: bold; font-size: 16px;">申請者資料 Particulars
+                        of
+                        Applicant</li>
+                    <span class="col-12">機構 Organization : <b><%= req.session.data.OrgEngName%></b> (英文
+                        English)</span>
+                    <span class="col-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                        <b><%= req.session.data.OrgChiName%></b>
+                        (中文 Chinese)</span>
+                    <span class="col-sm-4">申請者姓名 Name of Applicant: </span>
+                    <span class="col-sm-4"><b><%= req.session.data.AppEngName%></b> (英文 English)</span>
+                    <span class="col-sm-4"><b><%= req.session.data.AppChiName%></b> (中文 Chinese)</span>
+                    <span class="col-12">地址 Address: <b><%= req.session.data.clubAddr%></b></span>
+                    <span class="col-sm-6">電話 Tel: <b><%= req.session.data.clubTel%></b></span>
+                    <span class="col-sm-6">傳真 Fax: <b><%= req.session.data.clubFax%></b></span>
+                    <span class="col-sm-6">電郵 E-mail: <b><%= req.session.data.clubEmail%></b></span>
+                    <span class="col-sm-6">網址 Web-site: <b><%= req.session.data.clubWeb%></b></span>
+                    <span class="col-12">機構成員人數 No. of Members in the Organization:
+                        <b><%= req.session.data.MemberNo%></b></span>
+                </div>
+            </div>
+
+            <div class="card-body col-12">
+                <div class="row">
+                    <li class="col-12" style="color: #83a70c; font-weight: bold; font-size: 16px;">
+                        請簡單描述貴機構/團體/學校曾舉辦或參與的體操活動 <br> Brief
+                        description of gymnastic activities which the Organization/Club/School has organized/taken part
+                    </li>
+                    <span class="col-12"><b><%= req.session.data.brefDes%></b></span>
+                </div>
+            </div>
+
+            <div class="card-body col-12">
+                <div class="row">
+                    <li class="col-12" style="color: #83a70c; font-weight: bold; font-size: 16px;">
+                        體操活動的機構代表/負責人資料<br>Particulars of
+                        Organization Representative / Person in charge of the gymnastic
+                        activities</li>
+                    <span class="col-sm-2">姓名 Name:</span>
+                    <span class="col-sm-5"><b><%= req.session.data.resEngName%></b> (英文 English)</span>
+                    <span class="col-sm-5"><b><%= req.session.data.resChiName%></b> (中文 Chinese)</span>
+                    <span class="col-sm-6">職位 Position held: <b><%= req.session.data.position%></b></span>
+                    <span class="col-sm-6">電郵 E-mail: <b><%= req.session.data.resEmail%></b></span>
+                    <span class="col-sm-6">電話 Tel: <b><%= req.session.data.resTel%></b></span>
+                    <span class="col-sm-6">傳真 Fax: <b><%= req.session.data.resFax%></b></span>
+                    <span class="col-12">地址 Address: <b><%= req.session.data.resAddr%></b></span>
+                </div>
+            </div>
+
+            <div class="card-body col-12">
+                <div class="row">
+                    <li class="col-12" style="color: #83a70c; font-weight: bold; font-size: 16px;">致中國香港體操總會主席 To the
+                        Chairperson of
+                        GAHK</li>
+                    <span class="col-12">The prescribed membership fee for the year of <b><%= req.session.data.year%></b> at
+                    HK$<b><%= req.session.data.clubFee%></b> and details of the Organization is attached.</span>
+                </div>
+            </div>
+        </ol>
+
+        <br><br>
+        <div class="row">
+            <div class="form-group col-sm-10">
+                <button type="submit" class="btn btn-info"
+                    style="background-color: #83a70c; border-color: #83a70c;width: 150px; float:right"
+                    onclick="message()">Submit
+                    提交</button>
+
+            </div>
+
+            <div class="form-group col-sm-2">
+                <button type="button" class="btn btn-danger" style="width: 150px; float:right"
+                    onclick="history.back()">Cancel
+                    取消</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function message() {
+        alert("提交成功!! Successfully Submitted!");
+    }
+
+</script>

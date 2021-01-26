@@ -1,0 +1,60 @@
+<%- partial('../partial/sidemenu.ejs') %>
+<div class="content admin">
+  <h5 class="main-heading1">最新消息管理<span class="highlight">系統</span></h5>
+  <form class="ajax-with-preview" action="/admin/news/detail/<%=news.id%>" method="POST" data-callback200="location.assign('/admin/news/');">
+    <section>
+      <h6 class="main-heading2 mb-0"><%= req.path.indexOf('create') !== -1 ? '發表':'更新' %>消息</h6>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">發表日期</label>
+            <%
+              var startDate = news.startDate ? new Date(news.startDate) : new Date();
+              function pad(num) { return num < 10 ? '0' + num : num };
+            %>
+            <input class="form-control" type="date" name="News[startDate]" value="<%=startDate.getFullYear()%>-<%=pad(startDate.getMonth()+1)%>-<%=pad(startDate.getDay())%>" required>
+          </div>
+          <div class="col-12 col-lg-6 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">完結日期</label>
+            <% var endDate = news.endDate ? new Date(news.endDate) : new Date(); %>
+            <input class="form-control" type="date" name="News[endDate]" value="<%=endDate.getFullYear()%>-<%=pad(endDate.getMonth()+1)%>-<%=pad(endDate.getDay())%>" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">分類</label>
+            <input class="form-control" type="text" name="News[category]" value="<%=news.category%>" list="cat_list" required>
+            <datalist id="cat_list">
+              <option value="特別通告">
+              <option value="特別通告以及本會運動員及海外比賽消息">
+              <option value="本地活動及比賽消息">
+            </datalist>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">內文</label>
+            <textarea class="form-control" name="News[content]" required><%=news.content%></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group d-flex required">
+            <label class="flex-shrink-0 col-form-label">檔案/連結</label>
+            <textarea class="form-control" name="News[link]" placeholder="以每一行輸入一個檔案網址" required><%=news.link%></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group">
+            <button class="btn btn-primary" type="submit">
+              <% if (req.path.endsWith('/detail')) { %>
+              發表
+              <% } else { %>
+              更新
+              <% } %>
+            </button>
+          </div>
+      </div>
+    </section>
+  </form>
+
+</div>

@@ -1,0 +1,63 @@
+<div style="text-align:right">
+        <%  if (req.session.role != undefined) {%>
+        
+            你好 ,
+        
+            <%=req.session.username %>
+        
+            <a href="/user/logout">[登出]</a>
+        
+            <%}%>
+        </div>
+        <table class="table">
+            <tr>
+                <b>會員申請表格鏈接:</b>
+                <%  if (req.session.role != 'athelete'||req.session.role != 'coach' ) {%>
+                <td>
+                    <button type="button" class="btn btn-info" style="width:130px;height:70px" onclick="javascript:location.href ='/membership/chineseMemberform'">普通用戶</button>
+                </td>
+                <%}%>
+        
+                <%  if (req.session.role != 'athelete'||req.session.role != 'member' ) {%>
+                <td>
+                    <button type="button" class="btn btn-info" style="width:130px;height:70px" onclick="javascript:location.href ='/coach/coachform'">教練
+                      </button>
+                </td>
+                <%}%>
+        
+                <%  if (req.session.role != 'coach'||req.session.role != 'member' ) {%>
+                <td>
+                    <button type="button" class="btn btn-info"  style="width:130px;height:70px" onclick="javascript:location.href ='/athelete/atheleteform'">
+                        運動員 </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-info"  style="width:130px;height:70px" onclick="javascript:location.href ='http://www.gahk.org.hk/doc/c_entry.pdf'">
+                        小組成員</button>
+                </td>
+                <%}%>
+            </tr>
+            <tr>
+        
+        
+            </tr>
+            </table>
+        
+            <table class="table">
+                <tr>
+                    <b>會員資料檢查及更新:</b>
+                    <td>
+        
+                        <button type="button" class="btn btn-info" style="width:130px;height:70px" onclick="javascript:location.href ='/membership/update_membershipUser'">更新用戶資料</button>
+                    </td>
+        
+                </tr>
+        
+                </table>
+        
+        
+   
+   
+
+    <br><br>
+
+  

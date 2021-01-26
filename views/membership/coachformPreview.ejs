@@ -1,0 +1,523 @@
+
+<form action="/membership/confirm_Coach" method="POST">
+    <div class="row">
+        <div class="card col-12 ">
+            <label style="font-size:17pt"><b>預覽 Preview</b></label>
+
+
+            <div class="col-10">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">1. 申請類別：</span>
+                        <%= req.session.data.New_coach%>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">2. 教練註冊級別:</span>
+                        <%= req.session.data.Level %>
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">3. 體操項目：(已選擇)</span><br>
+
+                        <%= req.session.data.Disciplines1 %> <br>
+
+                        <%= req.session.data.Disciplines2 %> <br>
+
+                        <%= req.session.data.Disciplines3 %> <br>
+
+                        <%= req.session.data.Disciplines4 %> <br>
+
+
+                        <%= req.session.data.Disciplines5 %> <br>
+
+                        <%= req.session.data.Disciplines6 %> <br>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold"><b>4. 個人資料：</b></span><br>
+                        <span class="font-weight-bold">個人相片:</span>
+                        <img class="img-fluid" src="<%=req.session.data.Personal_photo%>" width="100" height=auto>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">姓名 (英文):</span>
+                        <%= req.session.data.Engname %>
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">姓名 (中文): </span>
+                        <%= req.session.data.ChiName %>
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">香港身份證號碼:</span>
+                        <%= req.session.data.Id%>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">性別:</span>
+                        <%= req.session.data.Gender %>
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">出生日期:</span>
+                        <%= req.session.data.Birthd%>
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">職業:</span>
+                        <%= req.session.data.Occupation%>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">學歷:</span>
+                        <%= req.session.data.Education%><br>
+
+
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">住宅:</span>
+                        <% if (req.session.data.Hnumber=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.Hnumber %>
+                        <% }%>
+
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">手提:</span>
+                        <%= req.session.data.Mnumber %>
+
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">電郵:</span>
+                        <%= req.session.data.Email %>
+
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">通訊地址:</span>
+                        <%= req.session.data.ChiAddress%>
+
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">5. 體操教學經驗: (已選擇)</span>
+
+                        <br>
+                        <span class="font-weight-bold">曾任教本會舉辦之課程:</span>
+
+                        <%= req.session.data.HaveBeenCoach%>
+
+
+                        <br>
+
+                        <span class="font-weight-bold">如有，請列明課程及任教年份：</span>
+
+
+                        <% if (req.session.data.Have=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.Have%>
+                        <% }%>
+
+
+
+                    </li>
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">其他有關體操教學經驗</span>
+                        <%= req.session.data.HaveBeenCoach1%><br>
+                        <span class="font-weight-bold">請列明：</span>
+
+
+                        <% if (req.session.data.Have2=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.Have2%>
+                        <% }%>
+
+
+
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">6. 教練資歷: (已選擇)</span><br>
+
+                        <span class="font-weight-bold">本會發出之體操教練證書:</span>
+
+                        <%= req.session.data.Qualification%> <br>
+                        <label style="font-size:14px">證書編號:</label>
+
+                        <% if (req.session.data.Cert_no=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Cert_no%>
+                        <% }%>
+
+
+
+                        <br>
+                        <label style="font-size:14px">考取年份:
+                        </label>
+                        <% if (req.session.data.date_Qualification=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.date_Qualification%>
+                        <% }%>
+
+
+
+                        <br>
+
+
+
+
+                        <span class="font-weight-bold">香港教練培訓委員會發出之證書:</span>
+
+                        <%= req.session.data.Qualification1%> <br>
+
+
+                        <label style="font-size:14px">認可教練號碼:
+                        </label>
+
+                        <% if (req.session.data.Accredited_coachNo=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Accredited_coachNo%>
+                        <% }%>
+
+                        <br>
+
+                        <label style="font-size:14px"> 有效日期:
+                        </label>
+
+                        <% if (req.session.data.date_Qualification1=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.date_Qualification1%>
+                        <% }%>
+
+
+                        <br>
+
+
+
+
+                        <span class="font-weight-bold">本會發出之教練理論課程證書:</span>
+
+
+                        <%= req.session.data.Qualification2%> <br>
+
+
+                        <label style="font-size:14px"> 證書編號:
+                        </label>
+
+                        <% if (req.session.data.Cert_no2=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Cert_no2%>
+                        <% }%>
+
+
+
+                        <br>
+
+                        <label style="font-size:14px"> 有效日期:
+
+                        </label>
+                        <% if (req.session.data.date_Qualification2=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.date_Qualification2%>
+                        <% }%>
+
+
+                        <br>
+
+
+
+                        <span class="font-weight-bold">急救證書:</span>
+
+
+                        <%= req.session.data.Qualification3%> <br>
+
+
+
+                        <label style="font-size:14px"> 發出機構: </label>
+
+                        <% if (req.session.data.Issued_by=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Issued_by%>
+                        <% }%>
+
+
+                        <br>
+
+
+
+                        <label style="font-size:14px">考取年份:</label>
+                        <% if (req.session.data.date_Qualification3=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.date_Qualification3%>
+                        <% }%>
+
+
+                        <br>
+
+
+                        <span class="font-weight-bold"> 其他有關體操教練資歷 ( 如國內、國際教練或裁判 ):</span>
+
+                        <%= req.session.data.Qualification4%> <br>
+
+                        <% if (req.session.data.others=="") { %>
+                        <label style="font-size:16px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.others%>
+                        <% }%>
+                        <br>
+
+
+
+
+                    </li>
+
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">7. 達標事項 (已考取本地/國際裁判資歷)</span>
+                        <%= req.session.data.judges%><br>
+
+                        <label style="font-size:14px">考取年份:</label>
+                        <%if (req.session.data.judges=="否"){%>
+                        <label style="font-size:14px">N/A</label>
+
+                        <%}else{%>
+                        <%= req.session.data.date_qualification5%> <br>
+                        <%}%> 
+    
+                        </li>
+    
+    
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">(B) 在上一次註冊期內曾於學校或其他地區教授之訓練班：(如有)</span>
+    <br>
+                            <label style="font-size:14px">舉辦日期 (月/年):</label>
+    
+                            <% if (req.session.data.date_training=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.date_training%>
+                        <% }%>
+
+                        <br>
+
+                        <label style="font-size:14px">學校 / 機構名稱:</label>
+
+                        <% if (req.session.data.school_training=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.school_training%>
+                        <% }%>
+
+
+
+                        <br>
+
+
+                        <label style="font-size:14px">教授項目:</label>
+
+
+                        <% if (req.session.data.Discipline_training=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.Discipline_training%>
+                        <% }%>
+
+
+
+
+
+                        <br>
+
+
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold"> (C) 在上一次註冊期內曾教導學生考取章別計劃之數量：(如有)</span>
+                        <br>
+                        <label style="font-size:14px">舉辦日期 (月/年):</label>
+
+                        <% if (req.session.data.Badges_date=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%= req.session.data.Badges_date%>
+                        <% }%>
+
+
+
+                        <br>
+
+                        <label style="font-size:14px">訓練班 / 學校 / 機構名稱:</label>
+
+                        <% if (req.session.data.Badges_school=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Badges_school%>
+                        <% }%>
+
+
+
+                        <br>
+
+
+                        <label style="font-size:14px">級別及數量:</label>
+
+
+                        <% if (req.session.data.Badges_no=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Badges_no%>
+                        <% }%>
+
+
+
+                        <br>
+
+
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">(D) 在上一次註冊期內曾參與總會之體操推廣活動 (包括本地賽事)：(如有)</span>
+                        <br>
+                        <label style="font-size:14px">舉辦日期 (月/年):</label>
+
+                        <% if (req.session.data.Activities_date=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Activities_date%>
+                        <% }%>
+
+
+                        <br>
+
+                        <label style="font-size:14px">活動名稱:</label>
+
+                        <% if (req.session.data.Activities_event=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Activities_event%>
+                        <% }%>
+
+
+                        <br>
+
+
+                        <label style="font-size:14px">負責職位:</label>
+
+                        <% if (req.session.data.Activities_badges=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Activities_badges%>
+                        <% }%>
+
+                        <br>
+
+
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">(E) 在上一次註冊期內曾參與總會及香港教練培訓委員會之複修課程：(請提供文件副本)</span>
+                        <br>
+                        <label style="font-size:14px">舉辦日期 (月/年):</label>
+
+                        <% if (req.session.data.Coaching_workshops_date=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Coaching_workshops_date%>
+                        <% }%>
+
+
+                        <br>
+
+                        <label style="font-size:14px">活動名稱:</label>
+
+                        <% if (req.session.data.Coaching_workshops_event=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Coaching_workshops_event%>
+                        <% }%>
+
+
+                        <br>
+
+
+                        <label style="font-size:14px">舉辦機構:</label>
+
+                        <% if (req.session.data.Coaching_workshops_organization=="") { %>
+                        <label style="font-size:14px">N/A</label>
+                        <% }else{%>
+                        <%=req.session.data.Coaching_workshops_organization%>
+                        <% }%>
+
+
+                        <br>
+
+
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">聲明： 是否希望收取貴會有關教練或裁判課程的宣傳資料？</span>
+
+                        <%=req.session.data.hope%> <br>
+                    </li>
+
+                    <li class="list-group-item">
+
+                        <span class="font-weight-bold">校長簽署:</span>
+                        <img class="img-fluid" src="<%=req.session.data.avatar_sign%>" width="200" height=auto>
+
+
+                    </li>
+
+
+
+
+
+
+
+
+                </ul>
+                <br><br>
+                <button type="submit" class="btn btn-info" onclick="message()">提交 Submit</button>
+                <a class="btn btn-danger" href="/coach/coachform">取消 Cancel</a>
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+
+</form>
+<script>
+    function message() {
+        alert("提交成功!!");
+    }
+
+
+</script>

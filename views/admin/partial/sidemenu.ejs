@@ -1,0 +1,43 @@
+<style>
+  .dropdown-content {
+    display: none;
+    z-index: 1;
+  }
+  .show {
+    display:block;
+  }
+</style>
+
+<aside class="admin">
+  <section>
+    <h6 class="side-heading3"><span class="reflect" data-text="系統管理">系統管理</span></h6>
+    <ul class="list-unstyled">
+      <li><a class="side-button1 <%= req.path.startsWith('/admin/news') ? 'active':'' %>" href="/admin/news">最新消息</a>
+      </li>
+      <li><a class="side-button1 <%= req.path.startsWith('/admin/email') ? 'active':'' %>" href="/admin/email">電郵內文</a>
+      </li>
+      <li><a class="side-button1 <%= req.path.startsWith('/admin/user') ? 'active':'' %>" href="/admin/user">用戶管理</a>
+      </li>
+      <!-- <li><a class="side-button1 <%= req.path.startsWith('/admin/applyHandle') ? 'active':'' %>"
+          href="/admin/applyHandle/search">申請處理</a></li> -->
+
+      <li>
+        <a type="button" class="side-button1" onclick="showList()">申請處理</a>
+        <div class="dropdown-content" id="applyList">
+          <a class="side-button1 <%= req.path.startsWith('/admin/applyHandle') ? 'active':'' %>" href="/admin/applyHandle/acroSearch">技巧體操公開賽</a>
+          <a class="side-button1 <%= req.path.startsWith('/admin/applyHandle') ? 'active':'' %>" href="/admin/applyHandle/gfaSearch">普及體操節</a>
+          <a class="side-button1 <%= req.path.startsWith('/admin/applyHandle') ? 'active':'' %>" href="/admin/applyHandle/trampolineSearch">彈網分齡賽(雙人同步)</a>
+          <a class="side-button1 <%= req.path.startsWith('/admin/applyHandle') ? 'active':'' %>" href="/admin/applyHandle/HKRGASearch">藝術體操分齡賽</a>
+          <a class="side-button1 <%= req.path.startsWith('/admin/applyHandle') ? 'active':'' %>" href="/admin/applyHandle/clubMemberSearch">團體註冊申請</a>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+</aside>
+
+<script>
+  function showList() {
+    document.getElementById("applyList").classList.toggle("show");
+  }
+</script>

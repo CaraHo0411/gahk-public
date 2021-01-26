@@ -1,0 +1,77 @@
+<div class="card col-12">
+
+
+    <h1 style="text-align:center">
+        會員資料
+    </h1>
+    <table class="table table-bordered" style="height:500px">
+        <tbody>
+            <tr>
+
+                <td style="text-align:center"> <label><b>會藉類別:</b></label>
+                    <%=member.Application%><br>
+                    <label><b>會員號碼:</b></label>
+                    <%=member.MemberNo %></td>
+                <td style="text-align:center"> </td>
+                <td style="text-align:center"><img src="<%=member.avatar%>" style="width:100px;height:100px" /></td>
+
+            </tr>
+
+            <tr>
+                <td style="text-align:center"> <label><b>姓名：（中文）</b></label>
+                    <%=member.ChiName%></td>
+                <td style="text-align:center"> <label><b>姓名：（英文）</b></label>
+                    <%=member.EngName%></td>
+                <td style="text-align:center"><label><b>出生日期：</b></label>
+                    <%=member.Date%></td>
+
+            </tr>
+            <tr>
+                <td style="text-align:center"> <label><b>通訊地址：</b></label>
+                    <%=member.CorrespondenceChi%></td>
+                <td style="text-align:center"></td>
+                <td style="text-align:center"></td>
+
+            </tr>
+            <tr>
+                <td style="text-align:center"> <label><b>聯絡方法:（手提）</b></label>
+                    <%=member.Mobile%></td>
+                <td style="text-align:center"> <label><b>聯絡方法:（住宅）</b></label>
+                    <%=member.Hnumber%></td>
+                <td style="text-align:center"></td>
+
+            </tr>
+            <tr>
+                <td style="text-align:center"> <label><b>（電郵）:</b></label>
+                    <%=member.Email%></td>
+                <td style="text-align:center"></td>
+                <td style="text-align:center"></td>
+
+
+            </tr>
+            <tr>
+                <td style="text-align:center"> <label><b>申請日期: </b></label>
+                    <%=member.Date_applicant%></td>
+                <td style="text-align:center"></td>
+                <td style="text-align:center"></td>
+
+
+            </tr>
+            <tr>
+                <td style="text-align:center"> <label><b>支票號碼: </b></label>
+                    <%=member.CheckNo%></td>
+                    <td style="text-align:center"></td>
+                    <td style="text-align:center"></td>
+            
+        
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+
+</div>
+

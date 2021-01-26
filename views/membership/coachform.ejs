@@ -1,0 +1,1129 @@
+
+ <% if (req.session.FormSub != 'yes') {%>
+<div class="default-page" style="background-color:	#FFFFE0">
+
+  <table>
+    <tr>
+
+      <td style="text-align:right">
+        <img
+          src="data:image/jpeg;base64,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"
+          style="width:100px;height:100px">
+      </td>
+      <td style="font-size:18px;text-align: center;font-weight: bold">中國香港體操總會<br><br>
+        The Gymnastics Association of Hong Kong, China<br><br>
+
+        教練註冊及教練會員申請表 Online Coach Registration and Membership Form
+
+      </td>
+    </tr>
+  </table>
+
+
+
+  <form action="/coach/coachform" method="POST">
+    <!-- <form action="/membership/coachform" method="POST" onsubmit="return submitForm(this);"> -->
+
+    <br>
+
+    <table style="border: 1px solid black">
+      <tr>
+        <td style="border: 1px solid black"> 1. 申請類別 Category： <label style="font-size:14px;color:red">
+            *
+          </label></td>
+        <td style="border: 1px solid black">
+          <% if (data.New_coach=="新註冊"){ %>
+          <input type="radio" name="Coach[New_coach]" value="新註冊" checked>新註冊 New Registration <input type="radio"
+            name="Coach[New_coach]" value="續領註冊">續領註冊 Renewal
+          <% }else if (data.New_coach=="續領註冊"){%>
+          <input type="radio" name="Coach[New_coach]" value="新註冊">新註冊 New Registration <input type="radio"
+            name="Coach[New_coach]" value="續領註冊" checked>續領註冊 Renewal
+          <%} else {%>
+          <input type="radio" name="Coach[New_coach]" value="新註冊" required>新註冊 New Registration <input type="radio"
+            name="Coach[New_coach]" value="續領註冊" required>續領註冊 Renewal</td>
+        <%}%> 
+           
+        </tr>
+        <tr>
+          <td style="border: 1px solid black"> 2. 教練註冊級別 Level：   <label style="font-size:14px;color:red">
+              *
+          </label></td>
+          <td style="border: 1px solid black">
+
+         <% if (data.Level=="核準教練"){ %>
+        <input type="radio" name="Coach[Level]" value="核準教練" checked>
+        核準教練
+        Accredited Coach
+        <input type="radio" name="Coach[Level]" value="第一級">
+        第一級
+        Level 1
+        <input type="radio" name="Coach[Level]" value="第二級">
+        第二級
+        Level 2
+        <input type="radio" name="Coach[Level]" value="第三級">
+        第三級
+        Level 3
+        <% }else if (data.Level=="第一級"){%>
+        <input type="radio" name="Coach[Level]" value="核準教練">
+        核準教練
+        Accredited Coach
+        <input type="radio" name="Coach[Level]" value="第一級" checked>
+        第一級
+        Level 1
+        <input type="radio" name="Coach[Level]" value="第二級">
+        第二級
+        Level 2
+        <input type="radio" name="Coach[Level]" value="第三級">
+        第三級
+        Level 3
+        <% }else if (data.Level=="第二級"){%>
+        <input type="radio" name="Coach[Level]" value="核準教練">
+        核準教練
+        Accredited Coach
+        <input type="radio" name="Coach[Level]" value="第一級">
+        第一級
+        Level 1
+        <input type="radio" name="Coach[Level]" value="第二級" checked>
+        第二級
+        Level 2
+        <input type="radio" name="Coach[Level]" value="第三級">
+        第三級
+        Level 3
+        <% }else if (data.Level=="第三級"){%>
+        <input type="radio" name="Coach[Level]" value="核準教練">
+        核準教練
+        Accredited Coach
+        <input type="radio" name="Coach[Level]" value="第一級">
+        第一級
+        Level 1
+        <input type="radio" name="Coach[Level]" value="第二級">
+        第二級
+        Level 2
+        <input type="radio" name="Coach[Level]" value="第三級" checked>
+        第三級
+        Level 3
+        <%} else {%>
+        <input type="radio" name="Coach[Level]" value="核準教練" required>
+        核準教練
+        Accredited Coach
+        <input type="radio" name="Coach[Level]" value="第一級" required>
+        第一級
+        Level 1
+        <input type="radio" name="Coach[Level]" value="第二級" required>
+        第二級
+        Level 2
+        <input type="radio" name="Coach[Level]" value="第三級" required>
+        第三級
+        Level 3
+        </td>
+        <%}%> 
+       
+        </tr>
+        <tr>
+          <td style="border: 1px solid black"> 3. 體操項目 Disciplines：<label style="font-size:14px;color:red">
+              * </label></td>
+          <td style="border: 1px solid black">
+            
+       <% if (data.Disciplines1=="MAG"){ %>
+        <input type="checkbox" name="Coach[Disciplines1]" value="MAG" checked>
+        男子競技體操
+        MAG
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Disciplines1]" value="MAG">
+        男子競技體操
+        MAG
+        <% }%>
+
+
+        <% if (data.Disciplines2=="WAG"){ %>
+        <input type="checkbox" name="Coach[Disciplines2]" value="WAG" checked>
+        女子競技體操
+        WAG
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Disciplines2]" value="WAG">
+        女子競技體操
+        WAG
+        <% }%>
+
+        <% if (data.Disciplines3=="RG"){ %>
+        <input type="checkbox" name="Coach[Disciplines3]" value="RG" checked>
+        藝術體操
+        RG
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Disciplines3]" value="RG">
+        藝術體操
+        RG
+        <% }%>
+
+
+        <% if (data.Disciplines4=="ACRO"){ %>
+        <input type="checkbox" name="Coach[Disciplines4]" value="ACRO" checked>
+        技巧體操
+        ACRO
+        <br>
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Disciplines4]" value="ACRO">
+        技巧體操
+        ACRO
+        <br>
+        <% }%>
+
+        <% if (data.Disciplines5=="TRA"){ %>
+        <input type="checkbox" name="Coach[Disciplines5]" value="TRA" checked>
+        彈網
+        TRA
+        <br>
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Disciplines5]" value="TRA">
+        彈網
+        TRA
+        <% }%>
+
+        <% if (data.Disciplines6=="AER"){ %>
+        <input type="checkbox" name="Coach[Disciplines6]" value="AER" checked>
+        健美體操
+        AER
+        <br>
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Disciplines6]" value="AER">
+        健美體操
+        AER
+        <br>
+        <% }%>
+
+
+
+
+
+        </td>
+      </tr>
+    </table>
+    <br>
+    <p style="font-size:16px"><b>4. 個人資料 Personal Particulars：</b></p>
+
+    <div class="form-group">
+      <label style="font-size:13px">上載個人相片 Upload a personal photo</label><label style="font-size:14px;color:red">
+        * </label>
+      <input type="file" accept="image/*" onchange="handleFile4(this.files)" required />
+      <div id="preview4">
+
+        <% if (data.Personal_photo) { %>
+          <img src="<%=data.Personal_photo%>" width="100" height=auto/>
+          <input type="hidden" name="Coach[Personal_photo]" value="<%= data.Personal_photo%>" />
+          <% } %>
+
+
+      </div>
+      
+
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:13px"> 姓名 (英文)
+        Name (Eng)</label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[Engname]" value="<%= req.session.user.EngName%>"
+        onkeyup="value=value.replace(/[^\a-\z\A-\Z]/g,' ')" required readonly>
+    
+      <label style="font-size:13px">姓名 (中文)
+        Name (Chi)</label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[ChiName]" value="<%= req.session.user.ChiName%>"
+        onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required readonly>
+      <!-- <label type="text" style="font-size: 20px;color: blue;" ><%= req.session.user.ChiName%></label> -->
+    </div>
+    <br>
+    <div class="form-group">
+      <label style="font-size:13px"> 香港身份證號碼
+        HKID no.
+      </label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[Id]" value="<%= data.Id%>" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9()]/g,'')"
+        required>
+      <label style="font-size:13px"> 性別
+        Gender</label><label style="font-size:14px;color:red">
+        *
+      </label>
+
+      <% if (data.Gender=="女"){ %>
+      <input type="radio" name="Coach[Gender]" value="女" checked>
+      <label style="font-size:14px">女 Female</label>
+      <input type="radio" name="Coach[Gender]" value="男">
+      <label style="font-size:14px">男 Male</label>
+      <% }else if (data.Gender=="男"){%>
+      <input type="radio" name="Coach[Gender]" value="女">
+      <label style="font-size:14px">女 Female</label>
+      <input type="radio" name="Coach[Gender]" value="男" checked>
+      <label style="font-size:14px">男 Male</label>
+      <%} else {%>
+      <input type="radio" name="Coach[Gender]" value="女" required>
+
+      <input type="hidden" name="Coach[FormNum]" value="<%= req.session.Email%>"
+      style="font-size:13px" required>
+
+      <input type="hidden" name="Coach[FormSubmit]" value="yes"
+      style="font-size:13px" required>
+
+ 
+      <label style="font-size:14px">女 Female</label>
+      <input type="radio" name="Coach[Gender]" value="男" required>
+      <label style="font-size:14px">男 Male</label>
+      <%}%> 
+    </div>
+    <br>
+    <div class="form-group">
+      <label style="font-size:13px">出生日期
+        Date of birth
+      </label><label style="font-size:14px;color:red">
+          *
+      </label>
+      <input type="date" name="Coach[Birthd]" value="<%= data.Birthd%>" required>
+      <label style="font-size:13px"> 職業
+        Occupation</label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[Occupation]" value="<%=data.Occupation%>" required>
+    </div>
+    <br>
+
+    <div>
+      <span><label style="font-size:13px"> 學歷
+          Education level
+        </label><label style="font-size:14px;color:red">
+          *
+        </label></span>
+      <select name="Coach[Education]" value="<%= data.Education%>" required>
+        <option value="">請選擇 Please select</option>
+        <option value="Associate">Foundation diploma</option>
+        <option value="Associate">High diploma</option>
+        <option value="Associate">Professional diploma</option>
+        <option value="Associate">Associate degree</option>
+        <option value="Bachelor">Bachelor’s degree</option>
+        <option value="Master">Master’s degree</option>
+        <option value="Professional">Professional degree</option>
+        <option value="Doctorate">Doctorate degree</option>
+      </select>
+      <br><br>
+      <div class="form-group">
+        <label><b>上載學歷檔案 Upload an educational level document (pdf檔)</b></label>
+
+        <input type="file" accept="application/pdf" onchange="handleFile(this.files)" required />
+        <div id="preview"></div>
+      </div>
+
+
+      <label style="font-size:12px"> <label style="font-size:14px;color:red">
+        * </label>請提供相關證書副本
+        <label style="font-size:14px;color:red">
+          * </label>Please provide certificate copies
+      </label>
+    </div>
+
+    <!-- <div class="form-group">
+      <label style="font-size:13px"> 學歷
+        Education level
+      </label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[Education]" value="<%= data.Education%>" required>
+      <br><br>
+      <div class="form-group">
+        <label><b>上載學歷檔案 Upload an educational level document (pdf檔)</b></label>
+        <input type="file" accept="application/pdf" onchange="handleFile(this.files)" required/>
+        <div id="preview"></div>
+      </div>
+      <label style="font-size:12px"> *請提供相關證書副本
+        * Please provide certificate copies
+      </label>
+    </div> -->
+
+
+
+
+    <br>
+    <div class="form-group">
+      <label style="font-size:13px">聯絡電話
+        Contact tel no
+      </label>
+      <label style="font-size:13px">( 住宅 Home)
+      </label>
+      <input type="text" name="Coach[Hnumber]" value="<%= data.Hnumber%>" maxlength="8" pattern="\d{8}">
+      <label style="font-size:13px">( 手提 Moblie)
+      </label>
+      </label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[Mnumber]" value="<%= data.Mnumber%>" maxlength="8" pattern="\d{8}" required>
+    </div>
+    <br>
+    <div class="form-group">
+      <label style="font-size:13px"> 電郵地址
+        Email address : 
+      </label>
+      </label>
+      <!-- <label type="email" style="font-size: 20px;color: blue;" ><%= req.session.user.Email%></label> -->
+      <input type="email" name="Coach[Email]" value="<%= req.session.user.Email%>"
+        pattern="[a-zA-Z0-9.!#$%&amp;’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+" style="width:300pt" required >
+      <label style="font-size:12px"> <label style="font-size:14px;color:red">
+        * </label>以此電郵作主要通訊之用
+      </label>
+    </div>
+    <br>
+    <div class="form-group">
+      <label style="font-size:13px"> 通訊地址
+      </label>
+      </label><label style="font-size:14px;color:red">
+        *
+      </label>
+      <input type="text" name="Coach[ChiAddress]" value="<%= data.ChiAddress%>" style="width:350pt" required>
+
+    </div>
+
+    <br>
+
+
+    <br>
+    <p style="font-size:16px"><b>5. 體操教學經驗 Coaching Experience：</b></p>
+    <!-- <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" value="true" name="Coach[Highlight_property5]">
+      <label label>向公眾展示該資料 Show this information to public</label>
+    </div> -->
+    <div class="form-group">
+
+      <!-- <% if (data.HaveBeenCoach=="選擇"){ %>
+      <input type="checkbox" name="Coach[HaveBeenCoach]" value="選擇" checked id="coachH"> -->
+      <label style="font-size:10px"> 曾任教本會舉辦之課程
+        has been a coach of the GAHK's course
+      </label>
+      <label style="font-size:10px"> 如有，請列明課程及任教年份：
+        Course name / year of coaching:
+      </label>
+      <input type="text" name="Coach[Have]" value="<%= data.Have%>" id="coachH_if" required>
+      <% }else{ %>%>
+      <!-- <input type="checkbox" name="Coach[HaveBeenCoach]" value="選擇" id="coachH"> -->
+      <label style="font-size:10px"> 曾任教本會舉辦之課程
+        has been a coach of the GAHK's course
+      </label>
+      <label style="font-size:10px"> 如有，請列明課程及任教年份：
+        Course name / year of coaching:
+      </label>
+      <input type="text" name="Coach[Have]" value="<%= data.Have%>" id="coachH_if">
+      <%}%>
+  
+      <!-- <% if (data.Highlight_property5a=="true"){ %>
+      <input type="checkbox" name="Coach[Highlight_property5a]" value="true" checked>
+      向公眾展示該資料 Show this information to public
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Highlight_property5a]" value="true">
+      向公眾展示該資料 Show this information to public
+      <% }%> -->
+    </div>
+    <div class="form-group">
+      <!-- <% if (data.HaveBeenCoach1=="選擇"){ %>
+      <input type="checkbox" name="Coach[HaveBeenCoach1]" value="選擇" id="coachH_other" checked> -->
+      <label style="font-size:10px"> 其他有關體操教學經驗，請列明：
+        Other coaching experience related to gymnastics, please give details:
+      </label>
+      <input type="text" name="Coach[Have2]" value="<%= data.Have2%>" id="coachH_other_if" required>
+      <% }else{ %>%>
+      <!-- <input type="checkbox" name="Coach[HaveBeenCoach1]" value="選擇" id="coachH_other"> -->
+      <label style="font-size:10px"> 其他有關體操教學經驗，請列明：
+        Other coaching experience related to gymnastics, please give details:
+      </label>
+      <input type="text" name="Coach[Have2]" value="<%= data.Have2%>" id="coachH_other_if">
+      <%}%>
+      <!-- <% if (data.Highlight_property5b=="true"){ %>
+      <input type="checkbox" name="Coach[Highlight_property5b]" value="true" checked>
+      向公眾展示該資料 Show this information to public
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Highlight_property5b]" value="true">
+      向公眾展示該資料 Show this information to public
+      <% }%> -->
+    </div>
+    <br>
+    <p style="font-size:16px"> <b>6. 教練資歷 Coach Qualification (請打勾選擇展示該資料 Please tick if you would like to share this information to the public)</b></p>
+    <!-- <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" value="true" name="Coach[Highlight_property6]">
+      <label label>向公眾展示該資料 Show this information to public</label>
+    </div> -->
+    <div class="form-group">
+      <% if (data.Qualification=="選擇"){ %>
+      <input type="checkbox" name="Coach[Qualification]" value="選擇" id="Qualification" checked>
+      <label style="font-size:10px"> 本會發出之體操教練證書
+        GAHK coach certificate</label>
+      <label style="font-size:10px"> 證書編號
+        Cert. no
+      </label>
+      <input type="text" name="Coach[Cert_no]" id="Cert_no" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+        value="<%= data.Cert_no%>" style="width:140px" required>
+      <label style="font-size:10px"> 考取年份
+        Date of issue
+      </label>
+      <input type="text" name="Coach[date_Qualification]" id="date_Qualification"
+        onkeyup="value=value.replace(/[^0-9]/g,'')" value="<%= data.date_Qualification%>" style="width:140px" required>
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Qualification]" value="選擇" id="Qualification">
+      <label style="font-size:10px"> 本會發出之體操教練證書
+        GAHK coach certificate</label>
+      <label style="font-size:10px"> 證書編號
+        Cert. no
+      </label>
+      <input type="text" name="Coach[Cert_no]" id="Cert_no" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+        value="<%= data.Cert_no%>" style="width:140px">
+      <label style="font-size:10px"> 考取年份
+        Date of issue
+      </label>
+      <input type="text" name="Coach[date_Qualification]" id="date_Qualification"
+        onkeyup="value=value.replace(/[^0-9]/g,'')" value="<%= data.date_Qualification%>" style="width:140px">
+      <% }%>
+      <!-- <% if (data.Highlight_property6a=="true"){ %>
+      <input type="checkbox" name="Coach[Highlight_property6a]" value="true" checked>
+      向公眾展示該資料 Show this information to public -->
+      <!-- <% }else{ %>
+      <input type="checkbox" name="Coach[Highlight_property6a]" value="true">
+      向公眾展示該資料 Show this information to public
+      <% }%> -->
+    </div>
+    <div class="form-group">
+      <% if (data.Qualification1=="選擇"){ %>
+      <input type="checkbox" name="Coach[Qualification1]" id="Qualification1" value="選擇" checked>
+      <label style="font-size:10px"> 香港教練培訓委員會發出之證書
+        HKCC coach certificate</label>
+      <label style="font-size:10px"> 認可教練號碼
+        Accredited coach no.
+      </label>
+      <input type="text" name="Coach[Accredited_coachNo]" id="Accredited_coachNo"
+        onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" value="<%= data.Accredited_coachNo%>" style="width:100px"
+        required>
+      <label style="font-size:10px"> 有效日期
+        Valid until
+      </label>
+      <input type="date" name="Coach[date_Qualification1]" id="date_Qualification1"
+        value="<%= data.date_Qualification1%>" style="width:150px" required>
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Qualification1]" value="選擇" id="Qualification1">
+      <label style="font-size:10px"> 香港教練培訓委員會發出之證書
+        HKCC coach certificate</label>
+      <label style="font-size:10px"> 認可教練號碼
+        Accredited coach no.
+      </label>
+      <input type="text" name="Coach[Accredited_coachNo]" id="Accredited_coachNo"
+        onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" value="<%= data.Accredited_coachNo%>" style="width:100px">
+      <label style="font-size:10px"> 有效日期
+        Valid until
+      </label>
+      <input type="date" name="Coach[date_Qualification1]" id="date_Qualification1"
+        value="<%= data.date_Qualification1%>" style="width:150px">
+      <% }%>
+      <!-- <% if (data.Highlight_property6b=="true"){ %>
+      <input type="checkbox" name="Coach[Highlight_property6b]" value="true" checked>
+      向公眾展示該資料 Show this information to public
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Highlight_property6b]" value="true">
+      向公眾展示該資料 Show this information to public
+      <% }%> -->
+    </div>
+    <div class="form-group">
+      <% if (data.Qualification2=="選擇"){ %>
+      <input type="checkbox" name="Coach[Qualification2]" id="Qualification2" value="選擇" checked>
+      <label style="font-size:10px"> 本會發出之教練理論課程證書
+        GAHK theory course certificate</label>
+      <label style="font-size:10px"> 證書編號
+        Cert. no.
+      </label>
+      <input type="text" name="Coach[Cert_no2]" id="Cert_no2" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+        value="<%= data.Cert_no2%>" style="width:120px" required>
+      <label style="font-size:10px"> 有效日期
+        Valid until
+      </label>
+      <input type="date" name="Coach[date_Qualification2]" id="date_Qualification2"
+        value="<%= data.date_Qualification2%>" style="width:150px" required>
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Qualification2]" id="Qualification2" value="選擇">
+      <label style="font-size:10px"> 本會發出之教練理論課程證書
+        GAHK theory course certificate</label>
+      <label style="font-size:10px"> 證書編號
+        Cert. no.
+      </label>
+      <input type="text" name="Coach[Cert_no2]" id="Cert_no2" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+        value="<%= data.Cert_no2%>" style="width:120px">
+      <label style="font-size:10px"> 有效日期
+        Valid until
+      </label>
+      <input type="date" name="Coach[date_Qualification2]" id="date_Qualification2"
+        value="<%= data.date_Qualification2%>" style="width:150px">
+      <% }%>
+      <!-- <% if (data.Highlight_property6c=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property6c]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property6c]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%> -->
+    </div>
+    <div class="form-group">
+      <% if (data.Qualification3=="選擇"){ %>
+      <input type="checkbox" name="Coach[Qualification3]" value="選擇" id="Qualification3" checked>
+      <label style="font-size:10px"> 急救證書
+        First aid certificate
+      </label>
+      <label style="font-size:10px"> 發出機構
+        Issued by
+      </label>
+      <input type="text" name="Coach[Issued_by]" id="Issued_by" value="<%= data.Issued_by%>" required>
+      <label style="font-size:10px"> 考取年份
+        Date of issue
+      </label>
+      <input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" id="date_Qualification3"
+        name="Coach[date_Qualification3]" value="<%= data.date_Qualification3%>" required>
+      <%}else{ %>
+      <input type="checkbox" name="Coach[Qualification3]" id="Qualification3" value="選擇">
+      <label style="font-size:10px"> 急救證書
+        First aid certificate
+      </label>
+      <label style="font-size:10px"> 發出機構
+        Issued by
+      </label>
+      <input type="text" name="Coach[Issued_by]" id="Issued_by" value="<%= data.Issued_by%>">
+      <label style="font-size:10px"> 考取年份
+        Date of issue
+      </label>
+      <input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" id="date_Qualification3"
+        name="Coach[date_Qualification3]" value="<%= data.date_Qualification3%>">
+      <%}%>
+      <!-- <% if (data.Highlight_property6d=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property6d]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property6d]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%> -->
+    </div>
+    <div class="form-group">
+      <% if (data.Qualification4=="選擇"){ %>
+      <input type="checkbox" name="Coach[Qualification4]" id="Qualification4" value="選擇" checked>
+      <label style="font-size:10px"> 其他有關體操教練資歷 ( 如國內、國際教練或裁判 )
+        Other qualifications related to gymnastics (e.g. International judges, FIG Academy coaches)
+      </label>
+      <br>
+      <input type="text" name="Coach[others]" style="width:350px" id="others" value="<%= data.others%>" required>
+      <% }else{ %>
+      <input type="checkbox" name="Coach[Qualification4]" id="Qualification4" value="選擇">
+      <label style="font-size:10px"> 其他有關體操教練資歷 ( 如國內、國際教練或裁判 )
+        Other qualifications related to gymnastics (e.g. International judges, FIG Academy coaches)
+      </label>
+      <br>
+      <input type="text" name="Coach[others]" style="width:350px" id="others" value="<%= data.others%>">
+      <%}%>
+      <!-- <% if (data.Highlight_property6e=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property6e]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property6e]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%> -->
+    </div>
+    <br><br>
+    <p style="font-size:16px"> <b>7. 達標事項 Target Achieved： <label style="font-size:14px;color:red">
+      * </label> 此部份只適用於 續領註冊 申請者 For renewal only
+      <br>
+      (如空位不敷應用，請另紙填寫 If space is insufficient, please provide details in a separate sheet)</b>
+    </p>
+    <!-- <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" value="true" name="Coach[Highlight_property7]">
+      <label label>向公眾展示該資料 Show this information to public</label>
+    </div> -->
+    <div class="form-group">
+      <label style="font-size:12px"> (A) 是否已考取本地/國際裁判資歷？ <br>
+        Attained the local / international judges qualification?
+      </label>
+      <% if (data.judges=="是"){ %>
+      <input type="radio" name="Coach[judges]" value="是" id="judge" checked>
+      <label style="font-size:12px"> 是
+        Yes
+      </label>
+      <label style="font-size:12px"> 考取年份
+        Date of issue
+      </label>
+      <input type="number" onkeyup="value=value.replace(/[^0-9]/g,'')" id="judge_question"
+        name="Coach[date_qualification5]" value="<%= data.date_qualification5%>" required>
+      <input type="radio" name="Coach[judges]" value="否">
+      <label style="font-size:12px"> 否
+        No
+      </label>
+      <% } else if (data.judges=="否"){ %>
+      <input type="radio" name="Coach[judges]" value="是">
+      <label style="font-size:12px"> 是
+        Yes
+      </label>
+      <label style="font-size:12px"> 考取年份
+        Date of issue
+      </label>
+      <input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" id="judge_question"
+        name="Coach[date_qualification5]" value="<%= data.date_qualification5%>">
+      <input type="radio" name="Coach[judges]" value="否" checked>
+      <label style="font-size:12px"> 否
+        No
+      </label>
+      <% }else{ %>
+      <input type="radio" name="Coach[judges]" value="是">
+      <label style="font-size:12px"> 是
+        Yes
+      </label>
+      <label style="font-size:12px"> 考取年份
+        Date of issue
+      </label>
+      <input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" name="Coach[date_qualification5]"
+        value="<%= data.date_qualification5%>">
+      <input type="radio" name="Coach[judges]" value="否">
+      <label style="font-size:12px"> 否
+        No
+      </label>
+      <% }%>
+      <p style="font-size:12px">(不適用於註冊核準及一級教練 Not applicable for Accredited Coaches and Level 1 registration)</p>
+      <% if (data.Highlight_property7a=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property7a]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property7a]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%>
+    </div>
+    <div class="form-group">
+      <label style="font-size:12px"> (B) 在上一次註冊期內曾於學校或其他地區教授之訓練班：(如有)<br>
+        Training courses taught in schools/organizations within your last registration period:
+      </label>
+      <table class="table table-bordered table-dark" style="font-size:14px;background-color: transparent;color:black">
+        <thead>
+          <tr>
+            <th scope="col">舉辦日期 (月/年)<br>
+              Date of course (mm/yy)</th>
+            <th scope="col">學校 / 機構名稱<br>
+              Name of school / organization</th>
+            <th scope="col">教授項目<br>
+              Discipline taught</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> <input type="text" name="Coach[date_training]" value="<%= data.date_training%>"
+                onkeyup="value=value.replace(/[^0-9]/g,'/')"></td>
+            <td> <input type="text" name="Coach[school_training]" value="<%= data.school_training%>"></td>
+            <td> <input type="text" name="Coach[Discipline_training]" value="<%= data.Discipline_training%>"></td>
+          </tr>
+        </tbody>
+      </table>
+      <% if (data.Highlight_property7b=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property7b]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property7b]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%>
+    </div>
+    <div class="form-group">
+      <label style="font-size:12px"> (C) 在上一次註冊期內曾教導學生考取章別計劃之數量：(如有)<br>
+        No. of Badges your students achieved within your last registration period: (if any)
+      </label>
+      <table class="table table-bordered table-dark" style="font-size:14px;background-color: transparent;color:black">
+        <thead>
+          <tr>
+            <th scope="col">舉辦日期 (月/年)<br>
+              Date of course (mm/yy)</th>
+            <th scope="col">訓練班 / 學校 / 機構名稱<br>
+              Name of course / school / organization</th>
+            <th scope="col">級別及數量<br>
+              Level & no. of Badges</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> <input type="text" name="Coach[Badges_date]" value="<%= data.Badges_date%>"
+                onkeyup="value=value.replace(/[^0-9]/g,'/')"></td>
+            <td> <input type="text" name="Coach[Badges_school]" value="<%=data.Badges_school%>"></td>
+            <td> <input type="text" name="Coach[Badges_no]" value="<%= data.Badges_no%>"></td>
+          </tr>
+        </tbody>
+      </table>
+      <% if (data.Highlight_property7c=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property7c]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property7c]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%>
+    </div>
+    <br>
+    <div class="form-group">
+      <label style="font-size:12px"> (D) 在上一次註冊期內曾參與總會之體操推廣活動 (包括本地賽事)：(如有)<br>
+        Activities of GAHK you have participated in within your last registration period (includes local competitions):
+        (if any)
+      </label>
+      <table class="table table-bordered table-dark" style="font-size:14px;background-color: transparent;color:black">
+        <thead>
+          <tr>
+            <th scope="col">舉辦日期 (月/年)<br>
+              Date of course (mm/yy)</th>
+            <th scope="col">活動名稱<br>
+              Name of event</th>
+            <th scope="col">負責職位<br>
+              Position
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> <input type="text" name="Coach[Activities_date]" value="<%= data.Activities_date%>"
+                onkeyup="value=value.replace(/[^0-9]/g,'/')"></td>
+            <td> <input type="text" name="Coach[Activities_event]" value="<%= data.Activities_event%>"></td>
+            <td> <input type="text" name="Coach[Activities_badges]" value="<%= data.Activities_badges%>"></td>
+          </tr>
+        </tbody>
+      </table>
+      <% if (data.Highlight_property7d=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property7d]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property7d]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%>
+    </div>
+    <br>
+    <div class="form-group">
+      <label style="font-size:12px"> (E) 在上一次註冊期內曾參與總會及香港教練培訓委員會之複修課程：(請提供文件副本)<br>
+        Coaching workshops/seminars of GAHK and HKCC you have participated in within your last registration period:
+        <br>(please attach support
+        documents)
+      </label>
+      <table class="table table-bordered table-dark" style="font-size:14px;background-color: transparent;color:black">
+        <thead>
+          <tr>
+            <th scope="col">舉辦日期 (月/年)<br>
+              Date of course (mm/yy)</th>
+            <th scope="col">活動名稱<br>
+              Name of event</th>
+            <th scope="col">舉辦機構<br>
+              Name of organization
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> <input type="text" name="Coach[Coaching_workshops_date]" value="<%= data.Coaching_workshops_date%>"
+                onkeyup="value=value.replace(/[^0-9]/g,'/')">
+            </td>
+            <td> <input type="text" name="Coach[Coaching_workshops_event]" value="<%=data.Coaching_workshops_event%>">
+            </td>
+            <td> <input type="text" name="Coach[Coaching_workshops_organization]"
+                value="<%= data.Coaching_workshops_organization%>"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="form-group">
+        <label><b>上載文件 Upload a document (pdf檔)</b></label>
+        <input type="file" accept="application/pdf" onchange="handleFile3(this.files)" />
+        <div id="preview3"></div>
+      </div>
+      <% if (data.Highlight_property7e=="true"){ %>
+        <input type="checkbox" name="Coach[Highlight_property7e]" value="true" checked>
+        向公眾展示該資料 Show this information to public
+        <% }else{ %>
+        <input type="checkbox" name="Coach[Highlight_property7e]" value="true">
+        向公眾展示該資料 Show this information to public
+        <% }%>
+    </div>
+    <div class="form-group">
+      <p style="font-size:15px"><b>重要事項 Important notes：</b></p>
+      <p style="font-size:12px">1. 教練必須參閱及明白附件之教練註冊須知及教練守則。</p>
+      <p style="font-size:12px">Applicants should read and understand the attached Guidelines for Registration and
+        Coaches Rules.</p>
+      <p style="font-size:12px">2. 在填寫各項達標記錄時，申請人只需寫出於上一次註冊期內三項最有代表性的活動。
+      </p>
+      <p style="font-size:12px">When filling out your target achieved in Part 6, only mention the three most important
+        events within the last registration period.</p>
+      <p style="font-size:12px">3. 請填妥所有資料及簽署後，連同相關文件副本、註冊及會員費用 (抬頭請書「中國香港體操總會」)，
+        <br>郵寄或交往香港銅鑼灣掃桿埔大球場徑一號奧運大樓1002室中國香港體操總會。
+      </p>
+      <p style="font-size:12px">Every part in the registration form should be completed and applicants must sign the
+        form. <br>Please submit the form together with
+        other required documents and a crossed cheques for registration fee and membership fee
+        <br>(made payable to "The Gymnastics Association of Hong Kong, China"), by post or by hand to our office.</p>
+      <p style="font-size:12px">4. 本會建議各申請者自行存檔，以便日後辦理續領註冊時使用
+      </p>
+      <p style="font-size:12px">Applicants are suggested to keep a copy as your own record for the purpose of renewal.
+      </p>
+      <br>
+    </div>
+    <div class="form-group">
+      <p style="font-size:15px"><b>聲明 Declaration：</b></p>
+      <p style="font-size:12px">
+        1. 本人謹此聲明，本申請表及隨附文件所載一切資料依本人所知均屬真確，並無遺漏。<br>本人已閱畢並同意遵守附件之教練註冊須知及教練守則，中國香港體操總會有權拒絕接納本人之申請而無需給予任何原因。
+      </p>
+      <p style="font-size:12px">
+        I declare that all information given in this application form and the attached documents is, to the best of my
+        knowledge, accurate and
+        complete. <br>I have read the attached Guidelines for Registration and Coaches Rules.<br> I agree to abide by
+        the
+        related regulations of the GAHK,
+        which may refuse to accept this application without giving any reason therefore
+      </p>
+      <p style="font-size:12px">
+        2. 你在此表格所提供的個人資料將被保密及只用作中國香港體操總會的行政通訊用途。<br>提交申請表後，如欲更改或查詢個人資料，請與本會職員聯絡。
+      </p>
+      <p style="font-size:12px">
+        Personal data provided on this form will be treated in strict confidence and used for administrative purposes
+        only. <br>For correction or
+        access to personal data after submission of the application form, please contact our office staff.
+      </p>
+      <% if (data.hope=="希望"){ %>
+      <label style="font-size:12px">本人 <label style="font-size:14px;color:red">
+        * </label></label>
+      <input type="radio" name="Coach[hope]" value="希望" checked>
+      <label style="font-size:12px">希望 /</label>
+      <input type="radio" name="Coach[hope]" value="不希望">
+      <% }else if (data.hope=="不希望"){%>
+      <label style="font-size:12px">本人 <label style="font-size:14px;color:red">
+        * </label></label>
+      <input type="radio" name="Coach[hope]" value="希望">
+      <label style="font-size:12px">希望 /</label>
+      <input type="radio" name="Coach[hope]" value="不希望" checked>
+      <%} else {%>
+      <label style="font-size:12px">本人 <label style="font-size:14px;color:red">
+        * </label></label>
+      <input type="radio" name="Coach[hope]" value="希望" required>
+      <label style="font-size:12px">希望 /</label>
+      <input type="radio" name="Coach[hope]" value="不希望" required>
+      <%}%> 
+     
+      <label style="font-size:12px">不希望 收取 貴會有關教練或裁判課程的宣傳資料。</label>
+      <br><br>
+      <% if (data.hope=="hopepage"){ %>
+      <label style="font-size:12px"> I <label style="font-size:14px;color:red">
+        * </label></label>
+      <input type="radio" name="Coach[hope]" value="hopepage" checked>
+      <label style="font-size:12px">wish</label>
+      <input type="radio" name="Coach[hope]" value="not_hope">
+      <label style="font-size:12px"> do not wish to receive any further coaching / judging information on GAHK.
+      </label>
+      <% }else if (data.hope=="not_hope"){%>
+      <label style="font-size:12px"> I <label style="font-size:14px;color:red">
+        * </label></label>
+      <input type="radio" name="Coach[hope]" value="hopepage">
+      <label style="font-size:12px">wish</label>
+      <input type="radio" name="Coach[hope]" value="not_hope" checked>
+      <label style="font-size:12px"> do not wish to receive any further coaching / judging information on GAHK.
+      </label>
+      <%} else {%>
+      <label style="font-size:12px"> I <label style="font-size:14px;color:red">
+        * </label></label>
+      <input type="radio" name="Coach[hope]" value="hopepage" required>
+      <label style="font-size:12px">wish</label>
+      <input type="radio" name="Coach[hope]" value="not_hope" required>
+      <%}%> 
+      <label style="font-size:12px"> do not wish to receive any further coaching / judging information on GAHK.
+        </label>
+     
+      
+      <br><br>
+      <label style="font-size:10px">校長簽署 Signature of Principal
+        及 and 學校蓋印 School Chop：</label>
+     
+        <div class="form-group">
+          <br>
+          <label><b>上載校長簽署 Upload a principal's signature</b></label>
+          <!-- <input type="file" accept="image/*" required/> -->
+          <input type="file" accept="image/*" onchange="handleFile2(this.files)" required/>
+          <div id="preview2">
+
+
+            <% if (data.avatar_sign) { %>
+              <img src="<%=data.avatar_sign%>" width="200" height=auto/>
+              <input type="hidden" name="Coach[avatar_sign]" value="<%= data.avatar_sign%>" />
+              <% } %>
+
+          </div>
+       
+    </div>
+    <label style="font-size:10px"><label style="font-size:14px;color:red">
+      * </label> (現職體育教師必須得到校長簽署及學校蓋印<br>
+      Principal's signature and school chop are
+      required for P.E. teacher)</label>
+</div>
+<br>
+<label style="font-size:15px"><a
+    href="http://www.gahk.org.hk/doc/Coach%20registration%20Instruction%20(2018.11).pdf"><b>教練註冊須知</b></a></label>
+<br>
+<button type="submit" class="btn btn-primary">提交 Submit</button>
+
+<button type="submit" class="btn btn-Secondary" onclick="message()">儲存 Save</button>
+
+
+
+
+</form>
+</div>
+
+<% } %>
+
+
+
+<% if (req.session.FormSub == 'yes') {%>
+
+<td>申請表已經提交，可到審批列表查看審批狀態。</td>
+
+  <% } %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function message() {
+        alert("儲存成功!!");
+    }
+
+
+
+  function handleFile(files) {
+    const file = files[0];
+    if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+    var preview = document.getElementById('preview');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      preview.innerHTML = "";
+      //var img = document.createElement('img');
+      //img.src = e.target.result;
+      //preview.appendChild(img);
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'Coach[avatar]';
+      input.value = e.target.result;
+      preview.appendChild(input);
+    }
+    reader.readAsDataURL(file);
+  }
+  function handleFile2(files) {
+    const file = files[0];
+    if (!file.type.startsWith('image/')) return;
+    var preview2 = document.getElementById('preview2');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      preview2.innerHTML = "";
+      var img = document.createElement('img');
+      img.src = e.target.result;
+      preview2.appendChild(img);
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'Coach[avatar_sign]';
+      input.value = e.target.result;
+      img.style.width = "200px";
+      img.style.height = "200px";
+      preview2.appendChild(input);
+    }
+    reader.readAsDataURL(file);
+  }
+  // function handleFile2(files) {
+  //   const file = files[0];
+  //   if (!file.type.startsWith('image/')) return;
+  //   if (file.size > 4194304) {
+  //     alert("請重新上載4MB相片");
+  //     return;
+  //   }
+  //   var preview2 = document.getElementById('preview2');
+  //   var reader = new FileReader();
+  //   reader.onload = function (e) {
+  //     preview2.innerHTML = "";
+  //     var img = document.createElement('img');
+  //     img.src = e.target.result;
+  //     preview2.appendChild(img);
+  //     var input = document.createElement('input');
+  //     input.type = 'hidden';
+  //     input.name = 'Coach[avatar_sign]';
+  //     input.value = e.target.result;
+  //     img.style.width = "200px";
+  //     img.style.height = "200px";
+  //     preview2.appendChild(input);
+  //   }
+  //   reader.readAsDataURL(file);
+  // }
+  function handleFile3(files) {
+    const file = files[0];
+    if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+    var preview = document.getElementById('preview3');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      preview.innerHTML = "";
+      //var img = document.createElement('img');
+      //img.src = e.target.result;
+      // preview.appendChild(img);
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'Coach[avatar_document]';
+      input.value = e.target.result;
+      preview.appendChild(input);
+    }
+    reader.readAsDataURL(file);
+  }
+  function handleFile4(files) {
+    const file = files[0];
+    if (!file.type.startsWith('image/')) return;
+    // if (file.size > 4194304) {
+    //   alert("請重新上載4MB相片");
+    //   return;
+    // }
+    var preview4 = document.getElementById('preview4');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      preview4.innerHTML = "";
+      var img = document.createElement('img');
+      img.src = e.target.result;
+      preview4.appendChild(img);
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'Coach[Personal_photo]';
+      input.value = e.target.result;
+      img.style.width = "200px";
+      img.style.height = "250px";
+      preview4.appendChild(input);
+    }
+    reader.readAsDataURL(file);
+  }
+  function submitForm(oFormElement) {
+    var result1 = document.getElementById("coachH").checked;
+    var result2 = document.getElementById("coachH_if").value.length;
+    var result3 = document.getElementById("coachH_other").checked;
+    var result4 = document.getElementById("coachH_other_if").value.length;
+    var result5 = document.getElementById("Qualification").checked;
+    var result6 = document.getElementById("Cert_no").value.length;
+    var result6_5 = document.getElementById("date_Qualification").value.length;
+    if (result1 && !result2) {
+      alert("請回答後面的問題。")
+    }
+    if (result2 && !result1) {
+      alert("請勾選複選框。")
+    }
+    if ((result3 && !result4)) {
+      alert("請回答後面的問題。")
+    }
+    if ((result4 && !result3)) {
+      alert("請勾選複選框。")
+    }
+    if (((result1 && result2) > 0) && ((result3 && result4) > 0) || ((!result1 && !result2) > 0) && ((result3 && result4) > 0) || ((result1 && result2) > 0) && ((!result3 && !result4) > 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>

@@ -1,0 +1,70 @@
+<!--update.ejs-->
+<form action="/Email/update/<%= email.id %>" method="POST">
+
+    <div>
+        <!--create.ejs-->
+        <form action="/Email/create" method="POST" class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+
+                        <label>電郵標題:</label>
+
+                        <textarea cols=140 rows=2 style=resize:none name="Email[emailtitle]" class="form-control"
+                            required><%= email.emailtitle %></textarea>
+                    </div>
+
+
+                    <!-- <div class="form-group">
+
+                        <label>內容:</label>
+                        <textarea cols=140 rows=18 style=resize:none name="Email[emailcontent]" class="form-control" 
+                            required><%= email.emailcontent %></textarea>
+                    </div> -->
+
+                    <div class="form-group">
+
+                        <label>電郵內容:</label>
+                        <hr style="border: 1px solid black;">
+                            
+                        <textarea type="textarea" cols=140 rows=18 style=resize:none id="trumbowyg-demo"  class="form-control" name="Email[emailcontent]"><%= email.emailcontent %></textarea>
+                        
+                        <hr style="border: 1px solid black;">
+                    </div>
+                    <div class="form-group">
+                        
+                            
+                            <table>
+                                    <tr>   參照表：</tr><br>
+                                      <tr>   %eventname% =活動名稱</tr><br>
+                                      <tr>   %eventclassdate% =上課日期</tr><br>
+                                      <tr>   %eventclasstime% =上課時間</tr><br>
+                                      <tr>   %eventvenue% =上課地點</tr><br>
+                                      <tr>   %eventprice% =課程費用</tr><br>   
+                                    
+                                </table>
+                        </div>
+                   
+                </div>
+                
+                <div class="col-md-12">
+                    <br>
+                    <button type="submit" class="btn btn-primary" onclick="alert('已更新!')">確定</button>
+
+
+
+                </div>
+        </form>
+    </div>
+    <script>
+     window.onload = function () {
+        $('#trumbowyg-demo').trumbowyg({
+    btns: [['viewHTML'],['bold', 'italic','insertImage'],['undo', 'redo'], // Only supported in Blink browsers
+        ],
+        
+    
+    autogrow: true
+});
+    }</script>
+   

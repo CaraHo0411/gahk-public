@@ -1,0 +1,805 @@
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+<style>
+    .card {
+        border-radius: 0;
+    }
+
+    #labelHead {
+        color: #83a70c;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+    }
+
+    /* checkbox css */
+    .inputGroup {
+        background-color: #fff;
+        width: 220pt;
+        display: block;
+        margin: 10px 0;
+        position: relative;
+    }
+
+    .statusLabel {
+        padding: 12px 30px;
+        width: 100%;
+        display: block;
+        text-align: left;
+        color: #3C454C;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        transition: color 200ms ease-in;
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .statusLabel:after {
+        width: 32px;
+        height: 32px;
+        content: '';
+        border: 2px solid #D1D7DC;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+        background-repeat: no-repeat;
+        background-position: 2px 3px;
+        border-radius: 50%;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 200ms ease-in;
+    }
+
+    .statusLabel:before {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        content: '';
+        background-color: #83a70c;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .statusInput {
+        width: 32px;
+        height: 32px;
+        order: 1;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        visibility: hidden;
+    }
+
+    .statusInput:checked~label {
+        color: #fff;
+    }
+
+    .statusInput:checked~label:before {
+        transform: translate(-50%, -50%) scale3d(56, 56, 1);
+        opacity: 1;
+    }
+
+    .statusInput:checked~label:after {
+        background-color: darkgreen;
+        border-color: aquamarine;
+    }
+
+    /* delete button */
+    /* Set a style for all buttons */
+    .modalBtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .modalBtn:hover {
+        opacity: 1;
+    }
+
+    /* Float cancel and delete buttons and add an equal width */
+    .cancelbtn,
+    .deletebtn {
+        float: left;
+        width: 50%;
+    }
+
+    /* Add a color to the cancel button */
+    .cancelbtn {
+        background-color: #ccc;
+        color: black;
+    }
+
+    /* Add a color to the delete button */
+    .deletebtn {
+        background-color: #f44336;
+    }
+
+    /* Add padding and center-align text to the container */
+    .container {
+        padding: 16px;
+        text-align: center;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 3;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(8, 8, 8, 0.5);
+        padding-top: 50px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Style the horizontal ruler */
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    /* Clear floats */
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    /* Change styles for cancel button and delete button on extra small screens */
+    @media screen and (max-width: 300px) {
+
+        .cancelbtn,
+        .deletebtn {
+            width: 100%;
+        }
+    }
+</style>
+
+<form action="/admin/applyHandle/TrampolineEditForm/<%= trampoline.id %>" method="POST" id="trampoline_admin">
+    <div class="row mx-sm-2">
+        <!-- Reject button -->
+        <div class="form-group col-12" style="text-align: right;">
+            <br>
+            <% if(trampoline.formStatus == "rejected") {%>
+            <a type="button" class="btn btn-danger" style="color: white;">已拒絕 Rejected</a>
+            <%} else {%>
+            <a type="button" class="btn btn-danger" style="color: white;"
+                onclick="document.getElementById('<%= trampoline.id%>').style.display='block'">拒絕 Reject</a>
+            <%}%> 
+        </div>
+
+        <!-- Form detail -->
+        <div class="col-12" align="right">
+            <% var n = new Date(trampoline.createdAt);
+            var month = n.getMonth() + 1;
+            var applyDate = n.getDate() + "/" + month + "/" + n.getFullYear(); %>
+            <h6>申請編號 Application No.: <%= trampoline.idCode %></h6>
+            <p>提交日期 Apply Date: <%= applyDate %></p>
+        </div>
+
+        <!-- Title -->
+        <div class="col-12" style="color: #888888; ">
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;">
+                <b>香港彈網分齡賽</b>
+            </h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>雙人同步 報名表格</u>
+            </h2>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽年份 Year of Competition</h5>
+            <%var todayYear = new Date().getFullYear();
+            var end = todayYear + 2;%>
+            <select name="Trampoline[compYear]" required>
+                <% for (var year = todayYear; year <= end; year++){%>
+                <option value="<%=year%>" <%if(year == trampoline.compYear) {%> selected<%}%> ><%=year%></option>
+                    <%}%>
+            </select>
+        </div>
+
+
+        <!-- Team details -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+                隊伍資料 Group Details</h5>
+        </div>
+
+        <div class="col-12">
+            <p>
+                <label for="gender">性別 Gender: </label>
+                <input name="Trampoline[gender]" type="radio" id="male" value="男 Male" required <% if(trampoline.gender == "男 Male") {%>checked<%}%> />
+                <label for="male">男 Male</label>
+                <input name="Trampoline[gender]" type="radio" id="female" value="女 Female" required <% if(trampoline.gender == "女 Female") {%>checked<%}%> />
+                <label for="female">女 Female</label>
+            </p>
+            <p>
+                <label for="category">參賽組別 Category: </label>
+
+                <input name="Trampoline[category]" type="radio" value="14 歲或以下 14 years old or below" id="youngest"
+                onclick="limitBirth()" required <% if(trampoline.category == "14 歲或以下 14 years old or below") {%>checked<%}%> />
+                <label for="youngest">14 歲或以下 14 years old or below &nbsp; </label>
+            
+                <input name="Trampoline[category]" type="radio" value="15 至 16 歲 15 to 16 years old" id="median" 
+                onclick="limitBirth()" required <% if(trampoline.category == "15 至 16 歲 15 to 16 years old") {%>checked<%}%> />
+                <label for="median">15 至 16 歲 15 to 16 years old</label>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="Trampoline[category]" type="radio" value="17 歲或以上 17 years old or above" id="eldest"
+                onclick="limitBirth()" required <% if(trampoline.category == "17 歲或以上 17 years old or above") {%>checked<%}%> />
+                <label for="eldest">17 歲或以上 17 years old or above</label>
+            </p>
+
+        </div>
+
+        <!-- Applicants details -->
+        <!-- 1 -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(1)個人資料
+                Applicant(1)'s Personal Details</h6>
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name? </label>
+                <input type="radio" name="Trampoline[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()" required 
+                <% if (trampoline.havecname1 == "是 Yes") { %>checked<%}%> />
+                <label class="form-check-label" for="havecname1">是 Yes</label>
+
+                &nbsp;<input type="radio" name="Trampoline[havecname1]" value="否 No" id="No1"
+                    onclick="havechinesename()" required <% if (trampoline.havecname1 == "否 No") { %>checked<%}%> />
+                <label class="form-check-label" for="havecname1">否 No</label>
+        </div>
+        <div>
+            <label for="chiName1">中文姓名 Name in Chinese:</label>
+            <input id="chiName1" type="text" class="form-group" value="<%= trampoline.chiName1%>"
+                name="Trampoline[chiName1]"  placeholder="e.g. 陳大文"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required <% if (trampoline.havecname1 == "否 No") { %>disabled<%}%> >
+        </div>
+        <div>
+            <label>英文姓名 Name in English: </label>
+            <input type="text" class="form-group" value="<%= trampoline.engName1%>" name="Trampoline[engName1]"
+                placeholder="e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+        </div>
+        <div>
+            <label>出生年份 Year of Birth:</label>
+            <select id="year1" class="form-group" value="<%= trampoline.birth1%>" name="Trampoline[birth1]"
+                required></select>
+            <br>
+        </div>
+        <div>
+            <label>聯絡電話 Contact Number:</label>
+            <input type="tel" pattern=[0-9]{8} class="form-group" value="<%= trampoline.phone1%>"
+                name="Trampoline[phone1]" required>
+        </div>
+        <div>
+            <label>電郵 Email Address:</label>
+            <input type="email" class="form-group" value="<%= trampoline.email1%>" name="Trampoline[email1]"
+                style="width: 220pt;" required>
+
+        </div>
+        <div>
+            <label>通訊地址 Postal Address:</label>
+            <input type="text" class="form-group" value="<%= trampoline.address1%>" name="Trampoline[address1]"
+                style="width:340pt" required>
+            <br>
+        </div>
+    </div>
+
+    <!-- Applicants details -->
+    <!-- 2 -->
+    <div class="card col-12 col-sm-6" style="background: transparent;">
+        <br>
+        <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+            參加者(2)個人資料
+            Applicant(2)'s Personal Details</h6>
+
+
+        <div>
+            <label>是否有中文姓名 Any Chinese name? </label>
+            <input type="radio" name="Trampoline[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()"
+               required <% if (trampoline.havecname2 == "是 Yes") { %>checked<%}%> />
+            <label class="form-check-label" for="havecname2">是 Yes</label>
+
+            &nbsp;<input type="radio" name="Trampoline[havecname2]" value="否 No" id="No2" onclick="havechinesename()"
+                required <% if (trampoline.havecname2 == "否 No") { %>checked<%}%> />
+            <label class="form-check-label" for="havecname2">否 No</label>
+        </div>
+
+        <div>
+            <label>中文姓名 Name in Chinese:</label>
+            <input type="text" class="form-group" value="<%= trampoline.chiName2%>" name="Trampoline[chiName2]"
+                id="chiName2" placeholder="e.g. 陳大文" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required
+                <% if (trampoline.havecname2 == "否 No") { %>disabled<%}%>>
+        </div>
+        <div>
+            <label>英文姓名 Name in English: </label>
+            <input type="text" class="form-group" value="<%= trampoline.engName2%>" name="Trampoline[engName2]"
+                placeholder="e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required>
+        </div>
+        <div>
+            <label>出生年份 Year of Birth:</label>
+            <select id="year2" class="form-group" name="Trampoline[birth2]" required></select>
+            <br>
+        </div>
+        <div>
+            <label>聯絡電話 Contact Number:</label>
+            <input type="tel" pattern=[0-9]{8} value="<%= trampoline.phone2%>" class="form-group"
+                name="Trampoline[phone2]" required>
+        </div>
+        <div>
+            <label>電郵 Email Address:</label>
+
+            <input type="email" class="form-group" value="<%= trampoline.email2%>" name="Trampoline[email2]"
+                style="width: 220pt;" required>
+
+        </div>
+        <div>
+            <label>通訊地址 Postal Address:</label>
+            <input type="text" class="form-group" value="<%= trampoline.address2%>" name="Trampoline[address2]"
+                style="width: 340pt;" required>
+            <br>
+        </div>
+    </div>
+
+    <!-- Organization details -->
+    <div class="col-12">
+        <br>
+        <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">所屬團體
+            Organization to which your body belongs</h5>
+    </div>
+
+    <div class="col-12">
+        <label>團體名稱 Organization Name:</label>
+        <input type="text" class="form-group" value="<%= trampoline.teamName%>" name="Trampoline[teamName]"
+            style="width: 400pt;" required>
+    </div>
+
+    <div class="col-12 col-sm-6">
+        <label>教練姓名 Coach Name:</label>
+        <input type="text" class="form-group" value="<%= trampoline.coachName%>" name="Trampoline[coachName]" required>
+    </div>
+
+    <div class="col-12 col-sm-6">
+        <label>聯絡電話 Contact Number:</label>
+        <input type="tel" pattern=[0-9]{8} class="form-group" value="<%= trampoline.coachPhone%>"
+            name="Trampoline[coachPhone]" required>
+    </div>
+
+    <div class="col-12">
+        <label>註冊教練編號(如適用) Registered Coach No.(If applicable):</label>
+        <input type="text" class="form-group" value="<%=trampoline.coachNum%>" name="Trampoline[coachNum]">
+    </div>
+
+    <div class="col-12">
+        <label>通訊地址 Postal Address:</label>
+        <input type="text" class="form-group" value="<%= trampoline.coachAddress%>" name="Trampoline[coachAddress]"
+        style="width: 400pt;" required>
+    </div>
+
+    <!-- Declaration -->
+    <div class="col-12">
+        <br><br>
+        <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">聲明
+            Declaration</h5>
+    </div>
+
+    <% if(trampoline.declaration0) { 
+            var type = trampoline.declaration0.split(';');%>
+    <div class="col-12 col-sm-6">
+        <% if(type[0] == 'data:application/pdf') { %>
+        <a download="<%= trampoline.idCode %>_Declaration1_聲明1" href="<%= trampoline.declaration0%>"
+            target="_blank">下載聲明書1
+            Download declartion</a>
+        <br>
+        <% } else if(type[0] == 'data:image/jpeg' || type[0] == 'data:image/png') { %>
+        <a download="<%= trampoline.idCode %>_Declaration1_聲明1" href="<%= trampoline.declaration0%>"
+            target="_blank">下載聲明書1
+            Download declartion</a>
+        <br>
+        <img src="<%=trampoline.declaration0%>" style="height:150px; width:auto" />
+        <% } %>
+    </div>
+    <% } %>
+
+    <div class="col-12">
+        <br>
+        <label>參加者(1)家長姓名 Applicant(1)'s Parent Name: </label>
+        <input id="parentName1" type="text" class="form-group" name="Trampoline[parentName1]"
+            value=<%= trampoline.parentName1%> required />
+        <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files,0)" />
+        <div id="preview0"></div>
+        <br>
+    </div>
+
+    <% if(trampoline.declaration1) { 
+        var type = trampoline.declaration1.split(';');%>
+    <div class="col-12 col-sm-6">
+        <% if(type[0] == 'data:application/pdf') { %>
+        <a download="<%= trampoline.idCode %>_Declaration1_聲明2" href="<%= trampoline.declaration1%>"
+            target="_blank">下載聲明書2
+            Download declartion</a>
+        <br>
+        <% } else if(type[0] == 'data:image/jpeg' || type[0] == 'data:image/png') { %>
+        <a download="<%= trampoline.idCode %>_Declaration1_聲明2" href="<%= trampoline.declaration1%>"
+            target="_blank">下載聲明書2
+            Download declartion</a>
+        <br>
+        <img src="<%=trampoline.declaration1%>" style="height:150px; width:auto" />
+        <% } %>
+    </div>
+    <% } %>
+
+    <div class="col-12">
+        <br>
+        <label>參加者(2)家長姓名 Applicant(2)'s Parent Name: </label>
+        <input id="parentName2" type="text" class="form-group" name="Trampoline[parentName2]"
+            value=<%= trampoline.parentName2%> required />
+        <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files,1)" />
+        <div id="preview1"></div>
+    </div>
+
+    <br>
+
+    <!-- Status -->
+    <!-- Payment -->
+    <div class="form-group col-12">
+        <br><br>
+        <h5 id="labelHead">付款狀況 Payment Status</h5>
+        <% if(trampoline.payStatus == "unpaid") {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="payStatus" name="Trampoline[payStatus]" value="paid" type="checkbox"
+                onclick="changeToPaid()" />
+            <label for="payStatus" class="statusLabel" id="payLabel">未付款 Unpaid</label>
+        </div>
+        <%} else {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="payStatus" type="checkbox" checked disabled />
+            <label for="payStatus" class="statusLabel" id="payLabel">已付款 Paid</label>
+        </div>
+        <%}%>
+        </div>
+        <!-- Apply-->
+        <div class="form-group col-12">
+        <h5 id="labelHead">申請狀況 Application Status</h5>
+
+        <% if(trampoline.formStatus == "ToBeCon" || trampoline.formStatus == "rejected") {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="TohandBtn" name="Trampoline[formStatus]" value="ToBeCon" type="radio"
+                onclick="changeToCon()" checked />
+            <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="ToConBtn" name="Trampoline[formStatus]" value="accepted" type="radio"
+                onclick="changeToCon()" />
+            <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirm</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="dataDef" name="Trampoline[formStatus]" value="dataDef"
+                onclick="changeToCon()" type="radio" />
+            <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+        </div>
+
+        <% } else if(trampoline.formStatus == "accepted"){%>
+        <div class="inputGroup">
+            <input class="statusInput" id="TohandBtn" name="Trampoline[formStatus]" value="ToBeCon" type="radio"
+                disabled />
+            <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+        </div>
+        <div class="inputGroup">
+            <input class="statusInput" id="con" type="checkbox" checked disabled />
+            <label for="con" class="statusLabel" id="dataDefLabel">已確認 Accepted</label>
+        </div>
+        <div class="inputGroup">
+            <input class="statusInput" id="dataDef" type="checkbox" disabled />
+            <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+        </div>
+        <% } else if(trampoline.formStatus == "dataDef"){%>
+        <div class="inputGroup">
+            <input class="statusInput" id="TohandBtn" name="Trampoline[formStatus]" value="ToBeCon" type="radio"
+                onclick="changeToCon()" />
+            <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="ToConBtn" name="Trampoline[formStatus]" value="accepted" type="radio"
+                onclick="changeToCon()" />
+            <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirmed</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="dataDef" name="Trampoline[formStatus]" value="dataDef" type="radio" checked
+                onclick="changeToCon()" />
+            <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+        </div>
+        <%}%>
+        </div>
+
+         <!-- Team -->
+         <div class="form-group col-12">
+            <h5 id="labelHead">隊伍/團體狀況 Team Status</h5>
+            <% if(trampoline.teamStatus == "suTeam") {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="waitTeam" name="Trampoline[teamStatus]" value="waitTeam" type="checkbox"
+                onclick="changeToWait()" />
+            <label for="waitTeam" class="statusLabel" id="waitLabel">設為後補 Set as Waiting Team</label>
+        </div>
+        <%} else {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="suTeam" type="checkbox" name="Trampoline[teamStatus]" value="suTeam"
+                onclick="changeToSu()" checked />
+            <label for="suTeam" class="statusLabel" id="suLabel">後補 Waiting Team</label>
+        </div>
+        <%}%>
+            </div>
+    
+    
+            <div class="form-group col-12" style="text-align: right;">
+            <%if(trampoline.formStatus == "rejected"){%>
+        <a class="btn btn-success" style="color: white;" onclick="history.back()">完成 Submit</a>
+        <%} else {%>
+        <button class="btn btn-success" onclick="submitForm('<%= trampoline.idCode%>')">完成 Submit</button>
+        <%}%>
+            </div>
+    
+            <!-- Update details -->
+            <% var m = new Date(trampoline.updatedAt);
+               var month = m.getMonth() + 1;
+               var updateDate = m.getDate() + "/" + month + "/" + m.getFullYear() + " " + m.getHours() + ":" + m.getMinutes() + ":" + m.getSeconds(); %>
+        <p class="col-12" style="font-size: smaller;">上次更新 Last upadated: <%= updateDate%></p>
+    </div>
+</form>
+
+<div id="<%= trampoline.id%>" class="modal">
+    <div class="modal-content">
+        <div class="container">
+            <h1>拒絕申請 Reject Application<br><%= trampoline.idCode%></h1>
+            <p>確定要拒絕這份申請表?<br>Are you sure you want to reject this application?</p>
+
+            <div class="clearfix">
+                <button type="button" class="cancelbtn modalBtn"
+                    onclick="document.getElementById('<%= trampoline.id%>').style.display='none'">取消 Cancel</button>
+                <button type="button" class="deletebtn modalBtn" onclick="rejectForm('<%= trampoline.id%>')">拒絕
+                    Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () { disableform('trampoline_admin', '<%= trampoline.formStatus%>') };
+    function disableform(formId, formStatus) {
+        if (formStatus == "rejected") {
+            var f = document.forms[formId].getElementsByTagName('input');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+            var f = document.forms[0].getElementsByTagName('textarea');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+                var f = document.forms[0].getElementsByTagName('select');
+                for (var i = 0; i < f.length; i++)
+                    f[i].disabled = true
+        }
+    }
+
+    // Get the modal
+    var modal = document.getElementById('<%= trampoline.id%>');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function changeToPaid() {
+        var payLabel = document.getElementById("payLabel");
+        var payStatus = document.getElementById("payStatus");
+
+        if (payStatus.checked == true) {
+            payLabel.innerHTML = "已付款 Paid";
+        } else {
+            payLabel.innerHTML = "未付款 Unpaid";
+        }
+    }
+
+    function changeToCon() {
+        var confirmLabel = document.getElementById("confirmLabel");
+        var ToConBtn = document.getElementById("ToConBtn");
+
+        if (ToConBtn.checked == true) {
+            confirmLabel.innerHTML = "已確認 Accepted";
+        } else {
+            confirmLabel.innerHTML = "確認 Confirm";
+        }
+    }
+
+    function changeToWait() {
+        var waitLabel = document.getElementById("waitLabel");
+        var waitTeam = document.getElementById("waitTeam");
+
+        if (waitTeam.checked == true) {
+            waitLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            waitLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+    function changeToSu() {
+        var suLabel = document.getElementById("suLabel");
+        var suTeam = document.getElementById("suTeam");
+
+        if (suTeam.checked == true) {
+            suLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            suLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+
+    //button function
+    function submitForm(id) {
+        alert("更新成功 Successfully Updated" + "\n" + id);
+    }
+
+    async function rejectForm(id) {
+        var response = await fetch("/admin/applyHandle/reject/trampoline/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+</script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/previewForm.css" />
+<script type="text/javascript" src="js/previewForm.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myform').previewForm();
+    });
+</script>
+
+<script>
+    birthYearOption(1990, new Date().getFullYear());
+
+    function limitBirth() {
+        var todayYear = new Date().getFullYear();
+        var youngest = document.getElementById("youngest");
+        var median = document.getElementById("median");
+        var eldest = document.getElementById("eldest");
+
+        if (youngest.checked == true) { //14 years old or below
+            var minYear = todayYear - 14;
+            birthYearOption(minYear, todayYear);
+        } else if (median.checked == true) { //15 to 16 years old
+            var minYear = todayYear - 16;
+            var maxYear = todayYear - 15;
+            birthYearOption(minYear, maxYear);
+        } else if (eldest.checked == true) { //17 years old or above
+            var maxYear = todayYear - 17;
+            birthYearOption(1990, maxYear);
+        }
+    }
+
+    function birthYearOption(start, end) {
+        var options1 = "<option disabled selected>" + " " + "</option>";
+        for (var year = start; year <= end; year++) {
+            options1 += "<option>" + year + "</option>";
+            if (year == "<%=trampoline.birth1%>") {
+                options1 = "<option selected>" + "<%=trampoline.birth1%>" + "</option>";
+            };
+        };
+        var options2 = "<option disabled selected>" + " " + "</option>";
+        for (var year = start; year <= end; year++) {
+            options2 += "<option>" + year + "</option>";
+            if (year == "<%=trampoline.birth2%>") {
+                options2 = "<option selected>" + "<%=trampoline.birth2%>" + "</option>";
+            };
+        }
+        document.getElementById("year1").innerHTML = options1;
+        document.getElementById("year2").innerHTML = options2;
+    }
+
+</script>
+
+<script>
+    //handle multi declaration upload (img/pdf) (id="preview+p") 
+    //handle multi declaration upload (img/pdf) (id="preview+p") 
+    function handleFile(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview' + p);
+        var reader = new FileReader();
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'Trampoline[declaration' + p + ']';
+                input.value = e.target.result;
+                img.style.width = "auto";
+                img.style.height = "150px";
+                preview.appendChild(input);
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'Trampoline[declaration' + p + ']';
+                input.value = e.target.result;
+                preview.appendChild(input);
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var chineseNameDis1 = document.getElementById("chiName1")
+        var chineseNameDis2 = document.getElementById("chiName2")
+
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+
+        }
+
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+
+        }
+    } 
+</script>

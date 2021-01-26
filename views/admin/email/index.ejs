@@ -1,0 +1,28 @@
+<style>
+th.date{width:9em}
+th.action{width:9em}
+</style>
+<%- partial('../partial/sidemenu.ejs') %>
+<div class="content admin w-100">
+  <h5 class="main-heading1">
+    電郵內文管理<span class="highlight">系統</span>
+  </h5>
+  <% emails.forEach(function(email) { %>
+  <section class="container-fluid">
+    <h6 class="main-heading2 mb-0"><%=email.title%></h6>
+    <form class="row ajax-with-preview" action="/admin/email/<%=email.id%>" method="POST">
+      <div class="col-12 form-group d-flex required">
+        <label class="flex-shrink-0 col-form-label">標題</label>
+        <input class="form-control" type="text" name="Email[emailtitle]" value="<%=email.emailtitle%>" required>
+      </div>
+      <div class="col-12 form-group d-flex required">
+        <label class="flex-shrink-0 col-form-label">內文</label>
+        <textarea rows="5" class="form-control" name="Email[emailcontent]" required><%=email.emailcontent%></textarea>
+      </div>
+      <div class="col-12 form-group d-flex required">
+        <button class="btn btn-primary" type="submit">儲存</button>
+      </div>
+    </form>
+  </section>
+  <% }); %>
+</div> 

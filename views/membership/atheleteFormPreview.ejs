@@ -1,0 +1,181 @@
+<form action="/athelete/confirm" method="POST">
+    <div class="row">
+        <div class="card col-12 ">
+            <label style="font-size:17pt"><b>預覽 Preview</b></label>
+            <%= req.session.data.MemberNo %>
+                <div class="row">
+                    <div class="col-4">
+                        <span class="font-weight-bold">個人照片:</span>
+                        <img class="img-fluid" src="<%=req.session.data.avatar%>">
+                    </div>
+
+
+                    <div class="col-10">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">項目:</span>
+                                <br>
+                                <%= req.session.data.Choice1%>
+                            
+                          <br>
+
+                                <%= req.session.data.Choice2%>
+                          
+                                <br>
+
+                                <%= req.session.data.Choice3%>
+                           
+                                <br>
+
+                                <%= req.session.data.Choice4%>
+                                <br>
+                         
+                                <%= req.session.data.Choice5%>
+                           
+                            </li>
+
+
+
+
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">中文姓名:</span>
+                                <%= req.session.data.ChiName%>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">英文姓名:</span>
+                                <%= req.session.data.EngName%>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">性別:</span>
+                                <%= req.session.data.Gender%>
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">出生日期:</span>
+                                <%= req.session.data.Date%>
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">電郵:</span>
+                                <%= req.session.data.Email%>
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">聯絡電話:</span>
+                                <%= req.session.data.Contact%>
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">地址（中):</span>
+                                <%= req.session.data.AddressChi%>
+
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">地址（英):</span>
+                                <% if (req.session.data.AddressEng=="") { %>
+                                    <label style="font-size:16px">N/A</label>
+                                    <% }else{%> 
+                                        <%= req.session.data.AddressEng%>
+                                <% }%> 
+
+                               
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">學校名稱 (中) :</span>
+                                <%= req.session.data.SchoolChi%>
+
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">學校名稱 (英):</span>
+                                <% if (req.session.data.SchoolEng=="") { %>
+                                    <label style="font-size:16px">N/A</label>
+                                    <% }else{%> 
+                                        <%= req.session.data.SchoolEng%>
+                                <% }%> 
+
+
+
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">就讀級別:</span>
+                                <%= req.session.data.Class%>
+
+                            </li><br>
+                            <label style="font-size:15px"><b>(乙部) 運動員家長或監護人資料 Information of Parents / Guardians</b></label>
+
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">運動員家長 中文姓名 : </span>
+                                <% if (req.session.data.ChiNamePar=="") { %>
+                                    <label style="font-size:16px">N/A</label>
+                                    <% }else{%> 
+                                        <%= req.session.data.ChiNamePar%>
+                                <% }%> 
+                               
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">運動員家長 英文姓名: </span>
+                                <% if (req.session.data.EngNamePar=="") { %>
+                                    <label style="font-size:16px">N/A</label>
+                                    <% }else{%> 
+                                        <%= req.session.data.EngNamePar%>
+                                <% }%> 
+                              
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">運動員家長 電郵 : </span>
+                                <% if (req.session.data.EmailPar=="") { %>
+                                    <label style="font-size:16px">N/A</label>
+                                    <% }else{%> 
+                                        <%= req.session.data.EmailPar%>
+                                <% }%> 
+
+                             
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">運動員家長 聯絡電話: </span>
+                                <% if (req.session.data.ContactPar=="") { %>
+                                    <label style="font-size:16px">N/A</label>
+                                    <% }else{%> 
+                                        <%=req.session.data.ContactPar%>
+                                <% }%> 
+
+
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">如遇緊急情況聯絡人姓名: </span>
+                                <%= req.session.data.EmergencyContactName%>
+
+                            </li>
+                            <li class="list-group-item">
+                                <span class="font-weight-bold">緊急情況聯絡人電話: </span>
+                                <%= req.session.data.EmergencyContact%>
+
+                            </li>
+                        </ul>
+                        <br><br>
+                        <button type="submit" class="btn btn-info" onclick="message()">提交</button>
+                        <button type="button" class="btn btn-danger" onclick="history.back()">cancel</button>
+                    </div>
+
+
+                </div>
+
+        </div>
+    </div>
+
+</form>
+<script>
+        function message() {
+             alert ("提交成功!!");
+        }
+       
+       </script>

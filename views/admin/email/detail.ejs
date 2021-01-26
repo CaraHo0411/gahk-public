@@ -1,0 +1,17 @@
+<!--details.ejs-->
+<form action="/email/detail/<%= email.id %>" method="POST" class="container-fluid">
+
+  <table class="table" style="background-color:rgb(200, 207, 233)">
+  <% email.forEach( function(models) { %>
+     <!-- <ul class="list-group list-group-flush" style="width:100%"> -->
+        <tr style="background-color:#e6edf5" class="f01_L18_001"></tr>
+      <br>
+      <li class="list-group-item"><%= models.emailtitle %></li>
+      
+      <a class="nav-link" href="/Email/update/<%= models.id %>">更新</a>
+                          
+        </div>
+      <!-- </ul> -->
+      </tr>
+      <% }); %>
+    </table>

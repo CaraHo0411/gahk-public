@@ -1,0 +1,569 @@
+<style type="text/css">
+    .card {
+        border-radius: 0;
+    }
+</style>
+
+<form action="/competition/form/trampoline" method="POST" id="trampoline">
+    <br>
+
+    <div class="row mx-sm-2">
+        <div class="col-12" style="color: #888888; ">
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;"><b>香港彈網分齡賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>雙人同步 報名表格</u></h2>
+            <br><br>
+        </div>
+
+        <div class="col-12">
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽規則及章程
+                Rules and Regulation</h5>
+        </div>
+
+        <div class="col-12">
+            <a href="/formDoc/TRAagegroup2020.pdf" target="_blank" style="text-align: center;"><u>香港彈網分齡賽章程
+                    Prospectus of
+                    TrampolineAgeGroupCompetition</u></a>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽年份 Year of Competition</h5>
+             <%var todayYear = new Date().getFullYear();%>
+            <select id="compYear" name="Trampoline[compYear]" required>
+                <option value="<%=todayYear%>" selected><%=todayYear%></option>
+            </select>
+        </div>
+
+
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">隊伍資料 Group
+                Details</h5>
+        </div>
+
+        <div class="col-12">
+            <p>
+                <label for="gender">性別 Gender: </label>
+                <input name="Trampoline[gender]" type="radio" id="male" value="男 Male"
+                    <% if(req.session.tramData != null && req.session.tramData.male == true) { %> checked <% } %>
+                    required />
+                <label for="male">男 Male</label>
+                <input name="Trampoline[gender]" type="radio" id="female" value="女 Female"
+                    <% if(req.session.tramData != null && req.session.tramData.female == true) { %> checked <% } %>
+                    required />
+                <label for="female">女 Female</label>
+            </p>
+            <p>
+                <label for="category">參賽組別 Category: </label>
+                <input name="Trampoline[category]" type="radio" value="14 歲或以下 14 years old or below" id="youngest"
+                    onclick="limitBirth()"
+                    <% if(req.session.tramData != null && req.session.tramData.youngest == true) { %> checked <% } %>
+                    required />
+                <label for="youngest">14 歲或以下 14 years old or below &nbsp; </label>
+                <input name="Trampoline[category]" type="radio" value="15 至 16 歲 15 to 16 years old" id="median"
+                    onclick="limitBirth()"
+                    <% if(req.session.tramData != null && req.session.tramData.median == true) { %> checked <% } %>
+                    required />
+                <label for="median">15 至 16 歲 15 to 16 years old</label>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;
+                <input name="Trampoline[category]" type="radio" value="17 歲或以上 17 years old or above" id="eldest"
+                    onclick="limitBirth()"
+                    <% if(req.session.tramData != null && req.session.tramData.eldest == true) { %> checked <% } %>
+                    required />
+                <label for="eldest">17 歲或以上 17 years old or above</label>
+            </p>
+
+        </div>
+
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(1)個人資料
+                Applicant(1)'s Personal Details</h6>
+
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="Trampoline[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()"
+                    <% if(req.session.tramData != null && req.session.tramData.Yes1 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname1">是 Yes</label>
+
+                &nbsp;<input type="radio" name="Trampoline[havecname1]" value="否 No" id="No1"
+                    onclick="havechinesename()"
+                    <% if(req.session.tramData != null && req.session.tramData.No1 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname1">否 No</label>
+            </div>
+            <div>
+                <label for="chiName1">中文姓名 Name in Chinese:</label>
+                <input id="chiName1" type="text" class="form-group" name="Trampoline[chiName1]" placeholder="e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if(req.session.data != null && req.session.data.havecname1 == "否 No") { %>disabled
+                    <%} else if(req.session.tramData != null) { if(req.session.tramData.No1 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.tramData.chiName1%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName1" type="text" class="form-group" name="Trampoline[engName1]"
+                    placeholder="e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.tramData != null && req.session.tramData.engName1 != null) { %>
+                    value="<%=req.session.tramData.engName1%>" <% } %> required />
+            </div>
+            <div>
+                <label>出生年份 Year of Birth:</label>
+                <% if(req.session.tramData != null && req.session.tramData.youngest == true) { 
+                    var todayYear = new Date().getFullYear();
+                    var start = todayYear - 14;%>
+                <select id="year1" class="form-group" name="Trampoline[birth1]" required>
+                    <% for (var year = start; year <= todayYear; year++){%>
+                    <option value="<%=year%>"
+                        <% if(req.session.tramData.year1 == year){%>selected<%}%> ><%=year%></option>
+                        <%}%>
+                    </select>
+                <%} else if(req.session.tramData != null && req.session.tramData.median == true){
+                    var todayYear = new Date().getFullYear();
+                    var start = todayYear - 16;
+                    var end = todayYear - 15;%>
+                        <select id="year1" class="form-group" name="Trampoline[birth1]" required>
+                            <% for (var year = start; year <= end; year++){%>
+                            <option value="<%=year%>"
+                                <% if(req.session.tramData.year1 == year){%>selected<%}%> ><%=year%></option>
+                                <%}%>
+                    </select>
+                <%} else if(req.session.tramData != null && req.session.tramData.eldest == true){
+                    var todayYear = new Date().getFullYear();
+                    var start = 1990;
+                    var end = todayYear - 17;%>
+                                <select id="year1" class="form-group" name="Trampoline[birth1]" required>
+                                    <% for (var year = start; year <= end; year++){%>
+                                    <option value="<%=year%>"
+                                        <% if(req.session.tramData.year1 == year){%>selected<%}%> ><%=year%></option>
+                                        <%}%>
+                    </select>
+                
+                <%} else{%>
+                                        <select id="year1" class="form-group" name="Trampoline[birth1]" required>
+                                            <option disabled selected></option>
+                                            <% var todayYear = new Date().getFullYear();
+                        for (var year = 1990; year <= todayYear; year++){%>
+                                            <option value="<%=year%>"><%=year%></option>
+                                            <%}%>
+                    </select>
+                <%}%>
+
+                                            <br>
+            </div>
+            <div>
+                <label>聯絡電話 Contact Number:</label>
+                <input id="phone1" type="tel" pattern=[0-9]{8} class="form-group" name="Trampoline[phone1]"
+                    <% if(req.session.tramData != null && req.session.tramData.phone1 != null) { %>
+                    value="<%=req.session.tramData.phone1%>" <% } %> required />
+            </div>
+            <div>
+                <label>電郵 Email Address:</label>
+
+                <input id="email1" type="email" class="form-group" name="Trampoline[email1]" style="width: 220pt;"
+                    <% if(req.session.tramData != null && req.session.tramData.email1 != null) { %>
+                    value="<%=req.session.tramData.email1%>" <% } %> required />
+
+            </div>
+            <div>
+                <label>通訊地址 Postal Address:</label>
+                <input id="address1" type="text" class="form-group" name="Trampoline[address1]" style="width:340pt"
+                    <% if(req.session.tramData != null && req.session.tramData.address1 != null) { %>
+                    value="<%=req.session.tramData.address1%>" <% } %> required />
+                <br>
+            </div>
+        </div>
+
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參加者(2)個人資料
+                Applicant(2)'s Personal Details</h6>
+
+
+            <div>
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="Trampoline[havecname2]" value="是 Yes" id="Yes2" onclick="havechinesename()"
+                    <% if(req.session.tramData != null && req.session.tramData.Yes2 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname2">是 Yes</label>
+
+                &nbsp;<input type="radio" name="Trampoline[havecname2]" value="否 No" id="No2"
+                    onclick="havechinesename()"
+                    <% if(req.session.tramData != null && req.session.tramData.No2 == true) { %> checked <% } %>
+                    required />
+                <label class="form-check-label" for="havecname2">否 No</label>
+            </div>
+            <div>
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" class="form-group" name="Trampoline[chiName2]" id="chiName2" placeholder="e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                    <% if(req.session.data != null && req.session.data.havecname2 == "否 No") { %>disabled
+                    <%} else if(req.session.tramData != null) { if(req.session.tramData.No2 == true) {%> disabled
+                    <% }else{ %> value="<%=req.session.tramData.chiName2%>" <% }} %> required />
+            </div>
+            <div>
+                <label>英文姓名 Name in English: </label>
+                <input id="engName2" type="text" class="form-group" name="Trampoline[engName2]"
+                    placeholder="e.g. Chan Tai Man" onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')"
+                    <% if(req.session.tramData != null && req.session.tramData.engName2 != null) { %>
+                    value="<%=req.session.tramData.engName2%>" <% } %> required />
+            </div>
+            <div>
+                <label>出生年份 Year of Birth:</label>
+                <% if(req.session.tramData != null && req.session.tramData.youngest == true) { 
+                    var todayYear = new Date().getFullYear();
+                    var start = todayYear - 14;%>
+                <select id="year2" class="form-group" name="Trampoline[birth2]" required>
+                    <% for (var year = start; year <= todayYear; year++){%>
+                    <option value="<%=year%>"
+                        <% if(req.session.tramData.year2 == year){%>selected<%}%> ><%=year%></option>
+                        <%}%>
+                    </select>
+                <%} else if(req.session.tramData != null && req.session.tramData.median == true){
+                    var todayYear = new Date().getFullYear();
+                    var start = todayYear - 16;
+                    var end = todayYear - 15;%>
+                        <select id="year2" class="form-group" name="Trampoline[birth2]" required>
+                            <% for (var year = start; year <= end; year++){%>
+                            <option value="<%=year%>"
+                                <% if(req.session.tramData.year2 == year){%>selected<%}%> ><%=year%></option>
+                                <%}%>
+                    </select>
+                <%} else if(req.session.tramData != null && req.session.tramData.eldest == true){
+                    var todayYear = new Date().getFullYear();
+                    var start = 1990;
+                    var end = todayYear - 17;%>
+                                <select id="year2" class="form-group" name="Trampoline[birth2]" required>
+                                    <% for (var year = start; year <= end; year++){%>
+                                    <option value="<%=year%>"
+                                        <% if(req.session.tramData.year2 == year){%>selected<%}%> ><%=year%></option>
+                                        <%}%>
+                    </select>
+                
+                <%} else{%>
+                                        <select id="year2" class="form-group" name="Trampoline[birth2]" required>
+                                            <option disabled selected></option>
+                                            <% var todayYear = new Date().getFullYear();
+                        for (var year = 1990; year <= todayYear; year++){%>
+                                            <option value="<%=year%>"><%=year%></option>
+                                            <%}%>
+                    </select>
+                <%}%>
+
+                                            <br>
+            </div>
+            <div>
+                <label>聯絡電話 Contact Number:</label>
+                <input id="phone2" type="tel" pattern=[0-9]{8} class="form-group" name="Trampoline[phone2]"
+                    <% if(req.session.tramData != null && req.session.tramData.phone2 != null) { %>
+                    value="<%=req.session.tramData.phone2%>" <% } %> required />
+            </div>
+            <div>
+                <label>電郵 Email Address:</label>
+
+                <input id="email2" type="email" class="form-group" name="Trampoline[email2]" style="width: 220pt;"
+                    <% if(req.session.tramData != null && req.session.tramData.email2 != null) { %>
+                    value="<%=req.session.tramData.email2%>" <% } %> required />
+
+            </div>
+            <div>
+                <label>通訊地址 Postal Address:</label>
+                <input id="address2" type="text" class="form-group" name="Trampoline[address2]" style="width: 340pt;"
+                    <% if(req.session.tramData != null && req.session.tramData.address2 != null) { %>
+                    value="<%=req.session.tramData.address2%>" <% } %> required />
+                <br>
+            </div>
+        </div>
+        <div class="form-group col-12">
+            <span>備註 Remarks:</span><br>
+            <span>請填妥<a href="/formDoc/trampoline_comp.card.pdf" style="color: #83a70c;"
+                    download>比賽動作卡</a>連同劃線支票以郵寄方式或親臨辦公室遞交<br>Please fill in the <a
+                    href="/formDoc/trampoline_comp.card.pdf" style="color: #83a70c;" download>competition
+                    action card</a> and submit it along with cheque by post or in person
+            </span>
+
+            <br>
+        </div>
+
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">所屬團體
+                Organization to which your body belongs</h5>
+        </div>
+
+
+        <div class="col-12">
+            <label>團體名稱 Organization Name:</label>
+            <input id="teamName" type="text" class="form-group" name="Trampoline[teamName]" style="width: 400pt;"
+                <% if(req.session.tramData != null && req.session.tramData.teamName != null) { %>
+                value="<%=req.session.tramData.teamName%>" <% } %> required />
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>教練姓名 Coach Name:</label>
+            <input id="coachName" type="text" class="form-group" name="Trampoline[coachName]"
+                <% if(req.session.tramData != null && req.session.tramData.coachName != null) { %>
+                value="<%=req.session.tramData.coachName%>" <% } %> required />
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>聯絡電話 Contact Number:</label>
+            <input id="coachPhone" type="tel" pattern=[0-9]{8} class="form-group" name="Trampoline[coachPhone]"
+                <% if(req.session.tramData != null && req.session.tramData.coachPhone != null) { %>
+                value="<%=req.session.tramData.coachPhone%>" <% } %> required />
+        </div>
+
+        <div class="col-12">
+            <label>註冊教練編號(如適用) Registered Coach No.(If applicable):</label>
+            <input id="coachNum" type="text" class="form-group" name="Trampoline[coachNum]"
+                <% if(req.session.tramData != null && req.session.tramData.coachNum != null) { %>
+                value="<%=req.session.tramData.coachNum%>" <% } %> />
+        </div>
+
+
+        <div class="col-12">
+            <label>通訊地址 Postal Address:</label>
+            <input id="coachAddress" type="text" class="form-group" name="Trampoline[coachAddress]"
+                style="width: 400pt;"
+                <% if(req.session.tramData != null && req.session.tramData.coachAddress != null) { %>
+                value="<%=req.session.tramData.coachAddress%>" <% } %> required />
+        </div>
+
+
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">聲明
+                Declaration</h5>
+            <span><b>*如申請人未滿十八歲，請由家長或監護人填寫</b></span>
+
+        </div>
+
+        <div class="col-12">
+            <br>
+            <label>請<u>每名申請人</u>下載及列印 <a href="/formDoc/trampoline_declaration.pdf" download
+                    style="color: #83a70c;"><u>聲明書.pdf</u></a>後簽署並上載文件 <u>For all Applicants</u>, please download and
+                print
+                the <a href="/formDoc/trampoline_declaration.pdf" download
+                    style="color: #83a70c;"><u>declaration.pdf</u></a>,then sign and upload it</label>
+        </div>
+
+        <div class="col-12">
+            <br>
+            <label>參加者(1)家長姓名 Applicant(1)'s Parent Name: </label>
+            <input id="parentName1" type="text" class="form-group" name="Trampoline[parentName1]"
+                <% if(req.session.tramData != null && req.session.tramData.parentName1 != null) { %>
+                value="<%=req.session.tramData.parentName1%>" <% } %> required />
+            <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files,0)"
+                <% if(req.session.tramData == null || req.session.tramData.declaration0 == "") { %> required <% } %> />
+            <div id="preview0"></div>
+            <% if(req.session.tramData != null && req.session.tramData.declaration0 != "" && req.session.tramData.declaration0 != null) { %>
+            <input id="declaration0" type="hidden" name="Trampoline[declaration0]"
+                value="<%=req.session.tramData.declaration0%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <% var type = req.session.tramData.declaration0.split(';');
+                if(type[0] == 'data:application/pdf'){ %>
+            <a download="Declaration聲明1" href="<%= req.session.tramData.declaration0%>" target="_blank">聲明書1
+                declartion1</a>
+            <% } else { %>
+            <img src="<%=req.session.tramData.declaration0%>" style="height:150px; width:auto" />
+            <% }}else{ %>
+            <input id="declaration0" type="hidden" name="Trampoline[declaration0]" />
+            <% } %>
+        </div>
+
+        <div class="col-12">
+            <br>
+            <label>參加者(2)家長姓名 Applicant(2)'s Parent Name: </label>
+            <input id="parentName2" type="text" class="form-group" name="Trampoline[parentName2]"
+                <% if(req.session.tramData != null && req.session.tramData.parentName1 != null) { %>
+                value="<%=req.session.tramData.parentName2%>" <% } %> required />
+            <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files,1)"
+                <% if(req.session.tramData == null || req.session.tramData.declaration1 == "") { %> required <% } %> />
+            <div id="preview1"></div>
+            <% if(req.session.tramData != null && req.session.tramData.declaration1 != "" && req.session.tramData.declaration1 != null) { %>
+            <input id="declaration1" type="hidden" name="Trampoline[declaration1]"
+                value="<%=req.session.tramData.declaration1%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <% var type = req.session.tramData.declaration1.split(';');
+                if(type[0] == 'data:application/pdf'){ %>
+            <a download="Declaration聲明2" href="<%= req.session.tramData.declaration1%>" target="_blank">聲明書2
+                declartion2</a>
+            <% } else { %>
+            <img src="<%=req.session.tramData.declaration1%>" style="height:150px; width:auto" />
+            <% }}else{ %>
+            <input id="declaration1" type="hidden" name="Trampoline[declaration1]" />
+            <% } %>
+        </div>
+
+        <div class="col-12">
+            <br><br><br>
+            <input type="checkbox" required>
+            <label>我已仔細閱讀並清楚明白<a href="/competition/annex1" target="_blank"><u>參加者健康及體能須知</u></a><br> I have read
+                carefully and
+                understood the <a href="/competition/annex1" target="_blank"><u>Health and Fitness Guideline</u></a> for
+                participants</label>
+
+        </div>
+
+        <div class="col-12">
+            <br><br>
+            <button type="submit" class="btn btn-primary" style="background: #83a70c; border: none; float: right;">預覽
+                Preview
+                >></button>
+            <button type="button" class="btn btn-primary" onclick="saveForm()" style="background: red; border: none; float: left;">儲存 Save</button>
+        </div>
+    </div>
+    <br>
+
+</form>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/previewForm.css" />
+<script type="text/javascript" src="js/previewForm.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myform').previewForm();
+    });
+</script>
+
+<script>
+    //birthYearOption(1990, new Date().getFullYear());
+    function limitBirth() {
+        var todayYear = new Date().getFullYear();
+        var youngest = document.getElementById("youngest");
+        var median = document.getElementById("median");
+        var eldest = document.getElementById("eldest");
+        if (youngest.checked == true) { //14 years old or below
+            var minYear = todayYear - 14;
+            birthYearOption(minYear, todayYear);
+        } else if (median.checked == true) { //15 to 16 years old
+            var minYear = todayYear - 16;
+            var maxYear = todayYear - 15;
+            birthYearOption(minYear, maxYear);
+        } else if (eldest.checked == true) { //17 years old or above
+            var maxYear = todayYear - 17;
+            birthYearOption(1990, maxYear);
+        }
+    }
+    function birthYearOption(start, end) {
+        var options = "<option disabled selected>" + " " + "</option>";
+        for (var year = start; year <= end; year++) {
+            options += "<option>" + year + "</option>";
+        }
+        document.getElementById("year1").innerHTML = options;
+        document.getElementById("year2").innerHTML = options;
+    }
+
+    async function saveForm() {
+        var form = document.getElementById("trampoline");
+        var data = JSON.stringify({
+            compYear: form.compYear.value,
+            male: form.male.checked,
+            female: form.female.checked,
+            youngest: form.youngest.checked,
+            median: form.median.checked,
+            eldest: form.eldest.checked,
+            Yes1: form.Yes1.checked,
+            No1: form.No1.checked,
+            chiName1: form.chiName1.value,
+            engName1: form.engName1.value,
+            year1: form.year1.value,
+            phone1: form.phone1.value,
+            email1: form.email1.value,
+            address1: form.address1.value,
+            Yes2: form.Yes2.checked,
+            No2: form.No2.checked,
+            chiName2: form.chiName2.value,
+            engName2: form.engName2.value,
+            year2: form.year2.value,
+            phone2: form.phone2.value,
+            email2: form.email2.value,
+            address2: form.address2.value,
+            teamName: form.teamName.value,
+            coachName: form.coachName.value,
+            coachPhone: form.coachPhone.value,
+            coachNum: form.coachNum.value,
+            coachAddress: form.coachAddress.value,
+            parentName1: form.parentName1.value,
+            parentName2: form.parentName2.value,
+            declaration0: form.declaration0.value,
+            declaration1: form.declaration1.value,
+        });
+        var response = await fetch("/competition/form/trampoline/save", {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.statusText);
+        }
+    }
+    //handle multi declaration upload (img/pdf) (id="preview+p") 
+    function handleFile(files, p) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview' + p);
+        var reader = new FileReader();
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+
+                img.style.width = "auto";
+                img.style.height = "150px";
+
+                document.getElementById("declaration" + p).value = e.target.result;
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                document.getElementById("declaration" + p).value = e.target.result;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var chineseNameDis1 = document.getElementById("chiName1")
+        var chineseNameDis2 = document.getElementById("chiName2")
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+        }
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+        }
+    } 
+</script>

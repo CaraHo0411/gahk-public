@@ -1,0 +1,661 @@
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+<style>
+    .card {
+        border-radius: 0;
+    }
+
+    #labelHead {
+        color: #83a70c;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+    }
+
+    /* checkbox css */
+    .inputGroup {
+        background-color: #fff;
+        width: 220pt;
+        display: block;
+        margin: 10px 0;
+        position: relative;
+    }
+
+    .statusLabel {
+        padding: 12px 30px;
+        width: 100%;
+        display: block;
+        text-align: left;
+        color: #3C454C;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        transition: color 200ms ease-in;
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .statusLabel:after {
+        width: 32px;
+        height: 32px;
+        content: '';
+        border: 2px solid #D1D7DC;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+        background-repeat: no-repeat;
+        background-position: 2px 3px;
+        border-radius: 50%;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 200ms ease-in;
+    }
+
+    .statusLabel:before {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        content: '';
+        background-color: #83a70c;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .statusInput {
+        width: 32px;
+        height: 32px;
+        order: 1;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        visibility: hidden;
+    }
+
+    .statusInput:checked~label {
+        color: #fff;
+    }
+
+    .statusInput:checked~label:before {
+        transform: translate(-50%, -50%) scale3d(56, 56, 1);
+        opacity: 1;
+    }
+
+    .statusInput:checked~label:after {
+        background-color: darkgreen;
+        border-color: aquamarine;
+    }
+
+    /* delete button */
+    /* Set a style for all buttons */
+    .modalBtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .modalBtn:hover {
+        opacity: 1;
+    }
+
+    /* Float cancel and delete buttons and add an equal width */
+    .cancelbtn,
+    .deletebtn {
+        float: left;
+        width: 50%;
+    }
+
+    /* Add a color to the cancel button */
+    .cancelbtn {
+        background-color: #ccc;
+        color: black;
+    }
+
+    /* Add a color to the delete button */
+    .deletebtn {
+        background-color: #f44336;
+    }
+
+    /* Add padding and center-align text to the container */
+    .container {
+        padding: 16px;
+        text-align: center;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 3;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(8, 8, 8, 0.5);
+        padding-top: 50px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Style the horizontal ruler */
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    /* Clear floats */
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    /* Change styles for cancel button and delete button on extra small screens */
+    @media screen and (max-width: 300px) {
+
+        .cancelbtn,
+        .deletebtn {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<form action="/admin/applyHandle/gfaEditForm/<%= gfa.id %>" method="POST" id=Admin_GFA_form>
+    <div class="row mx-sm-2">
+        <!-- Reject button -->
+        <div class="form-group col-12" style="text-align: right;">
+            <br>
+            <% if(gfa.formStatus == "rejected") {%>
+            <a type="button" class="btn btn-danger" style="color: white;">已拒絕 Rejected</a>
+            <%} else {%>
+            <a type="button" class="btn btn-danger" style="color: white;"
+                onclick="document.getElementById('<%= gfa.id%>').style.display='block'">拒絕 Reject</a>
+            <%}%> 
+        </div>
+
+         <!-- From detail -->
+         <div class="col-12" align="right">
+            <% var createTime = new Date(gfa.createdAt);
+            var month = createTime.getMonth() + 1;
+            var applyDate = createTime.getDate() + "/" + month + "/" + createTime.getFullYear(); %>
+            <h6>申請編號 Application No.: <%= gfa.idCode %></h6>
+            <p>提交日期 Apply Date: <%= applyDate %></p>
+        </div>
+
+        <div class="col-12" style="color: #888888; ">
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;"><b>香港普及體操節</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>報名表格</u></h2>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">比賽年份 Year of Competition</h5>
+            <%var todayYear = new Date().getFullYear();
+            var end = todayYear + 2;%>
+            <select name="GFA[compYear]" required>
+                <% for (var year = todayYear; year <= end; year++){%>
+                <option value="<%=year%>" <%if(year == gfa.compYear) {%> selected<%}%> ><%=year%></option>
+                    <%}%>
+            </select>
+        </div>
+
+        <!-- Group Details -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">團體資料 Group
+                Details</h5>
+        </div>
+
+
+        <div class="col-12">
+            <label>團體名稱 Group Name:</label>
+            <input id="teamName" type="text" class="form-group" name="GFA[teamName]" style="width:350pt;"
+                value="<%=gfa.teamName%>" required>
+        </div>
+
+        <div class="col-12">
+            <label>收據抬頭 Receipt Header:</label>
+            <input id="receiptHeader" type="text" class="form-group" name="GFA[receiptHeader]" style="width: 350pt;"
+                value="<%=gfa.receiptHeader%>" required>
+        </div>
+
+        <div class="col-12">
+            <label>聯絡地址 Address:</label>
+            <input id="address" type="text" class="form-group" name="GFA[address]" style="width:450pt;"
+                value="<%=gfa.address%>" required>
+        </div>
+
+        <div class="col-12">
+            <span>參賽組別 Category:</span>
+            <input type="radio" name="GFA[category]" value="幼稚園 Kindergarten" id="kinder"
+                <% if(gfa.category == "幼稚園 Kindergarten"){ %> checked <% } %> required>
+            <label class="form-check-label" for="category">幼稚園 Kindergarten</label>
+            <input type="radio" name="GFA[category]" value="小學組 Primary School" id="primary"
+                <% if(gfa.category == "小學組 Primary School"){ %> checked <% } %> required>
+            <label class="form-check-label" for="category">小學組 Primary School</label>
+            <input type="radio" name="GFA[category]" value="公開組 Open Group" id="open"
+                <% if(gfa.category == "公開組 Open Group"){ %> checked <% } %> required>
+            <label class="form-check-label" for="category">公開組 Open Group</label>
+        </div>
+
+
+
+        <!-- Contact Person Details -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">聯絡人資料
+                Contact Person Details</h5>
+        </div>
+
+        <div class="col-12">
+            <label>是否有中文姓名 Any Chinese name? </label>
+            <input type="radio" name="GFA[havecname]" value="是 Yes" id="Yes" onclick="havechinesename()" 
+            required <% if (gfa.havecname == "是 Yes") { %>checked<%}%>/>
+            <label class="form-check-label" for="havecname">是 Yes</label>
+
+            &nbsp;<input type="radio" name="GFA[havecname]" value="否 No" id="No"
+                onclick="havechinesename()" required <% if (gfa.havecname == "否 No") { %>checked<%}%>/>
+            <label class="form-check-label" for="havecname">否 No</label>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>中文姓名 Name in Chinese:</label>
+            <input type="text" class="form-group" name="GFA[cpChiName]" id="cpChiName"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" <% if(gfa.havecname == "否 No") { %>disabled <%} else { %> value="<%=gfa.cpChiName%>" <% }%> required >
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>英文姓名 Name in English:</label>
+            <input id="cpEngName" type="text" class="form-group" name="GFA[cpEngName]"
+                onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" value="<%=gfa.cpEngName%>" required>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>聯絡電話 Contact Number</label>
+            <br>
+
+            <div class="col-12">
+                <label>日間 Office Hour:</label>
+                <input id="cpDayPhone" type="tel" pattern=[0-9]{8} class="form-group" name="GFA[cpDayPhone]"
+                    value="<%=gfa.cpDayPhone%>" required>
+            </div>
+
+            <div class="col-12">
+                <label>手提 Mobile:</label>
+                <input id="cpMobilePhone" type="tel" pattern=[0-9]{8} class="form-group" name="GFA[cpMobilePhone]"
+                    value="<%=gfa.cpMobilePhone%>" required>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>電郵地址 Email Address:</label>
+            <input id="email" type="email" class="form-group" name="GFA[email]" style="width:250pt;"
+                value="<%=gfa.email%>" required>
+        </div>
+
+
+
+        <!-- Competition Details -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">參賽資料
+                Competition Details</h5>
+        </div>
+
+
+        <div class="col-12 col-sm-6">
+            <label>參加人數 Number of Applicants:</label>
+            <input id="applicantNum" type="number" class="form-group" name="GFA[applicantNum]" min="1" max="100"
+                value="<%=gfa.applicantNum%>" required>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <label>工作人員人數 Number of Crews:</label>
+            <input id="crewNum" type="number" class="form-group" name="GFA[crewNum]" min="0" max="100"
+                value="<%=gfa.crewNum%>" required>
+        </div>
+
+        <div class="col-12">
+            <label>支票編號 Check Number:</label>
+            <input id="checkNum" type="text" class="form-group" name="GFA[checkNum]" style="width:350pt;"
+                value="<%=gfa.checkNum%>" required>
+        </div>
+
+        <div class="col-12">
+            <label>銀行名稱 Name of Bank:</label>
+            <input id="bankName" type="text" class="form-group" name="GFA[bankName]" style="width:350pt;"
+                value="<%=gfa.bankName%>" required>
+        </div>
+
+
+        <div class="col-12">
+            <br>
+            <span style="font-size:14px;color:red"> * </span>閣下所提供的資料只會用於本會之活動宣傳事宜，如欲更改或查詢閣下所申報的個人資料，請與本會職員聯絡。
+            <br>
+            The details provided by applicants will only be used by the promotions of our organisation. Please
+            contact with our staff if you want to correct your personal information.
+        </div>
+
+
+        <!-- Terms of Competition -->
+        <div class="col-12">
+            <br><br>
+            <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">聲明
+                Declaration</h5>
+        </div>
+
+
+        <div class="col-12">
+        </div>
+        <% if(gfa.document) { 
+            var type = gfa.document.split(';');%>
+        <div class="col-12 col-sm-6">
+            <% if(type[0] == 'data:application/pdf') { %>
+            <a download="<%= gfa.idCode %>_Declaration_聲明" href="<%= gfa.document%>" target="_blank">下載聲明書
+                Download declartion</a>
+            <br>
+            <% } else if(type[0] == 'data:image/jpeg' || type[0] == 'data:image/png') { %>
+            <a download="<%= gfa.idCode %>_Declaration_聲明" href="<%= gfa.document%>" target="_blank">下載聲明書
+                Download declartion</a>
+            <br>
+            <img src="<%=gfa.document%>" style="height:150px; width:auto" />
+            <% } %>
+        </div>
+        <% } %>
+        <div class="col-12">
+            <label>重新上載聲明書 Reupload the declaration</label>
+            <br>
+            <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files)" />
+            <br>
+        </div>
+        <div id="preview"></div>
+    </div>
+
+    <!-- Status -->
+    <!-- Payment -->
+    <div class="form-group col-12">
+        <br><br>
+        <h5 id="labelHead">付款狀況 Payment Status</h5>
+        <% if(gfa.payStatus == "unpaid") {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="payStatus" name="GFA[payStatus]" value="paid" type="checkbox"
+                onclick="changeToPaid()" />
+            <label for="payStatus" class="statusLabel" id="payLabel">未付款 Unpaid</label>
+        </div>
+        <%} else {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="payStatus" type="checkbox" checked disabled />
+            <label for="payStatus" class="statusLabel" id="payLabel">已付款 Paid</label>
+        </div>
+        <%}%>
+    </div>
+    <!-- Apply-->
+    <div class="form-group col-12">
+            <h5 id="labelHead">申請狀況 Apply Status</h5>
+    
+            <% if(gfa.formStatus == "ToBeCon" || gfa.formStatus == "rejected") {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="TohandBtn" name="GFA[formStatus]" value="ToBeCon" type="radio"
+                onclick="changeToCon()" checked />
+            <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="ToConBtn" name="GFA[formStatus]" value="accepted" type="radio"
+                onclick="changeToCon()" />
+            <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirm</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="dataDef" name="GFA[formStatus]" value="dataDef" onclick="changeToCon()"
+                type="radio" />
+            <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+        </div>
+
+        <% } else if(gfa.formStatus == "accepted"){%>
+        <div class="inputGroup">
+            <input class="statusInput" id="TohandBtn" name="GFA[formStatus]" value="ToBeCon" type="radio" disabled />
+            <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+        </div>
+        <div class="inputGroup">
+            <input class="statusInput" id="con" type="checkbox" checked disabled />
+            <label for="con" class="statusLabel" id="dataDefLabel">已確認 Accepted</label>
+        </div>
+        <div class="inputGroup">
+            <input class="statusInput" id="dataDef" type="checkbox" disabled />
+            <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+        </div>
+        <% } else if(gfa.formStatus == "dataDef"){%>
+        <div class="inputGroup">
+            <input class="statusInput" id="TohandBtn" name="GFA[formStatus]" value="ToBeCon" type="radio"
+                onclick="changeToCon()" />
+            <label for="TohandBtn" class="statusLabel" id="handleLabel">待處理 To be handled</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="ToConBtn" name="GFA[formStatus]" value="accepted" type="radio"
+                onclick="changeToCon()" />
+            <label for="ToConBtn" class="statusLabel" id="confirmLabel">確認 Confirmed</label>
+        </div>
+
+        <div class="inputGroup">
+            <input class="statusInput" id="dataDef" name="GFA[formStatus]" value="dataDef" type="radio" checked
+                onclick="changeToCon()" />
+            <label for="dataDef" class="statusLabel" id="dataDefLabel">資料不全 Data Deficiency</label>
+        </div>
+        <%}%>
+    </div>
+    <!-- Team -->
+    <div class="form-group col-12">
+            <h5 id="labelHead">隊伍/團體狀況 Team Status</h5>
+            <% if(gfa.teamStatus == "suTeam") {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="waitTeam" name="GFA[teamStatus]" value="waitTeam" type="checkbox"
+                onclick="changeToWait()" />
+            <label for="waitTeam" class="statusLabel" id="waitLabel">設為後補 Set as Waiting Team</label>
+        </div>
+        <%} else {%>
+        <div class="inputGroup">
+            <input class="statusInput" id="suTeam" type="checkbox" name="GFA[teamStatus]" value="suTeam"
+                onclick="changeToSu()" checked />
+            <label for="suTeam" class="statusLabel" id="suLabel">後補 Waiting Team</label>
+        </div>
+        <%}%>
+    </div>
+    
+    <div class="form-group col-12" style="text-align: right;">
+            <%if(gfa.formStatus == "rejected"){%>
+        <a class="btn btn-success" style="color: white;" onclick="history.back()">完成 Submit</a>
+        <%} else {%>
+        <button class="btn btn-success" onclick="submitForm('<%= gfa.idCode%>')">完成 Submit</button>
+        <%}%>
+    </div>
+
+             <!-- Update details -->
+        <% var m = new Date(gfa.updatedAt);
+        var month = m.getMonth() + 1;
+        var updateDate = m.getDate() + "/" + month + "/" + m.getFullYear() + " " + m.getHours() + ":" + m.getMinutes() + ":" + m.getSeconds(); %>
+        <p class="col-12" style="font-size: smaller;">上次更新 Last upadated: <%= updateDate%></p>
+
+        <br>
+
+</form>
+
+<div id="<%= gfa.id%>" class="modal">
+    <div class="modal-content">
+        <div class="container">
+            <h1>拒絕申請 Reject Application<br><%= gfa.idCode%></h1>
+            <p>確定要拒絕這份申請表?<br>Are you sure you want to reject this application?</p>
+
+            <div class="clearfix">
+                <button type="button" class="cancelbtn modalBtn"
+                    onclick="document.getElementById('<%= gfa.id%>').style.display='none'">取消 Cancel</button>
+                <button type="button" class="deletebtn modalBtn" onclick="rejectForm('<%= gfa.id%>')">拒絕
+                    Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () { disableform('Admin_GFA_form', '<%= gfa.formStatus%>') };
+    function disableform(formId, formStatus) {
+        if (formStatus == "rejected") {
+            var f = document.forms[formId].getElementsByTagName('input');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+            var f = document.forms[0].getElementsByTagName('textarea');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+            var f = document.forms[0].getElementsByTagName('select');
+            for (var i = 0; i < f.length; i++)
+                f[i].disabled = true
+        }
+    }
+
+    // Get the modal
+    var modal = document.getElementById('<%= gfa.id%>');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function changeToPaid() {
+        var payLabel = document.getElementById("payLabel");
+        var payStatus = document.getElementById("payStatus");
+
+        if (payStatus.checked == true) {
+            payLabel.innerHTML = "已付款 Paid";
+        } else {
+            payLabel.innerHTML = "未付款 Unpaid";
+        }
+    }
+
+    function changeToCon() {
+        var confirmLabel = document.getElementById("confirmLabel");
+        var ToConBtn = document.getElementById("ToConBtn");
+
+        if (ToConBtn.checked == true) {
+            confirmLabel.innerHTML = "已確認 Accepted";
+        } else {
+            confirmLabel.innerHTML = "確認 Confirm";
+        }
+    }
+
+    function changeToWait() {
+        var waitLabel = document.getElementById("waitLabel");
+        var waitTeam = document.getElementById("waitTeam");
+
+        if (waitTeam.checked == true) {
+            waitLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            waitLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+    function changeToSu() {
+        var suLabel = document.getElementById("suLabel");
+        var suTeam = document.getElementById("suTeam");
+
+        if (suTeam.checked == true) {
+            suLabel.innerHTML = "後補 Waiting Team";
+        } else {
+            suLabel.innerHTML = "設為後補 Set as Waiting Team";
+        }
+    }
+
+
+    //button function
+    function submitForm(id) {
+        alert("更新成功 Successfully Updated" + "\n" + id);
+    }
+
+    async function rejectForm(id) {
+        var response = await fetch("/admin/applyHandle/reject/gfa/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+    function handleFile(files) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview');
+        var reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'GFA[document]';
+                input.value = e.target.result;
+                img.style.height = "150px";
+                img.style.width = "auto";
+                preview.appendChild(input);
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'GFA[document]';
+                input.value = e.target.result;
+                preview.appendChild(input);
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes_check = document.getElementById("Yes");
+        var no_check = document.getElementById("No");
+        var chineseNameDis = document.getElementById("cpChiName")
+
+        if (yes_check.checked == true) {
+            chineseNameDis.checked = false;
+            chineseNameDis.disabled = false;
+
+        } else if (no_check.checked == true) {
+            chineseNameDis.checked = true; //disable chinese name
+            chineseNameDis.disabled = true;
+
+        }
+    } 
+</script>

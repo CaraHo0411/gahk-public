@@ -1,0 +1,689 @@
+<!-- TRGPForm.ejs -->
+<style type="text/css">
+    .card {
+        border-radius: 0;
+    }
+
+    .labelHead {
+        color: #83a70c;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+    }
+</style>
+
+<form action="/competition/form/TRGPForm" method="POST" id="TRGPForm">
+    <%if(req.session.data) {%>
+        hi
+    
+    <%}%>
+
+    <div class="row mx-sm-2">
+        <div class="col-12" style="color: #888888; ">
+            <br>
+            <h1 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:16pt;"><b>全港藝術體操分齡比賽</b></h1>
+            <h2 style="font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:14pt;"><u>團體項目報名表(公開組:學校以外之團體)</u>
+            </h2>
+            <br><br>
+        </div>
+
+        <div class="col-12">
+            <h5 class="labelHead">比賽規則及章程 Rules and Regulation</h5>
+        </div>
+
+        <div class="col-12">
+            <a href="http://www.gahk.org.hk/doc/Rules_HKRGAgeGroupCompetition.pdf" target="_blank"
+                style="text-align: center;"><u>全港藝術體操分齡賽競賽要求 Rules of HKRGAgeGroupCompetition
+                </u></a>
+        </div>
+
+        <!-- 比賽年份 Year of Competition -->
+        <div class="col-12">
+            <br><br>
+            <h5 class="labelHead">比賽年份 Year of Competition</h5>
+            <%var todayYear = new Date().getFullYear();%>
+            <select id="compYear" name="TRGP[compYear]" required>
+                <option value="<%=todayYear%>" selected><%=todayYear%></option>
+            </select>
+        </div>
+
+        <!-- 團體資料 Group Details -->
+        <div class="col-12">
+            <br><br>
+            <h5 class="labelHead">團體資料 Group Details</h5>
+        </div>
+
+        <div class="form-group col-12">
+            <label>機構名稱(中文) Organization Name(Chinese):</label>
+            <input type="text" name="TRGP[teamName]" id="teamName" style="width:450pt"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5\ \(\)\.\-\d\0-\9]/g,'')" required
+                <% if(req.session.TRGPdata != null) {%>value="<%=req.session.TRGPdata.teamName%>" <%}%>>
+        </div>
+
+        <div class="form-group col-12 col-sm-6">
+            <label>聯絡電話 Contact Number:</label>
+            <input type="text" name="TRGP[Phone]" id="Phone" maxlength="8" onkeyup="value=value.replace(/[^\d\0-\9]/g,'')"
+                required <% if(req.session.TRGPdata != null) {%>value="<%=req.session.TRGPdata.Phone%>"
+                    <%}%>>
+        </div>
+
+        <div class="form-group col-12 col-sm-6">
+            <label>聯絡電郵 Email Address:</label>
+            <input type="email" name="TRGP[Email]" id="Email" style="width:195pt" required <% if(req.session.TRGPdata != null) {%>value="<%=req.session.TRGPdata.Email%>"
+                    <%}%>>
+        </div>
+
+        <div class="form-group col-12 col-sm-6">
+            <label>教練姓名 Coach Name:</label>
+            <input input="text" name="TRGP[CoachName]" id="CoachName" required <% if(req.session.TRGPdata != null) {%>value="<%=req.session.TRGPdata.CoachName%>" <%}%>>
+        </div>
+
+        <div class="form-group col-12 col-sm-6">
+            <label>教練聯絡電話 Coach Contact Number:</label>
+            <input type="text" name="TRGP[CoachPhone]" id="CoachPhone" maxlength="8" onkeyup="value=value.replace(/[^\d\0-\9]/g,'')"
+                required <% if(req.session.TRGPdata != null) {%>value="<%=req.session.TRGPdata.CoachPhone%>"
+                    <%}%>>
+        </div>
+
+        <div class="form-group col-12">
+            <label>組別 Category:</label>
+            <input type="radio" name="TRGP[category]" value="預備A,B組" id="preAB" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.preABChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">預備A,B組</label>
+
+            <input type="radio" name="TRGP[category]" value="預備C,D組" id="preCD" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.preCDChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">預備C,D組</label>
+
+            <input type="radio" name="TRGP[category]" value="預備E組" id="preE" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.preEChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">預備E組</label>
+
+            <input type="radio" name="TRGP[category]" value="初級A組" id="junA" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.junAChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">初級A組</label>
+
+            <input type="radio" name="TRGP[category]" value="初級B組" id="junB" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.junBChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">初級B組</label>
+
+            <input type="radio" name="TRGP[category]" value="高級A組" id="senA" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.senAChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">高級A組</label>
+
+            <input type="radio" name="TRGP[category]" value="高級B組" id="senB" onclick="limitBirth()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.senBChecked == true) {%>checked<%}%>/>
+            <label class="form-check-label" for="category">高級B組</label>
+        </div>
+
+
+        <!-- 參加者(1)個人資料 Applicant(1)'s Personal Details -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 class="labelHead">參加者(1)個人資料 Applicant(1)'s Personal Details</h6>
+            <br>
+
+            <div class="form-group">
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="TRGP[havecname1]" value="是 Yes" id="Yes1" onclick="havechinesename()"
+                    required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameYes1Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname1">是 Yes</label>
+
+                &nbsp;<input type="radio" name="TRGP[havecname1]" value="否 No" id="No1" onclick="havechinesename()"
+                    required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameNo1Checked == true){%>checked<%}%>/>
+                <label class="form-check-label" for="havecname1">否 No</label>
+            </div>
+            <div class="form-group">
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" name="TRGP[Mate1ChiName]" id="Mate1ChiName" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required 
+                    <% if (req.session.data != null && req.session.data.havecname1 == "否 No") { %> disabled
+                        <%} else if(req.session.data == null && req.session.TRGPdata != null) { if(req.session.TRGPdata.cnameNo1Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.TRGPdata.Mate1ChiName%>" <% }} %>>
+            </div>
+            <div class="form-group">
+                <label>英文姓名 Name in English:</label>
+                <input type="text" name="TRGP[Mate1EngName]" id="Mate1EngName" placeholder=" e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required 
+                    <% if (req.session.TRGPdata != null) {%>value="<%= req.session.TRGPdata.Mate1EngName%>" <%}%>>
+            </div>
+            <div class="form-group">
+                <label>身分證號碼 ID Card Number:</label>
+                <input type="text" name="TRGP[Mate1IDNo]" id="Mate1IDNo" placeholder=" A123456(7)" required 
+                <% if (req.session.TRGPdata != null) {%>value="<%= req.session.TRGPdata.Mate1IDNo%>" <%}%>>
+            </div>
+            <div class="form-group">
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" name="TRGP[Mate1Date]" id="birth1" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.birth1%>"
+                    <%}%>>
+            </div>
+        </div>
+
+        <!-- 參加者(2)個人資料 Applicant(2)'s Personal Details -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 class="labelHead">參加者(2)個人資料 Applicant(2)'s Personal Details</h6>
+            <br>
+
+            <div class="form-group">
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="TRGP[havecname2]" value="是 Yes" id="Yes2"
+                    onclick="havechinesename()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameYes2Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname2">是 Yes</label>
+
+                &nbsp;<input type="radio" name="TRGP[havecname2]" value="否 No" id="No2"
+                    onclick="havechinesename()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameNo2Checked == true){%>checked<%}%>/>
+                <label class="form-check-label" for="havecname2">否 No</label>
+            </div>
+            <div class="form-group">
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" name="TRGP[Mate2ChiName]" id="Mate2ChiName" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required 
+                    <% if (req.session.data != null && req.session.data.havecname2 == "否 No") { %> disabled
+                        <%} else if(req.session.TRGPdata != null) { if(req.session.data == null && req.session.TRGPdata.cnameNo2Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.TRGPdata.Mate2ChiName%>" <% }} %>>
+            </div>
+            <div class="form-group">
+                <label>英文姓名 Name in English:</label>
+                <input type="text" name="TRGP[Mate2EngName]" id="Mate2EngName" placeholder=" e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.Mate2EngName%>"
+                    <%}%>>
+            </div>
+            <div class="form-group">
+                <label>身分證號碼 ID Card Number:</label>
+                <input type="text" name="TRGP[Mate2IDNo]" id="Mate2IDNo" placeholder=" A123456(7)" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.Mate2IDNo%>" <%}%>>
+            </div>
+            <div class="form-group">
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" id="birth2" name="TRGP[Mate2Date]" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.birth2%>"
+                    <%}%>>
+            </div>
+        </div>
+
+        <!-- 參加者(3)個人資料 Applicant(3)'s Personal Details -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 class="labelHead">參加者(3)個人資料 Applicant(3)'s Personal Details</h6>
+            <br>
+
+            <div class="form-group">
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="TRGP[havecname3]" value="是 Yes" id="Yes3"
+                    onclick="havechinesename()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameYes3Checked == true) {%>checked<%}%>/>
+                <label class="form-check-label" for="havecname3">是 Yes</label>
+
+                &nbsp;<input type="radio" name="TRGP[havecname3]" value="否 No" id="No3"
+                    onclick="havechinesename()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameNo3Checked == true){%>checked<%}%>/>
+                <label class="form-check-label" for="havecname3">否 No</label>
+            </div>
+            <div class="form-group">
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" name="TRGP[Mate3ChiName]" id="Mate3ChiName" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required 
+                    <% if (req.session.data != null && req.session.data.havecname3 == "否 No") { %> disabled
+                        <%} else if(req.session.TRGPdata != null) { if(req.session.data == null && req.session.TRGPdata.cnameNo3Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.TRGPdata.Mate3ChiName%>" <% }} %>>
+            </div>
+            <div class="form-group">
+                <label>英文姓名 Name in English:</label>
+                <input type="text" name="TRGP[Mate3EngName]" id="Mate3EngName" placeholder=" e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.Mate3EngName%>"
+                    <%}%>>
+            </div>
+            <div class="form-group">
+                <label>身分證號碼 ID Card Number:</label>
+                <input type="text" name="TRGP[Mate3IDNo]" id="Mate3IDNo" placeholder=" A123456(7)" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.Mate3IDNo%>" <%}%>>
+            </div>
+            <div class="form-group">
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" id="birth3" name="TRGP[Mate3Date]" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.birth3%>"
+                    <%}%>>
+            </div>
+        </div>
+
+        <!-- 參加者(4)個人資料 Applicant(4)'s Personal Details -->
+        <div class="card col-12 col-sm-6" style="background: transparent;">
+            <br>
+            <h6 class="labelHead">參加者(4)個人資料 Applicant(4)'s Personal Details</h6>
+            <br>
+
+            <div class="form-group">
+                <label>是否有中文姓名 Any Chinese name: </label>
+                <input type="radio" name="TRGP[havecname4]" value="是 Yes" id="Yes4"
+                    onclick="havechinesename()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameYes4Checked == true){%>checked<%}%>/>
+                <label class="form-check-label" for="havecname4">是 Yes</label>
+
+                &nbsp;<input type="radio" name="TRGP[havecname4]" value="否 No" id="No4"
+                    onclick="havechinesename()" required <% if(req.session.TRGPdata != null && req.session.TRGPdata.cnameNo4Checked == true){%>checked<%}%>/>
+                <label class="form-check-label" for="havecname4">否 No</label>
+            </div>
+            <div class="form-group">
+                <label>中文姓名 Name in Chinese:</label>
+                <input type="text" name="TRGP[Mate4ChiName]" id="Mate4ChiName" placeholder=" e.g. 陳大文"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required 
+                    <% if (req.session.data != null && req.session.data.havecname4 == "否 No") { %> disabled
+                        <%} else if(req.session.TRGPdata != null) { if(req.session.data == null && req.session.TRGPdata.cnameNo4Checked == true) {%> disabled
+                        <% }else{ %> value="<%=req.session.TRGPdata.Mate4ChiName%>" <% }} %>>
+            </div>
+            <div class="form-group">
+                <label>英文姓名 Name in English:</label>
+                <input type="text" name="TRGP[Mate4EngName]" id="Mate4EngName" placeholder=" e.g. Chan Tai Man"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.Mate4EngName%>"
+                    <%}%>>
+            </div>
+            <div class="form-group">
+                <label>身分證號碼 ID Card Number:</label>
+                <input type="text" name="TRGP[Mate4IDNo]" id="Mate4IDNo" placeholder=" A123456(7)" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.Mate4IDNo%>" <%}%>>
+            </div>
+            <div class="form-group">
+                <label>出生日期 Date of Birth (dd/mm/yyyy):</label>
+                <input type="date" id="birth4" name="TRGP[Mate4Date]" required <% if (req.session.TRGPdata != null) {%>
+                    value="<%= req.session.TRGPdata.birth4%>" <%}%>>
+            </div>
+        </div>
+
+        <div class="form-group col-12">
+            <span>備註 Remarks:</span>
+            <ol>
+                <li>如有需要，可自行影印表格<br>Applicants can make copy of the form if needed.</li>
+                <li>每張報名表只可報<u>一個</u>組別<br>An application form can be applied for <u>one</u> category only.</li>
+            </ol>
+            <br>
+        </div>
+
+        <!-- 費用 Fee -->
+        <div class="form-group col-12">
+            <h5 class="labelHead">費用 Fee</h5>
+
+            <div class="form-group">
+                <label>團體項目 Group Event: $250 X </label>
+                <input id="teamNo" type="number" name="TRGP[TeamNumber]" value="1" style="width: 25pt;"
+                    required readonly <% if (req.session.TRGPdata != null) {%> value="<%= req.session.TRGPdata.teamNo%>" <%}%>>
+                <span>隊 team(s) = $</span>
+                <input id="teamPrice" type="number" name="TRGP[TeamPrice]" value="250" readonly required 
+                <% if (req.session.TRGPdata != null) {%> value="<%= req.session.TRGPdata.teamPrice%>" <%}%>>
+                <br>
+            </div>
+            <div class="form-group">
+                <label>總額 Total price = $</label> 
+                <input id="total" type="number" name="TRGP[TeamTotalPrice]" value="250" readonly required 
+                <% if (req.session.TRGPdata != null) {%> value="<%= req.session.TRGPdata.total%>"<%}%>>
+
+            </div>
+
+            <span style="font-style: italic;">*請以支票付款，並以郵寄方式或親臨辦公室遞交支票<br>Please make payment by cheque and submit it by
+                post or in person</span>
+            <br><br><br>
+        </div>
+
+        <!-- 文件上載 -->
+        <div class="form-group col-12">
+            <h5 class="labelHead">文件上載 Document Upload</h5>
+            <div class="form-group">
+                <label>請提交商業登記證明 Please upload the Valid Bussiness Registration Certificate
+                    (pdf檔)</label>
+
+                <input type="file" accept="image/*,application/pdf" onchange="handleFile1(this.files)" 
+                <% if(req.session.TRGPdata == null || req.session.TRGPdata.VBRC == "") { %>required <% } %> />
+                <div id="preview1"></div>
+
+                <% if(req.session.TRGPdata != null && req.session.TRGPdata.VBRC != "" && req.session.TRGPdata.VBRC != null) { %>
+                    <input id="VBRC" type="hidden" name="TRGP[VBRC]" value="<%=req.session.TRGPdata.VBRC%>" />
+                    <br>
+                    <label>原本文件 Original File</label>
+                    <br>
+                    <% var type = req.session.TRGPdata.VBRC.split(';');
+                        if(type[0] == 'data:application/pdf'){ %>
+                    <a download="VBRC" href="<%= req.session.TRGPdata.VBRC%>" target="_blank">VBRC</a>
+                    <% } else { %>
+                    <img src="<%=req.session.TRGPdata.VBRC%>" style="height:150px; width:auto" />
+                    <% }}else{ %>
+                    <input id="VBRC" type="hidden" name="TRGP[VBRC]" />
+                    <% } %>
+            </div>
+        </div>
+
+    <!-- 聲明 Declaration -->
+    <div class="form-group col-12">
+        <h5 class="labelHead">聲明 Declaration</h5>
+
+        <div class="form-group">
+            <label>請下載及列印<a href="/formDoc/Team_HKRG_declaration.pdf" download><u
+                        style="color:rgb(159, 209, 60);">聲明書.pdf</u></a>後簽署並上載文件 Please download and print the <a
+                    href="/formDoc/Team_HKRG_declaration.pdf" download><u
+                        style="color:rgb(159, 209, 60);">declaration.pdf</u></a>, then sign and upload it</label>
+            <input type="file" id="Declaration" accept="image/*,application/pdf" onchange="handleFile2(this.files)"
+                <% if(req.session.TRGPdata == null || req.session.TRGPdata.declaration == "") { %> required <% } %> />
+            <div id="preview2"></div>
+            <% if(req.session.TRGPdata != null && req.session.TRGPdata.declaration != "" && req.session.TRGPdata.declaration != null ) { %>
+            <input id="declaration" type="hidden" name="TRGP[Declaration]"
+                value="<%=req.session.TRGPdata.declaration%>" />
+            <br>
+            <label>原本文件 Original File</label>
+            <br>
+            <% var type = req.session.TRGPdata.declaration.split(';');
+                            if(type[0] == 'data:application/pdf'){ %>
+            <a download="Declaration聲明" href="<%= req.session.TRGPdata.declaration%>" target="_blank">聲明書
+                declartion</a>
+            <% } else { %>
+            <img src="<%=req.session.TRGPdata.declaration%>" style="height:150px; width:auto" />
+            <% }}else{ %>
+            <input id="declaration" type="hidden" name="TRGP[Declaration]" />
+            <% } %>
+        </div>
+
+        <!-- 機構負責人 -->
+        <div class="row">
+            <div class="form-group col-12 col-sm-6">
+                <label>機構負責人姓名 Leader's Name:</label>
+                <input type="text" name="TRGP[leaderName]" id="leaderName" required
+                    <% if (req.session.TRGPdata != null) {%> value="<%= req.session.TRGPdata.leaderName%>"
+                    <%}%>>
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <label>機構負責人職位 Leader's Position:</label>
+                    <input type="text" name="TRGP[leaderPosition]" id="leaderPosition" required <% if (req.session.TRGPdata != null) {%> value="<%= req.session.TRGPdata.leaderPosition%>" <%}%>>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-12">
+            <br>
+            <input type="checkbox" required>
+            <label>我已仔細閱讀並清楚明白<a href="/competition/annex1" target="_blank"><u>參加者健康及體能須知</u></a><br> I have read
+                carefully and understood the <a href="/competition/annex1" target="_blank"><u>Health and Fitness Guideline</u></a> for participants</label>
+        </div>
+
+        <!-- button -->
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary"
+                style="background-color: #83a70c; border-color: #83a70c; float:right">預覽 Preview >></button>
+            <!-- Save -->
+            <button type="button" class="btn btn-primary" onclick="saveForm()"
+                style="background: red; border: none; float: left;">儲存 Save</button>
+            <br><br>
+        </div>
+    </div>
+</form>
+
+<script>
+    //save function
+    async function saveForm() {
+        var form = document.getElementById("TRGPForm");
+
+        var data = JSON.stringify({
+            compYear: form.compYear.value,
+            teamName: form.teamName.value,
+            Phone: form.Phone.value,
+            Email: form.Email.value,
+            CoachName: form.CoachName.value,
+            CoachPhone: form.CoachPhone.value,
+            preABChecked: form.preAB.checked,
+            preCDChecked: form.preCD.checked,
+            preEChecked: form.preE.checked,
+            junAChecked: form.junA.checked,
+            junBChecked: form.junB.checked,
+            senAChecked: form.senA.checked,
+            senBChecked: form.senB.checked,
+            cnameYes1Checked: form.Yes1.checked,
+            cnameNo1Checked: form.No1.checked,
+            Mate1ChiName: form.Mate1ChiName.value,
+            Mate1EngName: form.Mate1EngName.value,
+            Mate1IDNo: form.Mate1IDNo.value,
+            birth1: form.birth1.value,
+            cnameYes2Checked: form.Yes2.checked,
+            cnameNo2Checked: form.No2.checked,
+            Mate2ChiName: form.Mate2ChiName.value,
+            Mate2EngName: form.Mate2EngName.value,
+            Mate2IDNo: form.Mate2IDNo.value,
+            birth2: form.birth2.value,
+            cnameYes3Checked: form.Yes3.checked,
+            cnameNo3Checked: form.No3.checked,
+            Mate3ChiName: form.Mate3ChiName.value,
+            Mate3EngName: form.Mate3EngName.value,
+            Mate3IDNo: form.Mate3IDNo.value,
+            birth3: form.birth3.value,
+            cnameYes4Checked: form.Yes4.checked,
+            cnameNo4Checked: form.No4.checked,
+            Mate4ChiName: form.Mate4ChiName.value,
+            Mate4EngName: form.Mate4EngName.value,
+            Mate4IDNo: form.Mate4IDNo.value,
+            birth4: form.birth4.value,
+            teamNo: form.teamNo.value,
+            teamPrice: form.teamPrice.value,
+            total: form.total.value,
+            leaderName: form.leaderName.value,
+            leaderPosition: form.leaderPosition.value,
+            VBRC: form.VBRC.value,
+            declaration: form.declaration.value,
+        });
+        
+        var response = await fetch("/competition/form/TRGPForm/save", {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.statusText);
+        }
+    }
+
+    //handle declaration file
+    function handleFile1(files) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview1');
+        var reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                document.getElementById("VBRC").value = e.target.result;
+                img.style.width = "auto";
+                img.style.height = "150px";
+
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                document.getElementById("VBRC").value = e.target.result;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle VBRC file
+    function handleFile2(files) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview2');
+        var reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                document.getElementById("declaration").value = e.target.result;
+                img.style.width = "auto";
+                img.style.height = "150px";
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                document.getElementById("declaration").value = e.target.result;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //handle have chinese name option
+    function havechinesename() {
+        var yes1_check = document.getElementById("Yes1");
+        var no1_check = document.getElementById("No1");
+        var yes2_check = document.getElementById("Yes2");
+        var no2_check = document.getElementById("No2");
+        var yes3_check = document.getElementById("Yes3");
+        var no3_check = document.getElementById("No3");
+        var yes4_check = document.getElementById("Yes4");
+        var no4_check = document.getElementById("No4");
+        var chineseNameDis1 = document.getElementById("Mate1ChiName")
+        var chineseNameDis2 = document.getElementById("Mate2ChiName")
+        var chineseNameDis3 = document.getElementById("Mate3ChiName")
+        var chineseNameDis4 = document.getElementById("Mate4ChiName")
+
+        if (yes1_check.checked == true) {
+            chineseNameDis1.checked = false;
+            chineseNameDis1.disabled = false;
+
+        } else if (no1_check.checked == true) {
+            chineseNameDis1.checked = true; //disable chinese name
+            chineseNameDis1.disabled = true;
+        }
+
+        if (yes2_check.checked == true) {
+            chineseNameDis2.checked = false;
+            chineseNameDis2.disabled = false;
+
+        } else if (no2_check.checked == true) {
+            chineseNameDis2.checked = true; //disable chinese name
+            chineseNameDis2.disabled = true;
+        }
+
+        if (yes3_check.checked == true) {
+            chineseNameDis3.checked = false;
+            chineseNameDis3.disabled = false;
+
+        } else if (no3_check.checked == true) {
+            chineseNameDis3.checked = true; //disable chinese name
+            chineseNameDis3.disabled = true;
+        }
+
+        if (yes4_check.checked == true) {
+            chineseNameDis4.checked = false;
+            chineseNameDis4.disabled = false;
+
+        } else if (no4_check.checked == true) {
+            chineseNameDis4.checked = true; //disable chinese name
+            chineseNameDis4.disabled = true;
+
+        }
+    }
+
+    //handle age limitation
+    function limitBirth() {
+        var todayYear = new Date().getFullYear();
+        var preAB = document.getElementById("preAB");
+        var preCD = document.getElementById("preCD");
+        var preE = document.getElementById("preE");
+        var junA = document.getElementById("junA");
+        var junB = document.getElementById("junB");
+        var senA = document.getElementById("senA");
+        var senB = document.getElementById("senB");
+        var birth1 = document.getElementById("birth1");
+        var birth2 = document.getElementById("birth2");
+        var birth3 = document.getElementById("birth3");
+        var birth4 = document.getElementById("birth4");
+
+        if (preAB.checked == true) {
+            var minYear = todayYear - 9; //2011
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 7; //2013
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+            birth4.min = minDate;
+            birth4.max = maxDate;
+        } else if (preCD.checked == true) {
+            var minYear = todayYear - 12; //2008
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 10; //2010
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+            birth4.min = minDate;
+            birth4.max = maxDate;
+        } else if (preE.checked == true) {
+            var minYear = todayYear - 18; //2002
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 13; //2007
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+            birth4.min = minDate;
+            birth4.max = maxDate;
+        } else if (junA.checked == true) {
+            var minYear = todayYear - 9; //2011
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 7; //2013
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+            birth4.min = minDate;
+            birth4.max = maxDate;
+        } else if (junB.checked == true) {
+            var minYear = todayYear - 12; //2008
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 10; //2010
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+            birth4.min = minDate;
+            birth4.max = maxDate;
+        } else if (senA.checked == true) {
+            var minYear = todayYear - 15; //2005
+            var minDate = minYear + "-01-01";
+            var maxYear = todayYear - 13; //2007
+            var maxDate = maxYear + "-12-31";
+            birth1.min = minDate;
+            birth1.max = maxDate;
+            birth2.min = minDate;
+            birth2.max = maxDate;
+            birth3.min = minDate;
+            birth3.max = maxDate;
+            birth4.min = minDate;
+            birth4.max = maxDate;
+        } else if (senB.checked == true) {
+            var maxYear = todayYear - 16; //2004 or before
+            var maxDate = maxYear + "-12-31";
+            birth1.max = maxDate;
+            birth2.max = maxDate;
+            birth3.max = maxDate;
+            birth4.max = maxDate;
+        }
+    }
+</script>

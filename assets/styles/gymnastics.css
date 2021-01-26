@@ -1,0 +1,11 @@
+.gymnastics-frame{display:inline-block; position:relative; margin:10px}
+.gymnastics-frame img{padding:2px; border:1px solid #adcee1; z-index:3; position:relative}
+.gymnastics-frame:before, .gymnastics-frame:after{position:absolute}
+.gymnastics-frame:before{
+  content:' '; z-index:1; top:-9px; left:-9px; bottom:-9px; right:-9px;
+  background:#d4e7ed; border-radius: 8px; box-shadow:0 0 9px 0 #e6e6e6;
+}
+.gymnastics-frame:after{
+  content:' '; top:-6px; left:-6px; bottom:-6px; right:-6px; background:#fff;
+  border:3px solid #abcee1; border-radius:8px; z-index:2;
+}

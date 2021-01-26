@@ -1,0 +1,228 @@
+<%- partial('./partial/sidemenu.ejs') %>
+<section class="content aboutus flex-lg-grow-1">
+    <h5 class="main-heading1">教練<span class="highlight">資料</span></h5>
+    <div class="container-fluid">
+
+        <div class="col-12">
+            <ul class="list-group">
+
+                <li class="list-group-item">
+                    <img src="<%=coach.Personal_photo%>" class="img-thumbnail" alt="..." width="300" height="500">
+                </li>
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold">1. 教練註冊級別:</span>
+                    <%=coach.Level %>
+                </li>
+
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold">2. 體操項目：</span>
+                    <%= coach.Disciplines1 %>
+                    <%= coach.Disciplines2 %>
+                    <%= coach.Disciplines3 %>
+                    <%= coach.Disciplines4 %>
+                    <%= coach.Disciplines5 %>
+                    <%= coach.Disciplines6 %>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold"><b>3. 個人資料：</b></span><br>
+                    <span class="font-weight-bold">姓名 (英文):</span>
+                    <%= coach.Engname %>
+                </li>
+
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold">姓名 (中文): </span>
+                    <%= coach.ChiName %>
+                </li>
+
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold">4. 體操教學經驗: </span>
+                    <%= coach.HaveBeenCoach%>
+
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold">如有，請列明課程及任教年份：</span>
+                    <%= coach.Have %>
+
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold"> 其他有關體操教學經驗，請列明：</span>
+                    <%=coach.Have2 %>
+
+                </li>
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold">5. 教練資歷: </span><br>
+                    <span class="font-weight-bold">本會發出之體操教練證書</span>
+
+                    <%= coach.Qualification%> <br>
+
+                    <label style="font-size:16px">證書編號</label>
+                    <%= coach.Cert_no%> <br>
+                    <label style="font-size:16px"> 考取年份
+                    </label>
+                    <%= coach.date_Qualification%>
+                    <br>
+
+                    <label style="font-size:16px"> 香港教練培訓委員會發出之證書
+                    </label>
+                    <%= coach.Qualification1%> <br>
+                    <label style="font-size:16px"> 認可教練號碼
+                    </label>
+                    <%= coach.Accredited_coachNo%> <br>
+
+                    <label style="font-size:16px"> 有效日期
+                    </label>
+                    <%=coach.date_Qualification1%> <br>
+
+                    <label style="font-size:16px"> 本會發出之教練理論課程證書</label>
+                    <label style="font-size:16px"> 證書編號
+                    </label>
+
+                    <%= coach.Cert_no2%> <br>
+
+                    <label style="font-size:16px"> 有效日期
+
+                    </label>
+
+                    <%= coach.date_Qualification2%> <br>
+
+
+                </li>
+
+                <li class="list-group-item">
+                    <span class="font-weight-bold">6. 教練資歷: </span><br>
+                    <% if (coach.Qualification=="選擇"){ %>
+                    <span class="font-weight-bold">本會發出之體操教練證書</span>
+
+                    <!-- <%= coach.Qualification%> <br> -->
+
+                    <label style="font-size:16px">證書編號</label>
+                    <%= coach.Cert_no%> <br>
+                    <label style="font-size:16px"> 考取年份
+                    </label>
+                    <%= coach.date_Qualification%>
+                    <br>
+                    <% }%>
+
+                    <% if (coach.Qualification1=="選擇"){ %>
+                    <label style="font-size:16px"> 香港教練培訓委員會發出之證書
+                    </label>
+                    <!-- <%= coach.Qualification1%>  -->
+                    <br>
+                    <label style="font-size:16px"> 認可教練號碼
+                    </label>
+                    <%= coach.Accredited_coachNo%> <br>
+                    <label style="font-size:16px"> 有效日期
+                    </label>
+                    <%=coach.date_Qualification1%> <br>
+                    <% }%>
+
+                    <% if (coach.Qualification2=="選擇"){ %>
+                    <label style="font-size:16px"> 本會發出之教練理論課程證書</label>
+                    <br>
+                    <label style="font-size:16px"> 證書編號
+                    </label>
+                    <%= coach.Cert_no2%> <br>
+                    <label style="font-size:16px"> 有效日期
+                    </label>
+                    <% }%>
+
+                    <% if (coach.Qualification3=="選擇"){ %>
+                    <%= coach.date_Qualification2%> <br>
+                    <label style="font-size:16px">急救證書
+                    </label>
+                    <br>
+                    <label style="font-size:16px"> 發出機構 </label>
+                    <%= coach.Issued_by%> <br>
+                    <label style="font-size:16px">考取年份</label>
+                    <%= coach.date_Qualification3%> <br>
+                    <%}%>
+                    
+                    
+                    <% if (coach.Qualification4=="選擇"){ %>
+                        <label style="font-size:16px">其他有關體操教練資歷 ( 如國內、國際教練或裁判 )</label>
+                        <br>
+                        <%= coach.others%> <br>
+                     
+                    </li>
+                    <% }%>
+
+         
+                <% if (coach.Highlight_property7a==true){ %>
+                    <li class="list-group-item">
+                        <span class="font-weight-bold">7. 達標事項</span>
+                            <br>
+                            是否已考取本地/國際裁判資歷？ <br>
+                            Attained the local / international judges qualification?
+                          </label>
+                          <br>
+                        <%= coach.judges%><br>
+                        <label style="font-size:16px">考取年份</label>
+                        <%= coach.date_qualification5%> <br>
+                    </li>
+                    <% }%>
+
+                <% if (coach.Highlight_property7b==true){ %>
+                <li class="list-group-item">
+                    <span class="font-weight-bold">(B) 在上一次註冊期內曾於學校或其他地區教授之訓練班：(如有)</span>
+                    <br>
+                    <label style="font-size:16px">舉辦日期 (月/年)</label>
+                    <%= coach.date_training%> <br>
+                    <label style="font-size:16px">學校 / 機構名稱</label>
+                    <%= coach.school_training%> <br>
+                    <label style="font-size:16px">教授項目</label>
+                    <%= coach.Discipline_training%> <br>
+                </li>
+                <% }%>
+
+                <% if (coach.Highlight_property7c==true){ %>
+                <li class="list-group-item">
+                    <span class="font-weight-bold"> (C) 在上一次註冊期內曾教導學生考取章別計劃之數量：(如有)</span>
+                    <br>
+                    <label style="font-size:16px">舉辦日期 (月/年)</label>
+                    <%= coach.Badges_date%> <br>
+                    <label style="font-size:16px">訓練班 / 學校 / 機構名稱</label>
+                    <%= coach.Badges_school%> <br>
+                    <label style="font-size:16px">級別及數量</label>
+                    <%= coach.Badges_no%> <br>
+                </li>
+                <% }%>
+
+                <% if (coach.Highlight_property7d==true){ %>
+                <li class="list-group-item">
+                    <span class="font-weight-bold">(D) 在上一次註冊期內曾參與總會之體操推廣活動 (包括本地賽事)：(如有)</span>
+                    <br>
+                    <label style="font-size:16px">舉辦日期 (月/年)</label>
+                    <%= coach.Activities_date%> <br>
+                    <label style="font-size:16px">活動名稱</label>
+                    <%= coach.Activities_event%> <br>
+                    <label style="font-size:16px">負責職位</label>
+                    <%= coach.Activities_badges%> <br>
+                </li>
+                <% }%>
+
+                <% if (coach.Highlight_property7e==true){ %>
+                <li class="list-group-item">
+                    <span class="font-weight-bold">(E) 在上一次註冊期內曾參與總會及香港教練培訓委員會之複修課程：(請提供文件副本)</span>
+                    <br>
+                    <label style="font-size:16px">舉辦日期 (月/年)</label>
+                    <%= coach.Coaching_workshops_date%> <br>
+                    <label style="font-size:16px">活動名稱</label>
+                    <%= coach.Coaching_workshops_event%> <br>
+                    <label style="font-size:16px">舉辦機構</label>
+                    <%= coach.Coaching_workshops_organization%> <br>
+                </li>
+                <% }%>
+            </ul>
+        </div>
+
+    </div>
+
+    </ul>
+    </div>
+    </div>

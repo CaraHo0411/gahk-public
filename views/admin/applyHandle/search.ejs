@@ -1,0 +1,706 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    mark {
+        background-color: yellow;
+    }
+
+    #subjects {
+        background-color: #f5f5f5;
+    }
+
+    #btns {
+        padding: 8px;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .fa-check {
+        color: green;
+    }
+
+    .fa-remove {
+        color: red;
+    }
+
+    #statusBtn {
+        width: 65pt;
+        font-size: small;
+        text-align: center;
+    }
+
+    /* delete button */
+    .modalBtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .modalBtn:hover {
+        opacity: 1;
+    }
+
+    .cancelbtn,
+    .deletebtn,
+    .confirmbtn {
+        float: left;
+        width: 50%;
+    }
+
+    .cancelbtn {
+        background-color: #ccc;
+        color: black;
+    }
+
+    .deletebtn {
+        background-color: #f44336;
+    }
+
+    .confirmbtn {
+        background-color: rgb(63, 63, 236);
+    }
+
+    .container {
+        padding: 16px;
+        text-align: center;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 3;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(8, 8, 8, 0.5);
+        padding-top: 50px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    @media screen and (max-width: 300px) {
+
+        .cancelbtn,
+        .deletebtn .confirmbtn {
+            width: 100%;
+        }
+    }
+</style>
+
+<%- partial('../partial/sidemenu.ejs') %>
+<div class="content admin w-100">
+    <h5 class="main-heading1">
+        申請處理管理<span class="highlight">系統</span>
+    </h5>
+
+    <!-- Search bar -->
+    <form action="/admin/applyHandle/search" method="GET">
+        <div class="row mx-sm-2">
+            <div class="form-group col-12 col-sm-8">
+                <label style="color: #888888; font-size: 16pt;" class="col-form-label">申請項目 Application Project</label>
+                <select class="form-control" id="application" name="application" onchange="appSelected(this.value);"
+                    required>
+                    <option value="">請選擇申請項目 Select Application Project</option>
+                    <option value="competition" disabled>---Activity/Competition 活動/比賽---</option>
+                    <option value="acroage">香港技巧體操公開賽 AcrobaticOpenCompetition</option>
+                    <option value="gfa">香港普及體操節 GFAFestival</option>
+                    <option value="trampoline">香港彈網分齡賽-雙人同步 TrampolineAgeGroupCompetition-Synchronized</option>
+                    <option value="TRGP">全港藝術體操分齡賽-團體(公開組) HKRGAgeGroupCompetition-Team(Public)</option>
+                    <option value="TRGS">全港藝術體操分齡賽-團體(學校組) HKRGAgeGroupCompetition-Team(School)</option>
+                    <option value="GRGP">全港藝術體操分齡賽-集體(公開組) HKRGAgeGroupCompetition-Group(Public)</option>
+                    <option value="GRGS">全港藝術體操分齡賽-集體(學校組) HKRGAgeGroupCompetition-Group(School)</option>
+                    <option value="other" disabled>---Membership 會員---</option>
+                    <option value="clubMem">團體註冊申請 Application for Club Membership</option>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-4">
+                <label style="color: #888888; font-size: 16pt;" class="col-form-label">年份 Year</label>
+                <%var todayYear = new Date().getFullYear();
+                var end = todayYear + 2;%>
+                <select class="form-control" id="year" name="year">
+                    <option value="">請選擇年份 Select Year</option>
+                    <% for (var year = 2020; year <= end; year++){%>
+                        <option value="<%=year%>"><%=year%></option>
+                    <%}%>
+                </select>
+            </div>
+
+            <!-- 項目 Event/性別 Gender -->
+            <div class="form-group col-12" id="extraEvent"></div>
+            <!-- Category 組別 -->
+            <div class="form-group col-12" id="extraCat"></div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label style="color: #888888; font-size: 16pt;" class="col-form-label">付款狀況 Payment Status</label>
+                <select class="form-control" id="payStatus" name="payStatus">
+                    <option value="">請選擇付款狀況 Select Payment Status</option>
+                    <option value="paid">已付款 Paid</option>
+                    <option value="unpaid">未付款 Unpaid</option>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+                <label style="color: #888888; font-size: 16pt;" class="col-form-label">申請狀況 Apply Status</label>
+                <select class="form-control" id="formStatus" name="formStatus">
+                    <option value="">請選擇申請狀況 Select Apply Status</option>
+                    <option value="ToBeCon">待處理 To be handled</option>
+                    <option value="accepted">已確認 Accepted</option>
+                    <option value="rejected">已拒絕 Rejected</option>
+                    <option value="dataDef">資料不全 Data Deficiency</option>
+                </select>
+            </div>
+
+            <!-- 隊伍/團體狀況 Team Status -->
+            <div class="form-group col-12" id="extraTSt"></div>
+
+            <button type="submit" class="btn btn-primary"
+                style="background-color: #83a70c; border-color: #83a70c; margin-left:auto; margin-right:auto;">搜尋
+                Search</button>
+
+        </div>
+        <br><br>
+    </form>
+
+
+    <!-- Search result -->
+    <table>
+        <%if (applications){%>
+
+        <!-- Excel Import Guidelines-->
+        <a type="button" class="mx-sm-2" onclick="document.getElementById('importBrief').style.display='block'"
+            style="color: teal;"><u>Excel匯入指引 Excel Import Guidelines</u></a>
+        <!-- importBrief box -->
+        <div id="importBrief" class="modal">
+            <div class="modal-content">
+                <div class="container">
+                    <h1>Excel匯入指引<br>Excel Import Guidelines</h1><br>
+                    <ol style="text-align: left;">
+                        <li>請在匯入檔案前下載 <a download="<%=form%>_範本.xlsx" href="/formDoc/<%=form%>_template.xlsx"
+                                target="_blank">範本.xlsx</a> 並輸入資料。<br>
+                            Please download <a download="<%=form%>_template.xlsx"
+                                href="/formDoc/<%=form%>_template.xlsx" target="_blank">template.xlsx</a> and input the
+                            data before importing.</li>
+                        <br>
+                        <li>請不要更改、刪除或新增第1行的標示,並從第二行開始輸入資料。<br>
+                            Please do not modify, delete or append any attributes in row one. Please start inputting the
+                            data from row two.</li>
+                        <br>
+                        <li>以下為輸入字眼，如輸入錯誤，或會造成資料缺失。<br>Here are some wordings for inputting. Please make sure the inputs
+                            follow the guildeline. Otherwise, a
+                            problem of data deficiency may happen.</li>
+                        <ul>
+                            <% if (form == "GRGP" || form == "GRGS"){%>
+                                <li>標示<mark>"組別及比賽項目 Category and Competition Item"</mark>，請輸入字眼"集體 A 組(五人圈操)","集體 B 組(五人圈操)" 或 "集體 C 組(三球兩帶)"。<br>For the attribute
+                                    <mark>"組別及比賽項目 Category and Competition Item"</mark>, please input the data "集體 A 組(五人圈操)" , "集體 B 組(五人圈操)" or "集體 C 組(三球兩帶)".</li>
+                            <%} else if (form == "gfa"){%>
+                                <li>標示<mark>"參賽組別 Category"</mark>，請輸入字眼"幼稚園 Kindergarten","小學組 Primary School" 或 "公開組 Open Group"。<br>For the attribute
+                                    <mark>"參賽組別 Category"</mark>, please input the data "幼稚園 Kindergarten","小學組 Primary School" or "公開組 Open Group".</li>
+                            <%} else if (form == "TRGP" || form == "TRGS"){%>
+                                <li>標示<mark>"組別 Category"</mark>，請輸入字眼"預備A,B組","預備C,D組","預備E組","初級A組","初級B組","高級A組" 或 "高級B組"。<br>For the attribute
+                                    <mark>"組別 Category"</mark>, please input the data "預備A,B組","預備C,D組","預備E組","初級A組","初級B組","高級A組" or "高級B組".</li>
+                            <%} else if (form == "acroage"){%>
+                                <li>標示<mark>"組別/年齡 Category/Age"</mark>，請輸入字眼"1級(6至14歲) Level 1(6-14 years old)","2級(6至14歲) Level 2(6-14 years old)","3級(8歲或以上) Level 3(8 years old or above)","4級(9歲或以上) Level 4(9 years old or above)" 或 "5級(10歲或以上) Level 5(10 years old or above)"。<br>For the attribute
+                                    <mark>"組別/年齡 Category/Age"</mark>, please input the data "1級(6至14歲) Level 1(6-14 years old)","2級(6至14歲) Level 2(6-14 years old)","3級(8歲或以上) Level 3(8 years old or above)","4級(9歲或以上) Level 4(9 years old or above)" or "5級(10歲或以上) Level 5(10 years old or above)".</li>
+
+                                <li>標示<mark>"項目 Item"</mark>，請輸入字眼"女子三人 Women's trio","混合雙人 Mixed double","女子雙人 Women's Double" 或 "男子雙人 Men's Double"。<br>For the attribute
+                                    <mark>"項目 Item"</mark>, please input the data "女子三人 Women's trio","混合雙人 Mixed double","女子雙人 Women's Double" or "男子雙人 Men's Double".</li>
+
+                            <%} else if (form == "trampoline"){%>
+                                <li>標示<mark>"性別 Gender"</mark>，請輸入字眼"男 Male" 或 "女 Female"。<br>For the attribute
+                                    <mark>"性別 Gender"</mark>, please input the data "男 Male" or "女 Female".</li>
+                                <li>標示<mark>"參賽組別 Category"</mark>，請輸入字眼"14 歲或以下 14 years old or below","15 至 16 歲 15 to 16 years old" 或 "17 歲或以上 17 years old or above"。<br>For the attribute
+                                        <mark>"參賽組別 Category"</mark>, please input the data "14 歲或以下 14 years old or below","15 至 16 歲 15 to 16 years old" or "17 歲或以上 17 years old or above".</li>
+                            <%}%>
+
+                            <% if (form != "clubMem"){%>
+                            <li>標示<mark>"是否有中文姓名 Any Chinese name"</mark>，請輸入字眼"是 Yes" 或 "否 No"。<br>For the attribute
+                                <mark>"是否有中文姓名 Any Chinese name"</mark>, please input the data "是 Yes" or "否 No".</li>
+                            <li>標示<mark>"出生日期 Date of Birth (dd/mm/yyyy)"</mark>，請跟隨格式(dd/mm/yyyy)。<br>For the attribute
+                                <mark>"出生日期 Date of Birth (dd/mm/yyyy)"</mark>, please follow the format of
+                                (dd/mm/yyyy).</li>
+                            <%}%>   
+
+                            <li>標示<mark>"付款狀況 Payment Status"</mark>，請輸入字眼"未付款 Unpaid"或已付款 Paid"。<br>For the attribute
+                                <mark>"付款狀況 Payment Status"</mark>, please input "未付款 Unpaid" or "已付款 Paid" only.
+                            </li>
+                            <li>標示<mark>"申請狀況 Apply Status"</mark>，請輸入字眼"待處理 To be handled"，"已確認 Accepted"，"已拒絕
+                                Rejected"或"資料不全 Data Deficiency"。<br>For the attribute <mark>"申請狀況 Apply Status"</mark>,
+                                please input "待處理 To be handled","已確認 Accepted","已拒絕 Rejected" or "資料不全 Data
+                                Deficiency" only.</li>
+                                <% if (form != "clubMem"){%>
+                            <li>標示<mark>"隊伍/團體狀況 Team Status"</mark>，請輸入字眼"正選 Successful Team"或"後補 Team on Waitiing
+                                List"。<br>For the attribute <mark>"隊伍/團體狀況 Team Status"</mark>, please input
+                                "正選 Successful Team" or "後補 Team on Waitiing List" only.</li>
+                            <%}%>
+                        </ul>
+                    </ol>
+
+                    <div class="clearfix">
+                        <button type="button" class="cancelbtn modalBtn" style="float: none; width: 30%;"
+                            onclick="document.getElementById('importBrief').style.display='none'">明白 Understand</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- Excel Import-->
+        <form action="/<%=form%>/import_xlsx" method="post" enctype="multipart/form-data">
+                            <span class="mx-sm-2">請在匯入檔案前下載 <a download="<%=form%>_範本.xlsx"
+                                    href="/formDoc/<%=form%>_template.xlsx" target="_blank">範本.xlsx</a> 並輸入資料。</span>
+                            <br>
+                            <span class="mx-sm-2">Please download <a download="<%=form%>_template.xlsx"
+                                    href="/formDoc/<%=form%>_template.xlsx" target="_blank">template.xlsx</a> and input
+                                the data before importing.</span>
+                            <br>
+                            <input class="mx-sm-2" type="file"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                name="file" />
+                            <br>
+                            <button type="submit" class="btn btn-primary mx-sm-2"
+                                style="font-size: small; background-color:teal; border-color: teal;">匯入Excel<br>Excel
+                                Import</button>
+                            </form>
+
+                            <!-- Excel Export-->
+                            <a type="button" class="btn btn-info mx-sm-2"
+                                style="font-size: small; color: white; float: right;"
+                                href="/<%=form%>/export_xlsx">匯出Excel<br>Excel Export</a>
+                            &nbsp;
+
+
+                            <!-- 全部確認 Confirm All -->
+                            <a type="button" class="btn btn-primary"
+                                style="font-size: small; color: white; float: right;"
+                                onclick="document.getElementById('confirmAll').style.display='block'">全部確認<br>Confirm
+                                All</a>
+                            <!-- confirmAll box -->
+                            <div id="confirmAll" class="modal">
+                                <div class="modal-content">
+                                    <div class="container">
+                                        <h1>全部確認 Confirm All</h1>
+                                        <p>確定要確認全部已搜尋申請表?<br>Are you sure you want to confirm all searched applications?
+                                        </p>
+
+                                        <div class="clearfix">
+                                            <button type="button" class="cancelbtn modalBtn"
+                                                onclick="document.getElementById('confirmAll').style.display='none'">取消
+                                                Cancel</button>
+                                            <button type="button" class="confirmbtn modalBtn"
+                                                onclick="confirmAll('<%= form%>')">全部確認
+                                                Confirm All</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <br><br>
+                            <span>搜尋申請項目 Searching Application Project: </span><br>
+                            <% if (projectYear != null){%>
+                                <b><%=projectYear%></b>
+                            <%}%>
+                            <% if (form == "TRGP"){%>
+                            <b>全港藝術體操分齡賽-團體(公開組) HKRGAgeGroupCompetition-Team(Public)</b>
+                            <%} else if (form == "TRGS"){%>
+                            <b>全港藝術體操分齡賽-團體(學校組) HKRGAgeGroupCompetition-Team(School)</b>
+                            <%} else if (form == "gfa"){%>
+                            <b>香港普及體操節 GFAFestival</b>
+                            <%} else if (form == "GRGP"){%>
+                            <b>全港藝術體操分齡賽-集體(公開組) HKRGAgeGroupCompetition-Group(Public)</b>
+                            <%} else if (form == "GRGS"){%>
+                            <b>全港藝術體操分齡賽-集體(學校組) HKRGAgeGroupCompetition-Group(School)</b>
+                            <%} else if (form == "trampoline"){%>
+                            <b>香港彈網分齡賽-雙人同步 TrampolineAgeGroupCompetition-Synchronized</b>
+                            <%} else if (form == "acroage"){%>
+                            <b>香港技巧體操公開賽 AcrobaticOpenCompetition</b>
+                            <%} else if (form == "clubMem") {%>
+                            <b>團體註冊申請 Application for Club Membership</b>
+                            <%}%>
+        <br><br>
+
+        <!-- Attributes -->
+        <tr id="subjects">
+            <th align="center">申請編號<br>Application No.</th>
+            <% if (form != "acroage"){ %>
+            <th align="center">隊伍/團體<br>Team/Organisation</th>
+            <% } if (form == "trampoline"){ %>
+            <th align="center">性別<br>Gender</th>
+            <% } if (form == "acroage"){ %>
+            <th align="center">項目<br>Event</th>
+            <%} if (form != "clubMem") {%>
+            <th align="center">組別<br>Category</th>
+            <% } %>
+            <th>付款<br>Payment</th>
+            <th align="center">提交日期<br>Apply Date<br>(DD/MM/YYYY)</th>
+            <th>狀態<br>Status</th>
+            </tr>
+
+            <!-- Result List -->
+            <% applications.forEach( function(models) { %>
+                <% var n = new Date(models.createdAt);
+                    var month = n.getMonth() + 1;
+                    var applyDate = n.getDate() + "/" + month + "/" + n.getFullYear(); %>
+                <tr>
+                    <!-- 申請編號 Apply No. -->
+                    <td width="10%"><%= models.idCode %></td>
+
+                    <% if (form == "trampoline"){%>
+                    <!--Column: 隊伍/團體 Team/Organisation -->
+                    <td width="30%"><%= models.teamName %></td>
+                    <!-- Column: 性別 Gender -->
+                    <td width="10%"><%= models.gender %></td>
+                    <!-- Column:組別 Category -->
+                    <td width="15%"><%= models.category %></td>
+
+                    <%} else if (form == "acroage") {%>
+                    <!-- Column: 項目 Event -->
+                    <td width="25%"><%= models.item %></td>
+                    <!-- Column:組別 Category -->
+                    <td width="30%"><%= models.category %></td>
+
+                    <%} else if (form == "clubMem") {%>
+                    <td width="55%" height="100"><%= models.OrgChiName%><br><%= models.OrgEngName%></td>
+                    
+                    <%} else {%>
+                    <!--Column: 隊伍/團體 Team/Organisation -->
+                    <td width="35%"><%= models.teamName %></td>
+                    <!-- Column:組別 Category -->
+                    <td width="20%"><%= models.category %></td>
+                    <%}%>
+
+                    
+                    <!-- Column:付款 Payment -->
+                    <% if(models.payStatus == "paid") {%>
+                    <td width="10%"><i class="fa fa-check"></i></td>
+                    <%} else if (models.payStatus == "unpaid"){%>
+                    <td width="10%"><i class="fa fa-remove"></i></td>
+                    <%} else {%>
+                    <!-- if input wrong data when import excel -->
+                    <td>&nbsp;</td>
+                    <%}%>
+
+                    <!-- Column:提交日期 Apply Date -->
+                    <td width="15%"><%= applyDate %></td>
+                                
+                    <!-- Column:狀態 Status  -->            
+                    <td width="10%" id="btns">
+                        <%if (models.formStatus == "rejected") {%>
+                        <button type="button" class="btn btn-outline-danger" id="statusBtn" disabled>已拒絕<br>Rejected</button>
+                        <%} else {%>
+                            <% if (models.formStatus == "accepted"){%>
+                                <button type="button" class="btn btn-outline-primary" id="statusBtn" disabled>已確認<br>Accepted</button>
+
+                            <%} else if(models.formStatus == "dataDef") {
+                                var confirmID = "con"+ models.id %>
+                                <a type="button" class="btn btn-primary" id="statusBtn" 
+                                onclick="document.getElementById('<%= confirmID%>').style.display='block'" style="color: white;">確認<br>Confirm</a>
+                                <!-- confirm box -->
+                                <div id="<%= confirmID%>" class="modal">
+                                    <div class="modal-content">
+                                        <div class="container">
+                                            <h1>確認申請 Confirm Application<br><%= models.idCode%></h1>
+                                            <p>確定要確認這份申請表?<br>Are you sure you want to confirm this application?</p>
+                                            <div class="clearfix">
+                                                <button type="button" class="cancelbtn modalBtn"
+                                                    onclick="document.getElementById('<%= confirmID%>').style.display='none'">取消
+                                                    Cancel</button>
+                                                <button type="button" class="confirmbtn modalBtn"
+                                                    onclick="confirm('<%= form%>', '<%= models.id%>')">確認
+                                                    Confirm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-outline-warning" id="statusBtn" disabled>資料不全<br>Data Deficiency</button>
+
+                            <%} else {%>
+                                <%var confirmID = "con"+ models.id %>
+                                <a type="button" class="btn btn-primary" id="statusBtn" 
+                                onclick="document.getElementById('<%= confirmID%>').style.display='block'" style="color: white;">確認<br>Confirm</a>
+                                <!-- confirm box -->
+                                <div id="<%= confirmID%>" class="modal">
+                                    <div class="modal-content">
+                                        <div class="container">
+                                            <h1>確認申請 Confirm Application<br><%= models.idCode%></h1>
+                                            <p>確定要確認這份申請表?<br>Are you sure you want to confirm this application?</p>
+                                            <div class="clearfix">
+                                                <button type="button" class="cancelbtn modalBtn"
+                                                    onclick="document.getElementById('<%= confirmID%>').style.display='none'">取消
+                                                    Cancel</button>
+                                                <button type="button" class="confirmbtn modalBtn"
+                                                    onclick="confirm('<%= form%>', '<%= models.id%>')">確認
+                                                    Confirm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a type="button" class="btn btn-warning" id="statusBtn" onclick="dataDef('<%= form%>', '<%= models.id%>')" style="color: white;">資料不全<br>Data Deficiency</a>
+                            <%}%>
+           
+                            <%var deleteID = "del"+ models.id %>
+                            <a type="button" class="btn btn-danger" id="statusBtn"
+                                        onclick="document.getElementById('<%= deleteID%>').style.display='block'"
+                                        style="color: white;">拒絕<br>Rejected</a>
+                                    <!-- reject box -->
+                                    <div id="<%= deleteID%>" class="modal">
+                                        <div class="modal-content">
+                                            <div class="container">
+                                                <h1>拒絕申請 Reject Application<br><%= models.idCode%></h1>
+                                                <p>確定要拒絕這份申請表?<br>Are you sure you want to reject this application?</p>
+                                                <div class="clearfix">
+                                                    <button type="button" class="cancelbtn modalBtn"
+                                                        onclick="document.getElementById('<%= deleteID%>').style.display='none'">取消
+                                                        Cancel</button>
+                                                    <button type="button" class="deletebtn modalBtn"
+                                                        onclick="rejectForm('<%= form%>','<%= models.id%>')">拒絕
+                                                        Rejected</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <% if (form != "clubMem"){%>
+                                <%if (models.teamStatus == "waitTeam") {%>
+                                    <button type="button" class="btn btn-outline-info" id="statusBtn" disabled>後補<br>Waitiing</button>
+                                <%} else {%>
+                                    <a type="button" class="btn btn-info" id="statusBtn" style="color: white;" onclick="waitingList('<%= form%>','<%= models.id%>')">後補<br>Waitiing</a>
+                                <%}}%>
+                        <%}%>
+
+                        <% if (form == "TRGP"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/TRGPEdit/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "TRGS"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/TRGSEdit/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "gfa"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/gfaEditForm/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "GRGP"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/GRGPEditForm/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "GRGS"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/GRGSEditForm/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "trampoline"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/TrampolineEditForm/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "acroage"){%>
+                            <a type="button" class="btn btn-success" id="statusBtn" href="/admin/applyHandle/AcroageEdit/<%= models.id %>">編輯<br>Edit</a>
+                        <%} else if (form == "clubMem") {%>
+                            <a type="button" class="btn btn-success" id="statusBtn"
+                                href="/admin/applyHandle/clubMemEdit/<%= models.id %>">編輯<br>Edit</a>
+                        <%}%> 
+
+                    </td>
+
+                </tr>
+            <%});%>
+        <%} %>
+    </table>
+    <br>
+</div>
+
+<script>
+    var acrCategory = ["1級(6至14歲) Level 1(6-14 years old)", "2級(6至14歲) Level 2(6-14 years old)", "3級(8歲或以上) Level 3(8 years old or above)", "4級(9歲或以上) Level 4(9 years old or above)", "5級(10歲或以上) Level 5(10 years old or above)"];
+    var gfaCategory = ["幼稚園 Kindergarten", "小學組 Primary School", "公開組 Open Group"];
+    var traCategory = ["14 歲或以下 14 years old or below", "15 至 16 歲 15 to 16 years old", "17 歲或以上 17 years old or above"];
+    var trgaCategory = ["預備A,B組", "預備C,D組", "預備E組", "初級A組", "初級B組", "高級A組", "高級B組"];
+    var grgCategory = ["集體 A 組(五人圈操)", "集體 B 組(五人圈操)", "集體 C 組(三球兩帶)"];
+    function appSelected(compValue) {
+        var event = document.getElementById("extraEvent");
+        if (compValue == "acroage") {
+            event.innerHTML = "<label style=\"color: #888888; font-size: 16pt;\" class=\"col-form-label\">項目 Event</label>"
+                + "<select class=\"form-control\" id=\"item\" name=\"item\">"
+                + "<option value=\"\">請選擇項目 Select Event</option>"
+                + "<option value=\"男子雙人 Men's Double\">男子雙人 Men's Double</option>"
+                + "<option value=\"女子雙人 Women's Double\">女子雙人 Women's Double</option>"
+                + "<option value=\"混合雙人 Mixed double\">混合雙人 Mixed double</option>"
+                + "<option value=\"女子三人 Women's trio\">女子三人 Women's trio</option></select>";
+        } else if (compValue == "trampoline") {
+            event.innerHTML = "<label style=\"color: #888888; font-size: 16pt;\" class=\"col-form-label\">性別 Gender</label>"
+                + "<select class=\"form-control\" id=\"gender\" name=\"gender\">"
+                + "<option value=\"\">請選擇性別 Select Gender</option>"
+                + "<option value=\"男 Male\">男 Male</option>"
+                + "<option value=\"女 Female\">女 Female</option></select>";
+        } else {
+            event.innerHTML = "";
+        }
+
+        //Category
+        var appSelect = document.getElementById("extraCat");
+        if (compValue == "clubMem" || compValue == "") {
+            appSelect.innerHTML = "";
+        } else {
+            appSelect.innerHTML = "<label style=\"color: #888888; font-size: 16pt;\" class=\"col-form-label\">Category 組別</label>"
+                + "<select class=\"form-control\" id=\"category\" name=\"category\"><option value=\"\">請選擇組別 Select Category</option></select>";
+            var gpSelect = document.getElementById("category");
+            if (compValue == "acroage") {
+                acrCategory.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    gpSelect.add(option);
+                });
+            } else if (compValue == "gfa") {
+                gfaCategory.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    gpSelect.add(option);
+                });
+            } else if (compValue == "trampoline") {
+                traCategory.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    gpSelect.add(option);
+                });
+            } else if (compValue == "TRGP" || compValue == "TRGS") {
+                trgaCategory.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    gpSelect.add(option);
+                });
+            } else if (compValue == "GRGP" || compValue == "GRGS") {
+                grgCategory.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.id = "GRGCategory";
+                    option.text = item;
+                    option.value = item;
+                    gpSelect.add(option);
+                });
+            }
+        }
+
+        //TeamStatus
+        var TStSelect = document.getElementById("extraTSt");
+        if (compValue != "clubMem") {
+            TStSelect.innerHTML = "<label style=\"color: #888888; font-size: 16pt;\" class=\"col-form-label\">隊伍/團體狀況 Team Status</label>"
+                + "<select class=\"form-control\" id=\"teamStatus\" name=\"teamStatus\">"
+                + "<option value=\"\">請選擇隊伍/團體狀況 Select Team Status</option>"
+                + "<option value=\"suTeam\">正選 Successful Team</option>"
+                + "<option value=\"waitTeam\">後補 Team on Waitiing List</option></select><br>";
+        } else {
+            TStSelect.innerHTML = "";
+        }
+    }
+
+    //Confirm all
+    async function confirmAll(form) {
+        var response = await fetch("/admin/applyHandle/" + form + "/confirmAll/", {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.statusText);
+        }
+    };
+
+
+
+    //confirm button
+    async function confirm(form, id) {
+        var response = await fetch("/admin/applyHandle/confirm/" + form + "/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+    //Reject form
+    async function rejectForm(form, id) {
+        var response = await fetch("/admin/applyHandle/reject/" + form + "/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+
+    //dataDef
+    async function dataDef(form, id) {
+        var response = await fetch("/admin/applyHandle/dataDef/" + form + "/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+    //waitingList
+    async function waitingList(form, id) {
+        var response = await fetch("/admin/applyHandle/waitingList/" + form + "/" + id, {
+            method: "POST",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+    };
+
+</script>

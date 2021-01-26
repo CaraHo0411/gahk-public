@@ -1,0 +1,13 @@
+<aside class="user">
+  <section>
+    <h6 class="side-heading3"><span class="reflect" data-text="用戶專區">用戶專區</span></h6>
+    <ul class="list-unstyled">
+      <% if (req.session.role == 'admin') { %>
+      <li><a class="side-button1 <%= req.path.startsWith('/admin') ? 'active':'' %>" href="/admin">系統管理</a></li>
+      <% } %>
+      <li><a class="side-button1 <%= req.path === '/user' ? 'active':'' %>" href="/user">用戶通訊</a></li>
+      <li><a class="side-button1 <%= req.path.toString().startsWith('/user/detail') ? 'active':'' %>" href="/user/detail">用戶資料</a></li>
+      <li><a class="side-button1" href="/user/logout">登出</a></li>
+    </ul>
+  </section>
+</aside>

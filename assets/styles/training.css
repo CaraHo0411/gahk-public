@@ -1,0 +1,3 @@
+.content.training section time::before {content:'['}
+.content.training section time::after {content:']'}
+.content.training section time ~ div {padding-left:1em}

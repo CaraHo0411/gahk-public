@@ -1,0 +1,24 @@
+<!--create.ejs-->
+<form action="/email/create" method="POST" class="container-fluid">
+    
+    <div class="row">
+    <div class="col-md-12">
+    <div class="form-group">
+       
+        <label>Email Title:</label>
+    
+        <textarea cols=140 rows=1 style=resize:none name="Email[emailtitle]" class="form-control" required></textarea>
+  
+    </div>
+    <div class="form-group">
+       
+        <label>Content:</label>
+    
+        <textarea cols=140 rows=8 style=resize:none name="Email[emailcontent]" class="form-control" required></textarea>
+        <div class="col-md-12">
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </div>
+        
+    </form>

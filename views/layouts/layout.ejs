@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.14.0/ui/trumbowyg.min.css" integrity="sha256-LBx71nlDZg1WUwiV4GcbHcYGh8s4luu7/EqxcGwQsRY=" crossorigin="anonymous" />
+
+    <base href="/" />
+    <title>中國香港體操總會 The Gymnastics Association of Hong Kong, China</title>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Kosugi+Maru|Noto+Sans+TC:400,700&amp;subset=chinese-traditional,cyrillic,japanese" rel="stylesheet">
+    <!--STYLES-->
+    <link rel="stylesheet" href="/min/production.min.css">
+    <!--STYLES END-->
+
+    <!--[if IE]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.js" integrity="sha256-vA5o1HRlFYggrn0yG+6bKGlnln9fWxi4S9cvzo6FlKw=" crossorigin="anonymous"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <main>
+      <nav class="navbar navbar-light bg-light d-lg-none">
+        <a class="navbar-brand" href="/">
+          <img src="/images/logo.png" width="30" height="29" alt="">
+          中國香港體操總會
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item <%=req.path=='/'?'active':''%>">
+              <a class="nav-link" href="/">主頁 <% if (req.path==='/') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/user'?'active':''%>">
+              <a class="nav-link" href="/user">用戶轉區 <% if (req.path==='/user') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/contactus'?'active':''%>">
+              <a class="nav-link" href="/contactus">聯絡我們 <% if (req.path==='/contactus') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/aboutus'?'active':''%>">
+              <a class="nav-link" href="/aboutus">關於我們 <% if (req.path==='/aboutus') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path.toString().startsWith('/about-gymnastics')?'active':''%>">
+              <a class="nav-link" href="/about-gymnastics">體操介紹 <% if (req.path.toString().startsWith('/about-gymnastics')) {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/training'?'active':''%>">
+              <a class="nav-link" href="/training">訓綀班 <% if (req.path==='/training') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/coach'?'active':''%>">
+              <a class="nav-link" href="/coach">㪍綀通訊 <% if (req.path==='/coach') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/judge'?'active':''%>">
+              <a class="nav-link" href="/judge">裁判通訊 <% if (req.path==='/judge') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path.toString().startsWith('/competition')?'active':''%>">
+              <a class="nav-link" href="/competition">比賽消息 <% if (req.path.toString().startsWith('/competition')) {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/badge'?'active':''%>">
+              <a class="nav-link" href="/badge">章別計劃 <% if (req.path==='/badge') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/downloads'?'active':''%>">
+              <a class="nav-link" href="/downloads">下載專區 <% if (req.path==='/downloads') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+            <li class="nav-item <%=req.path=='/links'?'active':''%>">
+              <a class="nav-link" href="/links">體操網址 <% if (req.path==='/links') {%><span class="sr-only">(本頁)</span><% }%></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <header id="banner" class="d-none d-lg-block">
+	<nav id="mainnav">
+          <a class="btn-home" href="/">
+            <span class="sr-only">中國香港體操總會</span>
+            <span class="sr-only" lang="en">The Gymnastics Association of Hong Kong, China</span>
+          </a>
+          <div class="gcse-search"></div>
+	  <a class="btn-user <%=req.path=='/user'?'active':''%>" href="/user"><i class="material-icons">account_circle</i> <%=req.session.username || '用戶專區'%></a>
+	  <a class="btn-contactus <%=req.path=='/contactus'?'active':''%>" href="/contactus"><i class="material-icons">email</i>聯絡我們</a>
+          <a class="btn-aboutus <%=req.path=='/aboutus'?'active':''%>" href="/aboutus"><span class="sr-only">關於我們</span></a>
+          <a class="btn-aboutgym <%=req.path.toString().startsWith('/about-gymnastics')?'active':''%>" href="/about-gymnastics"><span class="sr-only">體操介紹</span></a>
+          <a class="btn-training <%=req.path=='/training'?'active':''%>" href="/training"><span class="sr-only">訓綀班</span></a>
+          <a class="btn-coach <%=req.path=='/coach'?'active':''%>" href="/coach"><span class="sr-only">㪍綀通訊</span></a>
+          <a class="btn-judge <%=req.path=='/judge'?'active':''%>" href="/judge"><span class="sr-only">裁判通訊</span></a>
+          <a class="btn-competition <%=req.path.toString().startsWith('/competition')?'active':''%>" href="/competition"><span class="sr-only">比賽消息</span></a>
+          <a class="btn-badge <%=req.path=='/badge'?'active':''%>" href="/badge"><span class="sr-only">章別計劃</span></a>
+          <a class="btn-download <%=req.path=='/downloads'?'active':''%>" href="/downloads"><span class="sr-only">下載專區</span></a>
+          <a class="btn-gymlinks <%=req.path=='/links'?'active':''%>" href="/links"><span class="sr-only">體操網址</span></a>
+	</nav>
+      </header>
+      <div id="body-frame">
+        <div id="body" class="flex-column d-lg-flex flex-lg-row">
+          <%- body %>
+        </div>
+        <footer>
+          Copyright &copy; <%= new Date().getFullYear() %> The Gymnastics Association of Hong Kong, China.
+          <span class="d-inline-block">版權所有 不得轉載</span>
+        </footer>
+      </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.14.0/trumbowyg.min.js" integrity="sha256-f0Sh3SIIdwQjRBu4k6KqvoQJ6ldQ5HQtBwCbaidkois=" crossorigin="anonymous"></script>
+    <!--[if lt IE 10 ]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.201711092/classList.min.js" integrity="sha256-djjqKSd1VqxsCeZL7C0Rwz179dAqovRGMvX0/kIpjIA=" crossorigin="anonymous"></script>
+    <![endif]-->
+    <!--SCRIPTS-->
+    <script src="/min/production.min.js"></script>
+    <!--SCRIPTS END-->
+    
+    <script async src="https://cse.google.com/cse.js?cx=6ae650173f1893754"></script>
+    <script>jQuery('textarea.trumbowyg').trumbowyg();</script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<form action="/membership/confirm" method="POST">
+<div class="row">
+    <div class="card col-12 ">
+        <%= req.session.coach.MemberNo %>
+            <div class="row">
+                <div class="col-4">
+                    <img class="img-fluid" src="<%=req.session.coach.avatar%>">
+                </div>
+                <div class="col-8">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">Chinese Name:</span>
+                            <%= req.session.coach.ChiName %>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">English Name:</span>
+                            <%= req.session.coach.EngName %>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">Date:</span>
+                            <%= req.session.coach.Date %>
+                                
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">chi address:</span>
+                            <%= req.session.coach.CorrespondenceChi %>
+                                
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">Mobile:</span>
+                            <%= req.session.coach.Mobile %>
+                                
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">Home Number:</span>
+                            <%= req.session.coach.Hnumber %>
+                            
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold">Email:</span>
+                            <%= req.session.coach.Email %>
+                                
+                        </li>
+                        
+                    </ul>
+                    <br><br>
+                    <button type="submit" class="btn btn-info" >Submit</button>
+                    <button type="button" class="btn btn-danger" onclick="history.back()">cancel</button>
+                </div>
+
+
+            </div>
+
+    </div>
+</div>
+
+</form>

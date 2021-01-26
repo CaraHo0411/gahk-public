@@ -1,0 +1,14 @@
+aside.news section .container-fluid{font-size:80%}
+aside.news .container-fluid{font-size:90%}
+aside.news .fastlink{display:block; background:no-repeat; background-size:cover}
+aside.news .fastlink img{visibility:hidden}
+aside.news .fastlink:hover img{visibility:visible}
+aside.news .link-training{background-image:url(../images/home-fastlink-training.png)}
+aside.news .link-competition{background-image:url(../images/home-fastlink-competition.png)}
+
+.content.news section .overflow-auto {max-hright:30vh}
+.content.news section .d-flex {font-size:90%}
+.content.news section time{color:#00759b; font-weight:bold}
+.content.news section time::before {content:'['}
+.content.news section time::after {content:']'}
+.content.news section p {padding-left:2em}

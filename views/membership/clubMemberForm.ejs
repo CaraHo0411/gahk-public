@@ -1,0 +1,324 @@
+<div class="default-page" style=" width: 800pt;">
+    <table style="width: 700pt;">
+        <tr>
+            <br>
+            <td style="text-align:center">
+                <img src="/images/logoNew.png" alt="logo" width="100px" height="100px">
+            </td>
+        </tr>
+        <tr>
+            <td
+                style="font-family: Verdana,Arial, Helvetica, sans-serif;  color: #888888;font-size:19px;text-align:center">
+                <b>中國香港體操總會 The Gymnastics Association of Hong Kong, China
+                </b><br><br> <b><u>Application for Club Membership</u> </b><br> <b><u>團體註冊申請</u></b>
+                <br><br>
+            </td>
+        </tr>
+    </table>
+
+    <form action="/membership/clubMemberForm" method="POST" id="clubMem">
+        <ol class="row mx-sm-2" type="A">
+            <!-- 申請年份 Year of Application -->
+            <div class="col-12">
+                <br><br>
+                <h5 style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">申請年份 Year of Application</h5>
+                <%var todayYear = new Date().getFullYear();%>
+                <select id="clubYear" name="ClubMember[clubYear]" required>
+                    <option value="<%=todayYear%>" selected><%=todayYear%></option>
+                </select>
+                <br><br>
+            </div>
+
+            <!-- Part A.申請者資料 Particulars of Applicant -->
+            <li class="col-12 partA"
+                style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+                申請者資料 Particulars of Applicant
+            </li>
+            <div class="form-group col-12 partA">
+                <br>
+                <label>機構 Organization:</label>
+                <input type="text" name="ClubMember[OrgEngName]" id="OrgEngName" style="width:450pt"
+                    placeholder="         (英文 English)"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ \(\)\.\-\d\0-\9]/g,'')" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.OrgEngName%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 partA">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="ClubMember[OrgChiName]" id="OrgChiName" style="width:450pt" placeholder="         (中文 Chinese)"
+                onkeyup="value=value.replace(/[^\u4E00-\u9FA5\ \(\)\.\-\d\0-\9]/g,'')" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.OrgChiName%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-7 partA">
+                <label>申請者姓名 Name of Applicant:</label>
+                <input type="text" name="ClubMember[AppEngName]" id="AppEngName" style="width:200pt" placeholder="         (英文 English)"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.AppEngName%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-5 partA">
+                <input type="text" name="ClubMember[AppChiName]" id="AppChiName" style="width:200pt" placeholder="         (中文 Chinese)"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.AppChiName%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 partA">
+                <label>地址 Address:</label>
+                <input type="text" name="ClubMember[clubAddr]" id="clubAddr" style="width:450pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.clubAddr%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partA">
+                <label>電話 Tel:</label>
+                <input type="text" name="ClubMember[clubTel]" id="clubTel" maxlength="8"
+                    onkeyup="value=value.replace(/[^\d\0-\9]/g,'')" style="width:150pt" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.clubTel%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partA">
+                <label>傳真 Fax:</label>
+                <input type="text" name="ClubMember[clubFax]" id="clubFax" style="width:150pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.clubFax%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partA">
+                <label>電郵 E-mail:</label>
+                <input type="email" name="ClubMember[clubEmail]" id="clubEmail" style="width:200pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.clubEmail%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partA">
+                <label>網址 Web-site:</label>
+                <input type="url" name="ClubMember[clubWeb]" id="clubWeb" style="width:200pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.clubWeb%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 partA">
+                <label>機構成員人數 No. of Members in the Organization:</label>
+                <input type="number" name="ClubMember[MemberNo]" id="MemberNo" min="1" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.MemberNo%>" <%}%>>
+            </div>
+
+            <!-- Part B. 描述體操活動 Brief description of gymnastic activities -->
+            <li class="col-12 partB" for="brefDes"
+                style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+                請簡單描述貴機構/團體/學校曾舉辦或參與的體操活動 <br> Brief description of gymnastic activities which the Organization /
+                Club / School has organized / taken part
+            </li>
+            <div class="col-12 partB"><textarea type="text" name="ClubMember[brefDes]" id="brefDes" cols=100
+                    rows=5><% if(req.session.clubMemdata != null) {%> <%=req.session.clubMemdata.brefDes%><%}%></textarea><br><br>
+            </div>
+
+            <!-- Part C. 體操活動的機構代表/負責人資料 -->
+            <li class="col-12 partC"
+                style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+                體操活動的機構代表/負責人資料<br>Particulars of Organization Representative / Person in charge of the gymnastic
+                activities</li>
+
+            <div class="form-group col-12 col-sm-6 partC">
+                <br>
+                <label>姓名 Name:</label>
+                <input type="text" name="ClubMember[resEngName]" id="resEngName" style="width:200pt" placeholder="         (英文 English)"
+                    onkeyup="value=value.replace(/[^\a-\z\A-\Z\ ]/g,'')" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.resEngName%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partC">
+                <br>
+                <input type="text" name="ClubMember[resChiName]" id="resChiName" style="width:200pt" placeholder="         (中文 Chinese)"
+                    onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.resChiName%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 partC">
+                <label>職位 Position held:</label>
+                <input type="text" name="ClubMember[position]" id="position" style="width:450pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.position%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 partC">
+                <label>地址 Address:</label>
+                <input type="text" name="ClubMember[resAddr]" id="resAddr" style="width:500pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.resAddr%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partC">
+                <label>電話 Tel:</label>
+                <input type="text" name="ClubMember[resTel]" id="resTel" maxlength="8"
+                    onkeyup="value=value.replace(/[^\d\0-\9]/g,'')" style="width:150pt" required
+                    <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.resTel%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 col-sm-6 partC">
+                <label>傳真 Fax:</label>
+                <input type="text" name="ClubMember[resFax]" id="resFax" style="width:150pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.resFax%>" <%}%>>
+            </div>
+
+            <div class="form-group col-12 partC">
+                <label>電郵 E-mail:</label>
+                <input type="email" name="ClubMember[resEmail]" id="resEmail" style="width:500pt" required
+                <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.resEmail%>"
+                        <%}%>>
+            </div>
+
+            <!-- Part D. 致中國香港體操總會主席 To the Chairperson of GAHK -->
+            <li class="col-12 partD"
+                style="color: #83a70c; font-family: Verdana,Arial, Helvetica, sans-serif;  font-size:12pt;">
+                致中國香港體操總會主席 To the Chairperson of GAHK
+            </li>
+
+            <div class="form-group col-12 partD">
+                <input type="checkbox" required>
+                <label>本人/我們(以下簽名人)謹此申請GAHK的團體會員資格，謹證明本人/我們在A，B和C部分所提供的資料正確無誤及完成。<br>I/We, the undersigned, hereby
+                    would like to apply for the Club Membership of the GAHK and I/We, certify that the information
+                    given in paragraphs A, B & C is correct and complete.</label>
+
+
+                <br><br>
+                <p>The prescribed membership fee for the year of <input type="number" name="ClubMember[year]" id="year"
+                            style="width: 30pt;" min="1" required <% if(req.session.clubMemdata != null) {%>value="<%=req.session.clubMemdata.year%>" <%}%>> at
+                        <select name="ClubMember[clubFee]" id="clubFee" required>
+                            <option disabled selected>Choose Amount</option>
+                            <option value="1000" <% if(req.session.clubMemdata != null && req.session.clubMemdata.clubFee == "1000") {%>selected<%}%>>HK$1,000</option>
+                            <option value="150"  <% if(req.session.clubMemdata != null && req.session.clubMemdata.clubFee == "150") {%>selected<%}%>>HK$150</option>
+                        </select> and details of the Organization is attached.</p>
+            </div>
+
+            <div class="form-group col-12 partD">
+                <label><b>*請下載<a href="/formDoc/clubMembership_partD.pdf" download><u
+                                style="color: #83a70c;">D部分.pdf</u></a>後簽署及蓋章並上載 Please download the <a
+                            href="/formDoc/clubMembership_partD.pdf" download><u
+                                style="color: #83a70c;">partD.pdf</u></a> and upload it with signature and
+                        stamp</b></label>
+
+                <input type="file" accept="image/*,application/pdf" onchange="handleFile(this.files)"
+                <% if(req.session.clubMemdata == null || req.session.clubMemdata.partD == "") { %>required <% } %>/>
+                <div id="preview"></div>
+
+                <% if(req.session.clubMemdata != null && req.session.clubMemdata.partD != "" && req.session.clubMemdata.partD != null) { %>
+                    <input id="partD" type="hidden" name="ClubMember[partD]" value="<%=req.session.clubMemdata.partD%>" />
+                    <br>
+                    <label>原本文件 Original File</label>
+                    <br>
+                    <% var type = req.session.clubMemdata.partD.split(';');
+                        if(type[0] == 'data:application/pdf'){ %>
+                    <a download="partD" href="<%= req.session.clubMemdata.partD%>" target="_blank">partD</a>
+                    <% } else { %>
+                    <img src="<%=req.session.clubMemdata.partD%>" style="height:150px; width:auto" />
+                    <% }}else{ %>
+                    <input id="partD" type="hidden" name="ClubMember[partD]" />
+                    <% } %>
+            </div>
+
+            <div class="form-group col-12">
+                <br><br>
+                <span><b>備註 Note:</b></span>
+                <ol>
+                    <li>有關團體的詳細資料（併購，章程和計劃傳單）和會員費以及此表格將會發送給本會的義務秘書。<br>Details of the Organization (M&A, Constitution &
+                        Programme leaflet) and membership fee together with this form should be sent to the Honorary
+                        Secretary of GAHK.</li>
+                    <li>團體會員 Club Membership:
+                        <ul>
+                            <li>牟利協會或組織每年HK $ 1,000會費<br>HK$1,000/per year for those Profit Making Association /
+                                Organization</li>
+                            <li>非牟利協會或組織每年HK $ 150會費<br>HK$150/per year for those Non-profit Making Association /
+                                Schools</li>
+                            <li>所有劃線支票抬頭<b>「中國香港體操總會」</b><br>All cheques should be crossed and made payable to <b>"The
+                                    Gymnastics Association of Hong Kong, China"</b></li>
+                        </ul>
+                    </li>
+                    <li>如有查詢,請致電2504 8233<br>For any enquiries, please call 2504 8233.</li>
+                </ol>
+            </div>
+        </ol>
+
+        <!-- button -->
+        <div class="col-12">
+            <br>
+            <button type="submit" class="btn btn-primary"
+                style="background-color: #83a70c; border-color: #83a70c; float:right">預覽 Preview >></button>
+            <!-- Save -->
+            <button type="button" class="btn btn-primary" onclick="saveForm()"
+                style="background: red; border: none; float: left;">儲存 Save</button>
+            <br><br>
+        </div>
+    </form>
+</div>
+
+<script>
+    //save function
+    async function saveForm() {
+        var form = document.getElementById("clubMem");
+        var data = JSON.stringify({
+            clubYear: form.clubYear.value,
+            OrgEngName: form.OrgEngName.value,
+            OrgChiName: form.OrgChiName.value,
+            AppEngName: form.AppEngName.value,
+            AppChiName: form.AppChiName.value,
+            clubAddr: form.clubAddr.value,
+            clubTel: form.clubTel.value,
+            clubFax: form.clubFax.value,
+            clubEmail: form.clubEmail.value,
+            clubWeb: form.clubWeb.value,
+            MemberNo: form.MemberNo.value,
+            brefDes: form.brefDes.value,
+            resEngName: form.resEngName.value,
+            resChiName: form.resChiName.value,
+            position: form.position.value,
+            resAddr: form.resAddr.value,
+            resTel: form.resTel.value,
+            resFax: form.resFax.value,
+            resEmail: form.resEmail.value,
+            year: form.year.value,
+            clubFee: form.clubFee.value,
+            partD: form.partD.value
+        });
+        alert(data);
+
+        var response = await fetch("/membership/clubMemberForm/save", {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+
+        if (response.ok) {
+            var data = await response.json();
+            alert(data.message);
+            window.location = data.url;
+        } else {
+            alert(response.statusText);
+        }
+    }
+
+    //handle partD file
+    function handleFile(files) {
+        const file = files[0];
+        if (!file.type.startsWith('image/') && !file.type == 'application/pdf') return;
+        var preview = document.getElementById('preview');
+        var reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+                document.getElementById("partD").value = e.target.result;
+                img.style.width = "auto";
+                img.style.height = "150px";
+            }
+        } else if (file.type == 'application/pdf') {
+            reader.onload = function (e) {
+                preview.innerHTML = "";
+                document.getElementById("partD").value = e.target.result;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+</script>

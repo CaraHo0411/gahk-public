@@ -1,0 +1,27 @@
+@keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  -moz-animation:spin 1s linear infinite;
+  -o-animation:spin 1s linear infinite;
+  -webkit-animation:spin 1s linear infinite;
+  animation:spin 1s linear infinite;
+}
+@keyframes form-loading-dotdotdot {
+  0% {content:'系統處理中'}
+  25% {content:'系統處理中.'}
+  50% {content:'系統處理中..'}
+  75% {content:'系統處理中...'}
+  100% {content:'系統處理中'}
+}
